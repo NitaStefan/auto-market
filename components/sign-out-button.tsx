@@ -1,0 +1,15 @@
+import { signOutAction } from "@/app/actions"
+import React from "react"
+import { Button } from "./ui/button"
+
+const SignOutButton = () => {
+  return (
+    <form action={signOutAction}>
+      <Button type="submit" variant={"outline"}>
+        Sign out
+      </Button>
+    </form>
+  )
+}
+
+export default SignOutButton
