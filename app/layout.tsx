@@ -1,4 +1,4 @@
-import { Geist } from "next/font/google"
+import { oswald } from "./fonts"
 import "./globals.css"
 
 const defaultUrl = process.env.VERCEL_URL
@@ -7,14 +7,9 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Auto Market",
+  description: "Anunturi auto cu masini second-hand si dezmembrari",
 }
-
-const geistSans = Geist({
-  display: "swap",
-  subsets: ["latin"],
-})
 
 export default function RootLayout({
   children,
@@ -22,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={geistSans.className} suppressHydrationWarning>
+    <html lang="en" className={oswald.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
         <main>{children}</main>
         <footer></footer>

@@ -1,19 +1,31 @@
-"use client"
+import { Button } from "@/components/ui/button"
+import React from "react"
+import { archivo } from "../fonts"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import CarForm from "@/components/CarForm"
 
-import { createClient } from "@/utils/supabase/client"
-import { useEffect, useState } from "react"
-
-export default function Page() {
-  const [notes, setNotes] = useState<any[] | null>(null)
-  const supabase = createClient()
-
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase.from("masini").select()
-      setNotes(data)
-    }
-    getData()
-  }, [])
-
-  return <pre>{JSON.stringify(notes, null, 2)}</pre>
+const Page = () => {
+  return (
+    <Dialog>
+      <Button className={`${archivo.className}`} asChild>
+        <DialogTrigger>Adaugă un anunț nou</DialogTrigger>
+      </Button>
+      <DialogContent className={`${archivo.className}`}>
+        <DialogHeader>
+          <DialogTitle>Adaugă un anunț nou</DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
+        <CarForm />
+      </DialogContent>
+    </Dialog>
+  )
 }
+
+export default Page
