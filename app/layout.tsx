@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner"
 import { oswald } from "./fonts"
 import "./globals.css"
 
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en" className={oswald.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
         <main>{children}</main>
+        <Toaster />
         <footer></footer>
       </body>
     </html>
