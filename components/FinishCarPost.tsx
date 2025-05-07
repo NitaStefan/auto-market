@@ -3,7 +3,7 @@ import React, { FormEvent, useState } from "react"
 import { Button } from "./ui/button"
 import { Label } from "./ui/label"
 import { Textarea } from "./ui/textarea"
-import { addCar } from "@/app/actions/app-actions"
+import { addCar } from "@/lib/actions/app-actions"
 import ImagePreviews from "./ImagePreviews"
 
 const FinishCarPost = ({

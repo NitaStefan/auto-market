@@ -50,7 +50,7 @@ const CarSpecification = ({
       an: Number(formData.get("an")) || undefined,
       motorizare: (formData.get("motorizare") as string).trim() || undefined,
       kilometraj: Number(formData.get("kilometraj")) || undefined,
-      caiPutere: Number(formData.get("caiPutere")) || undefined,
+      cai_putere: Number(formData.get("cai_putere")) || undefined,
       pret: Number(formData.get("pret")) || undefined,
       negociabil: formData.has("negociabil"),
     }
@@ -217,11 +217,11 @@ const CarSpecification = ({
         </SelectContent>
       </Select>
 
-      <Label htmlFor="caiPutere">Cai putere</Label>
+      <Label htmlFor="cai_putere">Cai putere</Label>
       <Input
         type="number"
-        id="caiPutere"
-        name="caiPutere"
+        id="cai_putere"
+        name="cai_putere"
         placeholder="Cai putere"
         defaultValue={initCar.cai_putere ?? ""}
       />

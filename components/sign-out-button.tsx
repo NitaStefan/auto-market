@@ -1,4 +1,4 @@
-import { signOutAction } from "@/app/actions/supabase-actions"
+import { signOutAction } from "@/lib/actions/supabase-actions"
 import React from "react"
 import { Button } from "./ui/button"
 

@@ -1,4 +1,4 @@
-import { resetPasswordAction } from "@/app/actions/supabase-actions"
+import { resetPasswordAction } from "@/lib/actions/supabase-actions"
 import { FormMessage, Message } from "@/components/form-message"
 import { SubmitButton } from "@/components/submit-button"
 import { Input } from "@/components/ui/input"

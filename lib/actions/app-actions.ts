@@ -9,21 +9,25 @@ export const addCar = async (car: Masina, images: File[]) => {
 
     // Insert the car data
     const { data: dbCar, error: carError } = await supabase
-      .from("masini")
+      .from("cars")
       .insert(car)
       .select()
+      .single()
 
-    if (carError) throw carError
-    const carId = dbCar[0].id
+    if (carError || !dbCar) {
+      throw new Error(carError?.message || "Failed to insert car")
+    }
 
     // Upload the images to Supabase storage
     const uploadedPaths = await Promise.all(
       images.map(async file => {
         const { data, error } = await supabase.storage
           .from("car-images")
-          .upload(`masina-${carId}/${file.name}`, file)
+          .upload(`masina-${dbCar.id}/${file.name}`, file)
 
-        if (error) throw error
+        if (error || !data)
+          throw new Error(error?.message || `Failed to upload ${file.name}`)
+
         return data.path
       })
     )
@@ -31,12 +35,13 @@ export const addCar = async (car: Masina, images: File[]) => {
     // Insert image paths into car_images table
     const { error: imageError } = await supabase.from("car_images").insert(
       uploadedPaths.map(path => ({
-        masina_id: carId,
+        masina_id: dbCar.id,
         path,
       }))
     )
 
-    if (imageError) throw imageError
+    if (imageError)
+      throw new Error(imageError.message || "Failed to insert image paths")
 
     console.log("Car and images added successfully")
   } catch (error) {
