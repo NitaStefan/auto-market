@@ -3,19 +3,28 @@ import React, { FormEvent, useState } from "react"
 import { Button } from "./ui/button"
 import { Label } from "./ui/label"
 import { Textarea } from "./ui/textarea"
+import { addCar } from "@/app/actions/app-actions"
+import ImagePreviews from "./ImagePreviews"
 
 const FinishCarPost = ({
   car,
   handleSetDetails,
-  imagePreviews,
+  imageFiles,
   goToSpecifications,
 }: {
   car: Masina
   handleSetDetails: (detalii: string) => void
-  imagePreviews: string[]
+  imageFiles: File[]
   goToSpecifications: () => void
 }) => {
   const [isAddingDetails, setIsAddingDetails] = useState(false)
+  const [isPosting, setIsPosting] = useState(false)
+
+  const handleCarPost = async () => {
+    setIsPosting(true)
+    await addCar(car, imageFiles)
+    setIsPosting(false)
+  }
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -27,18 +36,12 @@ const FinishCarPost = ({
 
   return (
     <div className="px-1">
-      <Button onClick={goToSpecifications}>Intoarce-te la specificatii</Button>
+      <Button variant="outline" onClick={goToSpecifications}>
+        Intoarce-te la specificatii
+      </Button>
       <h1 className="text-2xl">Finalizeaza postarea</h1>
-      <div className="grid grid-cols-3 gap-4 mt-2">
-        {imagePreviews.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`preview-${index}`}
-            className="w-full aspect-square object-cover rounded-sm border"
-          />
-        ))}
-      </div>
+
+      <ImagePreviews imageFiles={imageFiles} />
 
       {isAddingDetails ? (
         <form onSubmit={onSubmit}>
@@ -57,6 +60,9 @@ const FinishCarPost = ({
           <p>{car.detalii}</p>
           <Button onClick={() => setIsAddingDetails(prev => !prev)}>
             Adauga detalii
+          </Button>
+          <Button onClick={handleCarPost} className="font-bold">
+            Posteaza anuntul pe platforma {isPosting && "......"}
           </Button>
         </div>
       )}

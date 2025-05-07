@@ -15,27 +15,28 @@ import { archivo } from "@/app/fonts"
 import { Masina } from "@/types"
 import { euroPoluantOptions, tipCombustibilOptions } from "@/lib/constants"
 import { formatLabel } from "@/lib/custom-utils"
+import ImagePreviews from "./ImagePreviews"
 
 const CarSpecification = ({
   initCar,
-  imagePreviews,
+  imageFiles,
   handleCarSpecification,
-  handleImagePreview,
+  handleImageFiles,
 }: {
   initCar: Partial<Masina>
-  imagePreviews: string[]
+  imageFiles: File[]
   handleCarSpecification: (car: Masina) => void
-  handleImagePreview: (imageFiles: File[]) => void
+  handleImageFiles: (imageFiles: File[]) => void
 }) => {
   const [tip, setTip] = useState<Masina["tip"]>(initCar.tip ?? "vanzare")
-  const [tipCombustibil, setTipCombustibil] = useState<
-    Masina["tipCombustibil"]
-  >(initCar.tipCombustibil)
-  const [cutieViteze, setCutieViteze] = useState<Masina["cutieViteze"]>(
-    initCar.cutieViteze
+  const [tip_combustibil, setTipCombustibil] = useState<
+    Masina["tip_combustibil"]
+  >(initCar.tip_combustibil)
+  const [cutie_viteze, setCutieViteze] = useState<Masina["cutie_viteze"]>(
+    initCar.cutie_viteze
   )
-  const [euroPoluant, setEuroPoluant] = useState<Masina["euroPoluant"]>(
-    initCar.euroPoluant
+  const [euro_poluant, setEuroPoluant] = useState<Masina["euro_poluant"]>(
+    initCar.euro_poluant
   )
   const [errors, setErrors] = useState<string[]>([])
 
@@ -51,10 +52,11 @@ const CarSpecification = ({
       kilometraj: Number(formData.get("kilometraj")) || undefined,
       caiPutere: Number(formData.get("caiPutere")) || undefined,
       pret: Number(formData.get("pret")) || undefined,
+      negociabil: formData.has("negociabil"),
     }
 
     const errors = []
-    if (!imagePreviews.length) errors.push("Pune măcar o poza")
+    if (!imageFiles.length) errors.push("Pune măcar o poza")
     if (!uncontrolledCar.marca) errors.push("Marca este obligatorie")
     if (!uncontrolledCar.model) errors.push("Modelul este obligatoriu")
     if (tip === "vanzare" && !uncontrolledCar.pret)
@@ -63,9 +65,9 @@ const CarSpecification = ({
     if (errors.length === 0)
       handleCarSpecification({
         tip,
-        tipCombustibil,
-        cutieViteze,
-        euroPoluant,
+        tip_combustibil,
+        cutie_viteze,
+        euro_poluant,
         detalii: initCar.detalii,
         ...uncontrolledCar,
       })
@@ -84,21 +86,11 @@ const CarSpecification = ({
         accept="image/*"
         onChange={e => {
           const files = Array.from(e.target.files || [])
-          handleImagePreview(files)
+          handleImageFiles(files)
         }}
       />
-      {imagePreviews.length > 0 && (
-        <div className="grid grid-cols-3 gap-4 mt-2">
-          {imagePreviews.map((src, index) => (
-            <img
-              key={index}
-              src={src}
-              alt={`preview-${index}`}
-              className="w-full aspect-square object-cover rounded border"
-            />
-          ))}
-        </div>
-      )}
+
+      <ImagePreviews imageFiles={imageFiles} />
 
       <Label id="tip-label">
         Tipul <span className="text-red-300">*</span>
@@ -138,6 +130,7 @@ const CarSpecification = ({
               id="negociabil"
               name="negociabil"
               type="checkbox"
+              defaultChecked={initCar.negociabil ?? false}
             />
           </div>
         </div>
@@ -183,9 +176,9 @@ const CarSpecification = ({
       <Label id="tipCombustibil-label">Tipul combustibilului</Label>
       <Select
         aria-labelledby="tipCombustibil-label"
-        value={tipCombustibil}
+        value={tip_combustibil}
         onValueChange={value =>
-          setTipCombustibil(value as Masina["tipCombustibil"])
+          setTipCombustibil(value as Masina["tip_combustibil"])
         }
       >
         <SelectTrigger className="w-full">
@@ -212,8 +205,8 @@ const CarSpecification = ({
       <Label id="cutieViteze-label">Cutia de viteze</Label>
       <Select
         aria-labelledby="cutieViteze-label"
-        value={cutieViteze}
-        onValueChange={val => setCutieViteze(val as Masina["cutieViteze"])}
+        value={cutie_viteze}
+        onValueChange={val => setCutieViteze(val as Masina["cutie_viteze"])}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Alege cutia de viteze" />
@@ -230,14 +223,14 @@ const CarSpecification = ({
         id="caiPutere"
         name="caiPutere"
         placeholder="Cai putere"
-        defaultValue={initCar.caiPutere ?? ""}
+        defaultValue={initCar.cai_putere ?? ""}
       />
 
       <Label id="euroPoluant-label">Euro poluant</Label>
       <Select
         aria-labelledby="euroPoluant-label"
-        value={euroPoluant}
-        onValueChange={val => setEuroPoluant(val as Masina["euroPoluant"])}
+        value={euro_poluant}
+        onValueChange={val => setEuroPoluant(val as Masina["euro_poluant"])}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Alege euro poluant" />

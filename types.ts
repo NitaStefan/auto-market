@@ -9,9 +9,9 @@ export type Masina = {
   kilometraj?: number
   pret?: number
   negociabil?: boolean
-  caiPutere?: number
-  cutieViteze?: "manuala" | "automata"
-  euroPoluant?: (typeof euroPoluantOptions)[number]
-  tipCombustibil?: (typeof tipCombustibilOptions)[number]
+  cai_putere?: number
+  cutie_viteze?: "manuala" | "automata"
+  euro_poluant?: (typeof euroPoluantOptions)[number]
+  tip_combustibil?: (typeof tipCombustibilOptions)[number]
   detalii?: string
 }

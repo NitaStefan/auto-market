@@ -18,28 +18,14 @@ import FinishCarPost from "@/components/FinishCarPost"
 
 const Page = () => {
   const [car, setCar] = useState<Partial<Masina>>({})
-  const [imagePreviews, setImagePreviews] = useState<string[]>([])
+  const [imageFiles, setImageFiles] = useState<File[]>([])
   const [isSettingSpecifications, setIsSettingSpecifications] =
     useState<boolean>(true)
 
-  useEffect(() => {
-    return () => imagePreviews.forEach(url => URL.revokeObjectURL(url))
-  }, [imagePreviews])
-
-  const handleCarSpecification = (car: Masina) => {
-    setCar(car)
+  const handleCarSpecification = (carData: Masina) => {
+    setCar(carData)
     setIsSettingSpecifications(false)
   }
-
-  const handleImagePreview = (imageFiles: File[]) => {
-    const urls = imageFiles.map(file => URL.createObjectURL(file))
-    setImagePreviews(urls)
-  }
-
-  const handleSetDetails = (detalii: string) =>
-    setCar(prev => ({ ...prev, detalii }))
-
-  const goToSpecifications = () => setIsSettingSpecifications(true)
 
   return (
     <Dialog>
@@ -55,16 +41,18 @@ const Page = () => {
           {isSettingSpecifications ? (
             <CarSpecification
               initCar={car}
-              imagePreviews={imagePreviews}
+              imageFiles={imageFiles}
               handleCarSpecification={handleCarSpecification}
-              handleImagePreview={handleImagePreview}
+              handleImageFiles={(files: File[]) => setImageFiles(files)}
             />
           ) : (
             <FinishCarPost
               car={car as Masina}
-              imagePreviews={imagePreviews}
-              handleSetDetails={handleSetDetails}
-              goToSpecifications={goToSpecifications}
+              imageFiles={imageFiles}
+              handleSetDetails={(detalii: string) =>
+                setCar(prev => ({ ...prev, detalii }))
+              }
+              goToSpecifications={() => setIsSettingSpecifications(true)}
             />
           )}
         </ScrollArea>

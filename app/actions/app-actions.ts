@@ -1,48 +1,45 @@
 "use server"
 
-export const addCar = async (previousState: unknown, formData: FormData) => {
-  const marca = formData.get("marca")?.toString()
-  const model = formData.get("model")?.toString()
-  const an = formData.get("an")?.toString()
-  const pret = formData.get("pret")?.toString()
-  const tip = formData.get("tip")?.toString()
-  const motorizare = formData.get("motorizare")?.toString()
-  const tipCombustibil = formData.get("tipCombustibil")?.toString()
-  const kilometraj = formData.get("kilometraj")?.toString()
-  const cutieViteze = formData.get("cutieViteze")?.toString()
-  const caiPutere = formData.get("caiPutere")?.toString()
-  const euroPoluant = formData.get("euroPoluant")?.toString()
+import { Masina } from "@/types"
+import { createClient } from "@/utils/supabase/server"
 
-  const errors: { pret?: string; marca?: string; model?: string } = {}
+export const addCar = async (car: Masina, images: File[]) => {
+  try {
+    const supabase = await createClient()
 
-  if (!marca) errors.marca = "Marca este obligatorie."
-  if (!model) errors.model = "Modelul este obligatoriu."
-  if (tip === "vanzare" && !pret)
-    errors.pret = "Prețul este obligatoriu la mașina de vânzare."
+    // Insert the car data
+    const { data: dbCar, error: carError } = await supabase
+      .from("masini")
+      .insert(car)
+      .select()
 
-  if (Object.keys(errors).length > 0)
-    return {
-      errors,
-      fieldData: {
-        marca,
-        model,
-        an,
-        tip,
-        pret,
-        motorizare,
-        tipCombustibil,
-        kilometraj,
-        cutieViteze,
-        caiPutere,
-        euroPoluant,
-      },
-    }
+    if (carError) throw carError
+    const carId = dbCar[0].id
 
-  // simulate DB logic
-  await new Promise(resolve => setTimeout(resolve, 1000))
+    // Upload the images to Supabase storage
+    const uploadedPaths = await Promise.all(
+      images.map(async file => {
+        const { data, error } = await supabase.storage
+          .from("car-images")
+          .upload(`masina-${carId}/${file.name}`, file)
 
-  // You can return success or null/undefined
-  return {
-    message: "Anuntul a fost adaugat cu succes",
+        if (error) throw error
+        return data.path
+      })
+    )
+
+    // Insert image paths into car_images table
+    const { error: imageError } = await supabase.from("car_images").insert(
+      uploadedPaths.map(path => ({
+        masina_id: carId,
+        path,
+      }))
+    )
+
+    if (imageError) throw imageError
+
+    console.log("Car and images added successfully")
+  } catch (error) {
+    console.error("Error adding car and images:", error)
   }
 }
