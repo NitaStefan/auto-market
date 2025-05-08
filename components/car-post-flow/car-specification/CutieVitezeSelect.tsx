@@ -1,13 +1,13 @@
 import { Masina } from "@/types"
 import React, { useState } from "react"
-import { Label } from "../ui/label"
+import { Label } from "../../ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select"
+} from "../../ui/select"
 import { archivo } from "@/app/fonts"
 
 const CutieVitezeSelect = ({
@@ -15,7 +15,7 @@ const CutieVitezeSelect = ({
 }: {
   initCutieViteze: Masina["cutie_viteze"]
 }) => {
-  const [cutieViteze, setCutieViteze] = useState(initCutieViteze)
+  const [cutieViteze, setCutieViteze] = useState(initCutieViteze ?? undefined)
 
   return (
     <>
@@ -36,7 +36,7 @@ const CutieVitezeSelect = ({
         type="hidden"
         id="cutie_viteze"
         name="cutie_viteze"
-        value={cutieViteze}
+        value={cutieViteze ?? ""}
       />
     </>
   )

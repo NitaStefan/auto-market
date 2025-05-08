@@ -1,18 +1,19 @@
 "use client"
 
 import { FormEvent, useState } from "react"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
-import { Label } from "../ui/label"
+import { Input } from "../../ui/input"
+import { Button } from "../../ui/button"
+import { Label } from "../../ui/label"
 import { Masina } from "@/types"
-import ImagePreviews from "../ImagePreviews"
+import ImagePreviews from "../../ImagePreviews"
 import TipSelect from "./TipSelect"
 import TipCombustibilSelect from "./TipCombustibilSelect"
 import CutieVitezeSelect from "./CutieVitezeSelect"
 import DisplayErrors from "./DisplayErrors"
+import EuroPoluantSelect from "./EuroPoluantSelect"
 
 type CarSpecificationProps = {
-  initCar: Partial<Masina>
+  initCar?: Masina
   imageFiles: File[]
   handleCarSpecification: (car: Masina) => void
   handleImageFiles: (imageFiles: File[]) => void
@@ -24,7 +25,7 @@ const CarSpecification = ({
   handleCarSpecification,
   handleImageFiles,
 }: CarSpecificationProps) => {
-  const [tip, setTip] = useState<Masina["tip"]>(initCar.tip ?? "vanzare")
+  const [tip, setTip] = useState<Masina["tip"]>(initCar?.tip ?? "vanzare")
   const [errors, setErrors] = useState<string[]>([])
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -49,7 +50,8 @@ const CarSpecification = ({
     }
 
     const errors = []
-    if (!imageFiles.length) errors.push("Pune măcar o poza")
+    if (!imageFiles.length && !initCar?.car_images)
+      errors.push("Pune măcar o poza")
     if (!carData.marca) errors.push("Marca este obligatorie")
     if (!carData.model) errors.push("Modelul este obligatoriu")
     if (tip === "vanzare" && !carData.pret)
@@ -58,7 +60,9 @@ const CarSpecification = ({
     if (errors.length === 0)
       handleCarSpecification({
         ...carData,
-        detalii: initCar.detalii,
+        id: initCar?.id,
+        detalii: initCar?.detalii,
+        car_images: initCar?.car_images,
       })
     else setErrors(errors)
   }
@@ -79,7 +83,7 @@ const CarSpecification = ({
         }}
       />
 
-      <ImagePreviews imageFiles={imageFiles} />
+      <ImagePreviews imageFiles={imageFiles} imageUrls={initCar?.car_images} />
 
       <TipSelect tip={tip} setTip={setTip} />
 
@@ -94,7 +98,7 @@ const CarSpecification = ({
               name="pret"
               type="number"
               placeholder="Prețul"
-              defaultValue={initCar.pret ?? ""}
+              defaultValue={initCar?.pret ?? ""}
             />
           </div>
           <div>
@@ -104,7 +108,7 @@ const CarSpecification = ({
               id="negociabil"
               name="negociabil"
               type="checkbox"
-              defaultChecked={initCar.negociabil ?? false}
+              defaultChecked={initCar?.negociabil ?? false}
             />
           </div>
         </div>
@@ -117,7 +121,7 @@ const CarSpecification = ({
         id="marca"
         name="marca"
         placeholder="Marca"
-        defaultValue={initCar.marca ?? ""}
+        defaultValue={initCar?.marca ?? ""}
       />
 
       <Label htmlFor="model">
@@ -127,7 +131,7 @@ const CarSpecification = ({
         id="model"
         name="model"
         placeholder="Modelul"
-        defaultValue={initCar.model ?? ""}
+        defaultValue={initCar?.model ?? ""}
       />
 
       <Label htmlFor="an">Anul</Label>
@@ -136,7 +140,7 @@ const CarSpecification = ({
         id="an"
         name="an"
         placeholder="Anul"
-        defaultValue={initCar.an ?? ""}
+        defaultValue={initCar?.an ?? ""}
       />
 
       <Label htmlFor="motorizare">Motorizarea</Label>
@@ -144,10 +148,10 @@ const CarSpecification = ({
         id="motorizare"
         name="motorizare"
         placeholder="Motorizarea"
-        defaultValue={initCar.motorizare ?? ""}
+        defaultValue={initCar?.motorizare ?? ""}
       />
 
-      <TipCombustibilSelect initTipCombustibil={initCar.tip_combustibil} />
+      <TipCombustibilSelect initTipCombustibil={initCar?.tip_combustibil} />
 
       <Label htmlFor="kilometraj">Kilometrajul</Label>
       <Input
@@ -155,10 +159,10 @@ const CarSpecification = ({
         type="number"
         name="kilometraj"
         placeholder="Kilometrajul"
-        defaultValue={initCar.kilometraj ?? ""}
+        defaultValue={initCar?.kilometraj ?? ""}
       />
 
-      <CutieVitezeSelect initCutieViteze={initCar.cutie_viteze} />
+      <CutieVitezeSelect initCutieViteze={initCar?.cutie_viteze} />
 
       <Label htmlFor="cai_putere">Cai putere</Label>
       <Input
@@ -166,8 +170,10 @@ const CarSpecification = ({
         id="cai_putere"
         name="cai_putere"
         placeholder="Cai putere"
-        defaultValue={initCar.cai_putere ?? ""}
+        defaultValue={initCar?.cai_putere ?? ""}
       />
+
+      <EuroPoluantSelect initEuroPoluant={initCar?.euro_poluant} />
 
       <DisplayErrors errors={errors} />
 

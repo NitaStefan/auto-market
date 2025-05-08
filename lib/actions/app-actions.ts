@@ -19,6 +19,32 @@ export const addCar = async (car: Masina, images: File[]) => {
     }
 
     // Upload the images to Supabase storage
+    //     const folderPath = `masina-${dbCar.id}/`;
+
+    // // 1. Check if the folder already exists
+    // const { data: existingFiles, error: listError } = await supabase.storage
+    //   .from("car-images")
+    //   .list(folderPath);
+
+    // if (listError) {
+    //   console.error("Error checking for existing files:", listError.message);
+    //   throw new Error("Failed to check for existing folder.");
+    // }
+
+    // // 2. Delete the folder if it exists
+    // if (existingFiles && existingFiles.length > 0) {
+    //   const pathsToDelete = existingFiles.map(file => `${folderPath}${file.name}`);
+    //   const { error: deleteError } = await supabase.storage
+    //     .from("car-images")
+    //     .remove(pathsToDelete);
+
+    //   if (deleteError) {
+    //     console.error("Error deleting existing folder:", deleteError.message);
+    //     throw new Error("Failed to delete existing folder.");
+    //   }
+
+    //   console.log(`Successfully deleted existing folder: ${folderPath}`);
+    // }
     const uploadedPaths = await Promise.all(
       images.map(async file => {
         const { data, error } = await supabase.storage

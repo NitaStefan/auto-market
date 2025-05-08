@@ -1,12 +1,12 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
-import { Label } from "../ui/label"
+import React, { Dispatch, SetStateAction } from "react"
+import { Label } from "../../ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select"
+} from "../../ui/select"
 import { Masina } from "@/types"
 import { archivo } from "@/app/fonts"
 

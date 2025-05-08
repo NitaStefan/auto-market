@@ -26,3 +26,6 @@ export const tipCombustibilOptions = [
   "plug-in_hybrid",
   "mild_hybrid",
 ] as const
+
+export const CAR_IMAGES_BUCKET_URL =
+  "https://rdwokiscvwvwsfkbyadb.supabase.co/storage/v1/object/public/car-images/"

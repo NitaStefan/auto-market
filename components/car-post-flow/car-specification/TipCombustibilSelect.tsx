@@ -1,13 +1,13 @@
 import { Masina } from "@/types"
 import React, { useState } from "react"
-import { Label } from "../ui/label"
+import { Label } from "../../ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select"
+} from "../../ui/select"
 import { archivo } from "@/app/fonts"
 import { tipCombustibilOptions } from "@/lib/constants"
 import { formatLabel } from "@/lib/custom-utils"
@@ -17,7 +17,9 @@ const TipCombustibilSelect = ({
 }: {
   initTipCombustibil: Masina["tip_combustibil"]
 }) => {
-  const [tipCombustibil, setTipCombustibil] = useState(initTipCombustibil)
+  const [tipCombustibil, setTipCombustibil] = useState(
+    initTipCombustibil ?? undefined
+  )
 
   return (
     <>
@@ -43,7 +45,7 @@ const TipCombustibilSelect = ({
         type="hidden"
         id="tip_combustibil"
         name="tip_combustibil"
-        value={tipCombustibil}
+        value={tipCombustibil ?? ""}
       />
     </>
   )

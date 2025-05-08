@@ -1,13 +1,13 @@
 import { Masina } from "@/types"
 import React, { useState } from "react"
-import { Label } from "../ui/label"
+import { Label } from "../../ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select"
+} from "../../ui/select"
 import { archivo } from "@/app/fonts"
 import { formatLabel } from "@/lib/custom-utils"
 import { euroPoluantOptions } from "@/lib/constants"
@@ -17,7 +17,7 @@ const EuroPoluantSelect = ({
 }: {
   initEuroPoluant: Masina["euro_poluant"]
 }) => {
-  const [euroPoluant, setEuroPoluant] = useState(initEuroPoluant)
+  const [euroPoluant, setEuroPoluant] = useState(initEuroPoluant ?? undefined)
 
   return (
     <>
@@ -41,7 +41,7 @@ const EuroPoluantSelect = ({
         type="hidden"
         id="euro_poluant"
         name="euro_poluant"
-        value={euroPoluant}
+        value={euroPoluant ?? ""}
       />
     </>
   )

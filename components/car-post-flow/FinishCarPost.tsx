@@ -1,10 +1,10 @@
 import { Masina } from "@/types"
 import React, { FormEvent, useState } from "react"
-import { Button } from "./ui/button"
-import { Label } from "./ui/label"
-import { Textarea } from "./ui/textarea"
+import { Button } from "../ui/button"
+import { Label } from "../ui/label"
+import { Textarea } from "../ui/textarea"
 import { addCar } from "@/lib/actions/app-actions"
-import ImagePreviews from "./ImagePreviews"
+import ImagePreviews from "../ImagePreviews"
 
 const FinishCarPost = ({
   car,
@@ -56,7 +56,7 @@ const FinishCarPost = ({
         </form>
       ) : (
         <div>
-          <p>- Componentul pentru detalii -</p>
+          <p className="text-gray-400">- Componentul pentru detalii -</p>
           <p>{car.detalii}</p>
           <Button onClick={() => setIsAddingDetails(prev => !prev)}>
             Adauga detalii
