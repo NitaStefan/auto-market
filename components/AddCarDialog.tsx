@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
-import CarSpecification from "@/components/CarSpecification"
+import CarSpecification from "@/components/car-specification/CarSpecification"
 import { Masina } from "@/types"
 import FinishCarPost from "@/components/FinishCarPost"
 
