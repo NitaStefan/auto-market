@@ -1,6 +1,6 @@
 "use server"
 
-import { Masina } from "@/types"
+import { Masina, MasinaRecord } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { revalidatePath } from "next/cache"
 
@@ -22,33 +22,6 @@ export const addCar = async (car: Masina, images: File[]) => {
       }
     }
 
-    // Upload the images to Supabase storage
-    //     const folderPath = `masina-${dbCar.id}/`;
-
-    // // 1. Check if the folder already exists
-    // const { data: existingFiles, error: listError } = await supabase.storage
-    //   .from("car-images")
-    //   .list(folderPath);
-
-    // if (listError) {
-    //   console.error("Error checking for existing files:", listError.message);
-    //   throw new Error("Failed to check for existing folder.");
-    // }
-
-    // // 2. Delete the folder if it exists
-    // if (existingFiles && existingFiles.length > 0) {
-    //   const pathsToDelete = existingFiles.map(file => `${folderPath}${file.name}`);
-    //   const { error: deleteError } = await supabase.storage
-    //     .from("car-images")
-    //     .remove(pathsToDelete);
-
-    //   if (deleteError) {
-    //     console.error("Error deleting existing folder:", deleteError.message);
-    //     throw new Error("Failed to delete existing folder.");
-    //   }
-
-    //   console.log(`Successfully deleted existing folder: ${folderPath}`);
-    // }
     const uploadedPaths = await Promise.all(
       images.map(async file => {
         const { data, error } = await supabase.storage
@@ -86,6 +59,84 @@ export const addCar = async (car: Masina, images: File[]) => {
     console.log("Car and images added successfully")
     revalidatePath("/masini")
     return { success: true, message: "Car and images added successfully" }
+  } catch (error) {
+    console.error("Unexpected error:", error)
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+    }
+  }
+}
+
+// Upload the images to Supabase storage
+//     const folderPath = `masina-${dbCar.id}/`;
+
+// // 1. Check if the folder already exists
+// const { data: existingFiles, error: listError } = await supabase.storage
+//   .from("car-images")
+//   .list(folderPath);
+
+// if (listError) {
+//   console.error("Error checking for existing files:", listError.message);
+//   throw new Error("Failed to check for existing folder.");
+// }
+
+// // 2. Delete the folder if it exists
+// if (existingFiles && existingFiles.length > 0) {
+//   const pathsToDelete = existingFiles.map(file => `${folderPath}${file.name}`);
+//   const { error: deleteError } = await supabase.storage
+//     .from("car-images")
+//     .remove(pathsToDelete);
+
+//   if (deleteError) {
+//     console.error("Error deleting existing folder:", deleteError.message);
+//     throw new Error("Failed to delete existing folder.");
+//   }
+
+//   console.log(`Successfully deleted existing folder: ${folderPath}`);
+// }
+
+export const deleteCar = async (
+  carId: number,
+  car_images: MasinaRecord["car_images"]
+) => {
+  try {
+    const supabase = await createClient()
+
+    // Delete images from storage
+    const pathsToDelete = car_images.map(image => image.path)
+
+    const { error: deleteError } = await supabase.storage
+      .from("car-images")
+      .remove(pathsToDelete)
+
+    if (deleteError) {
+      console.error("Error deleting folder contents:", deleteError.message)
+      return {
+        success: false,
+        message:
+          deleteError.message ||
+          "Failed to delete folder contents from storage",
+      }
+    }
+
+    // Delete car record from database
+    const { error: carDeleteError } = await supabase
+      .from("cars")
+      .delete()
+      .eq("id", carId)
+
+    if (carDeleteError) {
+      console.error("Error deleting car:", carDeleteError.message)
+      return {
+        success: false,
+        message: carDeleteError.message || "Failed to delete car",
+      }
+    }
+
+    console.log("Car and images deleted successfully")
+    revalidatePath("/masini")
+    return { success: true, message: "Car and images deleted successfully" }
   } catch (error) {
     console.error("Unexpected error:", error)
     return {

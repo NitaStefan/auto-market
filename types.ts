@@ -1,6 +1,7 @@
 import { euroPoluantOptions, tipCombustibilOptions } from "./lib/constants"
 
 export type Masina = {
+  //TODO: add fb id
   id?: number
   tip: "vanzare" | "dezmembrari"
   marca: string

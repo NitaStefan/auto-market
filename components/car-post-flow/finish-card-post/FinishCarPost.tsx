@@ -1,8 +1,9 @@
-import { Masina } from "@/types"
+import { Masina, MasinaRecord } from "@/types"
 import { Button } from "../../ui/button"
 import ImagePreviews from "../../ImagePreviews"
 import DetailsTextarea from "./DetailsTextarea"
 import AddCar from "./car-management/AddCar"
+import DeleteCar from "./car-management/DeleteCar"
 
 const FinishCarPost = ({
   car,
@@ -31,7 +32,10 @@ const FinishCarPost = ({
 
       <div>
         {car.id ? (
-          <p>Modifica sau sterge Masina</p>
+          <div>
+            <p>Modifica sau sterge Masina</p>
+            <DeleteCar car={car as MasinaRecord} />
+          </div>
         ) : (
           <AddCar car={car} imageFiles={imageFiles} />
         )}
