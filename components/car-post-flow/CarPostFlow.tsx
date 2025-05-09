@@ -1,7 +1,7 @@
 import { Masina, MasinaRecord } from "@/types"
 import React, { useState } from "react"
 import CarSpecification from "./car-specification/CarSpecification"
-import FinishCarPost from "./FinishCarPost"
+import FinishCarPost from "./finish-card-post/FinishCarPost"
 
 const CarPostFlow = ({ dbCar }: { dbCar?: MasinaRecord }) => {
   const [car, setCar] = useState<Masina | undefined>(dbCar)

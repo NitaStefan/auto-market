@@ -2,12 +2,12 @@
 
 import { Masina } from "@/types"
 import { createClient } from "@/utils/supabase/server"
+import { revalidatePath } from "next/cache"
 
 export const addCar = async (car: Masina, images: File[]) => {
   try {
     const supabase = await createClient()
 
-    // Insert the car data
     const { data: dbCar, error: carError } = await supabase
       .from("cars")
       .insert(car)
@@ -15,7 +15,11 @@ export const addCar = async (car: Masina, images: File[]) => {
       .single()
 
     if (carError || !dbCar) {
-      throw new Error(carError?.message || "Failed to insert car")
+      console.error("Error inserting car:", carError?.message)
+      return {
+        success: false,
+        message: carError?.message || "Failed to insert car",
+      }
     }
 
     // Upload the images to Supabase storage
@@ -51,8 +55,13 @@ export const addCar = async (car: Masina, images: File[]) => {
           .from("car-images")
           .upload(`masina-${dbCar.id}/${file.name}`, file)
 
-        if (error || !data)
-          throw new Error(error?.message || `Failed to upload ${file.name}`)
+        if (error || !data) {
+          console.error(`Error uploading file ${file.name}:`, error?.message)
+          return {
+            success: false,
+            message: error?.message || `Failed to upload ${file.name}`,
+          }
+        }
 
         return data.path
       })
@@ -66,11 +75,22 @@ export const addCar = async (car: Masina, images: File[]) => {
       }))
     )
 
-    if (imageError)
-      throw new Error(imageError.message || "Failed to insert image paths")
+    if (imageError) {
+      console.error("Error inserting image paths:", imageError.message)
+      return {
+        success: false,
+        message: imageError.message || "Failed to insert image paths",
+      }
+    }
 
     console.log("Car and images added successfully")
+    revalidatePath("/masini")
+    return { success: true, message: "Car and images added successfully" }
   } catch (error) {
-    console.error("Error adding car and images:", error)
+    console.error("Unexpected error:", error)
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+    }
   }
 }

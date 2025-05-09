@@ -40,11 +40,13 @@ const CarSpecification = ({
       motorizare: (formData.get("motorizare") as string).trim() || undefined,
       kilometraj: Number(formData.get("kilometraj")) || undefined,
       cai_putere: Number(formData.get("cai_putere")) || undefined,
-      cutie_viteze: formData.get("cutie_viteze") as Masina["cutie_viteze"],
-      euro_poluant: formData.get("euro_poluant") as Masina["euro_poluant"],
-      tip_combustibil: formData.get(
-        "tip_combustibil"
-      ) as Masina["tip_combustibil"],
+      cutie_viteze:
+        (formData.get("cutie_viteze") as Masina["cutie_viteze"]) || undefined,
+      euro_poluant:
+        (formData.get("euro_poluant") as Masina["euro_poluant"]) || undefined,
+      tip_combustibil:
+        (formData.get("tip_combustibil") as Masina["tip_combustibil"]) ||
+        undefined,
       pret: Number(formData.get("pret")) || undefined,
       negociabil: formData.has("negociabil"),
     }
