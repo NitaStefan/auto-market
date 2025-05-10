@@ -26,7 +26,7 @@ const DeleteCar = ({ car }: { car: MasinaRecord }) => {
       >
         Sterge de pe platforma {isDeleting && "......"}
       </Button>
-      <Button className="opacity-30">Posteaza pe fb</Button>
+      <Button className="opacity-30">Sterge de pe fb</Button>
     </div>
   )
 }

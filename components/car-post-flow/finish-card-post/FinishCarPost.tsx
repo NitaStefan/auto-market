@@ -4,6 +4,7 @@ import ImagePreviews from "../../ImagePreviews"
 import DetailsTextarea from "./DetailsTextarea"
 import AddCar from "./car-management/AddCar"
 import DeleteCar from "./car-management/DeleteCar"
+import UpdateCar from "./car-management/UpdateCar"
 
 const FinishCarPost = ({
   car,
@@ -17,7 +18,7 @@ const FinishCarPost = ({
   goToSpecifications: () => void
 }) => {
   return (
-    <div className="px-1">
+    <div>
       <Button variant="outline" onClick={goToSpecifications}>
         Intoarce-te la specificatii
       </Button>
@@ -33,8 +34,9 @@ const FinishCarPost = ({
       <div>
         {car.id ? (
           <div>
-            <p>Modifica sau sterge Masina</p>
+            <div className="h-2 bg-gray-200 my-2"></div>
             <DeleteCar car={car as MasinaRecord} />
+            <UpdateCar car={car as MasinaRecord} imageFiles={imageFiles} />
           </div>
         ) : (
           <AddCar car={car} imageFiles={imageFiles} />
@@ -42,6 +44,7 @@ const FinishCarPost = ({
       </div>
 
       <pre className="text-sm">{JSON.stringify(car, null, 2)}</pre>
+      <Button>Aplica si finalizeaza</Button>
     </div>
   )
 }
