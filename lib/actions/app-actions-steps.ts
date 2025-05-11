@@ -25,6 +25,7 @@ export const updateCarRecord = async (
 ) => {
   const { error } = await supabase.from("cars").update(car).eq("id", car.id)
 
+  console.log("updateCarRecord ERROR", error)
   if (error) {
     console.error("Error updating car:", error.message)
     throw new Error(error.message || "Failed to update car")
@@ -69,5 +70,50 @@ export const insertCarImagesPaths = async (
   if (error) {
     console.error("Error inserting image paths:", error.message)
     throw new Error(error.message || "Failed to insert image paths")
+  }
+}
+
+export const removeCarImages = async (
+  supabase: SupabaseClient<any, "public", any>,
+  car_images: MasinaRecord["car_images"]
+) => {
+  const pathsToDelete = car_images.map(image => image.path)
+
+  const { error } = await supabase.storage
+    .from("car-images")
+    .remove(pathsToDelete)
+
+  if (error) {
+    console.error("Error deleting folder contents:", error.message)
+    throw new Error(
+      error.message || "Failed to delete folder contents from storage"
+    )
+  }
+}
+
+export const deleteCarImagesPaths = async (
+  supabase: SupabaseClient<any, "public", any>,
+  carId: number
+) => {
+  const { error } = await supabase
+    .from("car_images")
+    .delete()
+    .eq("masina_id", carId)
+
+  if (error) {
+    console.error("Error deleting image paths:", error.message)
+    throw new Error(error.message || "Failed to delete image paths")
+  }
+}
+
+export const deleteCarRecord = async (
+  supabase: SupabaseClient<any, "public", any>,
+  carId: number
+) => {
+  const { error } = await supabase.from("cars").delete().eq("id", carId)
+
+  if (error) {
+    console.error("Error deleting car:", error.message)
+    throw new Error(error.message || "Failed to delete car")
   }
 }
