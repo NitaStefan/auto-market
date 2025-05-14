@@ -27,7 +27,7 @@ export const makeFacebookPost = async (message: string) => {
   return {
     success: true,
     message: "Post created successfully",
-    postId: data.id,
+    postId: data.id as string,
   }
 }
 

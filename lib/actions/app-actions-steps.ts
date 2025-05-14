@@ -1,5 +1,6 @@
 import { Masina, MasinaRecord } from "@/types"
 import { SupabaseClient } from "@supabase/supabase-js"
+import { imagePathFormat } from "../custom-utils"
 
 export const insertCarRecord = async (
   supabase: SupabaseClient<any, "public", any>,
@@ -38,10 +39,10 @@ export const uploadCarImages = async (
   carId: number
 ) => {
   const uploadedPaths = await Promise.all(
-    images.map(async file => {
+    images.map(async (file, index) => {
       const { data, error } = await supabase.storage
         .from("car-images")
-        .upload(`masina-${carId}/${file.name}`, file)
+        .upload(imagePathFormat(carId, index), file)
 
       if (error) {
         console.error(`Error uploading file ${file.name}:`, error?.message)
@@ -57,13 +58,13 @@ export const uploadCarImages = async (
 
 export const insertCarImagesPaths = async (
   supabase: SupabaseClient<any, "public", any>,
-  paths: string[],
+  numberOfImages: number,
   carId: number
 ) => {
   const { error } = await supabase.from("car_images").insert(
-    paths.map(path => ({
+    Array.from({ length: numberOfImages }, (_, index) => ({
       masina_id: carId,
-      path,
+      path: imagePathFormat(carId, index),
     }))
   )
 

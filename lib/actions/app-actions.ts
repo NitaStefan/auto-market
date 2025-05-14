@@ -19,9 +19,10 @@ export const addCar = async (car: Masina, images: File[]) => {
 
     const dbCar = await insertCarRecord(supabase, car)
 
-    const uploadedPaths = await uploadCarImages(supabase, images, dbCar.id)
-
-    await insertCarImagesPaths(supabase, uploadedPaths, dbCar.id)
+    await Promise.all([
+      uploadCarImages(supabase, images, dbCar.id),
+      insertCarImagesPaths(supabase, images.length, dbCar.id),
+    ])
 
     revalidatePath("/masini")
 
@@ -40,17 +41,16 @@ export const updateCar = async (car: MasinaRecord, images: File[]) => {
     const supabase = await createClient()
 
     const { car_images, ...carWithoutImages } = car
-    await updateCarRecord(supabase, carWithoutImages)
 
     if (images.length !== 0) {
-      const [_unused1, _unused2, uploadedPaths] = await Promise.all([
+      await Promise.all([
         removeCarImages(supabase, car_images),
         deleteCarImagesPaths(supabase, car.id),
         uploadCarImages(supabase, images, car.id),
+        insertCarImagesPaths(supabase, images.length, car.id),
+        updateCarRecord(supabase, carWithoutImages),
       ])
-
-      await insertCarImagesPaths(supabase, uploadedPaths, car.id)
-    }
+    } else await updateCarRecord(supabase, carWithoutImages)
 
     revalidatePath("/masini")
 

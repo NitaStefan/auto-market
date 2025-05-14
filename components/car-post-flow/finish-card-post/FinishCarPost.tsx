@@ -24,8 +24,11 @@ const FinishCarPost = ({
       </Button>
       <h1 className="text-2xl">Finalizeaza postarea</h1>
 
-      <ImagePreviews imageFiles={imageFiles} />
+      <ImagePreviews imageFiles={imageFiles} imageUrls={car?.car_images} />
 
+      <p className="px-2 bg-blue-100 text-blue-700">
+        {car.post_id ? "Postat pe fb" : "Nepostat pe fb"}
+      </p>
       <DetailsTextarea
         detalii={car.detalii}
         handleSetDetails={handleSetDetails}
@@ -44,7 +47,6 @@ const FinishCarPost = ({
       </div>
 
       <pre className="text-sm">{JSON.stringify(car, null, 2)}</pre>
-      <Button>Aplica si finalizeaza</Button>
     </div>
   )
 }
