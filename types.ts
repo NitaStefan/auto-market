@@ -1,8 +1,8 @@
 import { euroPoluantOptions, tipCombustibilOptions } from "./lib/constants"
 
 export type Masina = {
-  //TODO: add fb id
   id?: number
+  post_id?: string
   tip: "vanzare" | "dezmembrari"
   marca: string
   model: string
@@ -16,7 +16,7 @@ export type Masina = {
   euro_poluant?: (typeof euroPoluantOptions)[number]
   tip_combustibil?: (typeof tipCombustibilOptions)[number]
   detalii?: string
-  car_images?: { path: string }[]
+  car_images?: { path: string; media_id?: string }[]
 }
 
 export type MasinaRecord = Masina & {
