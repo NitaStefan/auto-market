@@ -26,7 +26,11 @@ export const addCar = async (car: Masina, images: File[]) => {
 
     revalidatePath("/masini")
 
-    return { success: true, message: "Car and images added successfully" }
+    return {
+      success: true,
+      message: "Car and images added successfully",
+      carId: dbCar.id as number,
+    }
   } catch (error) {
     return {
       success: false,

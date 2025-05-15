@@ -1,33 +1,33 @@
 "use server"
 
-export const makeFacebookPost = async (message: string) => {
-  const res = await fetch(
-    `https://graph.facebook.com/v22.0/${process.env.FB_PAGE_ID}/feed`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
-      },
-      body: JSON.stringify({
-        message,
-      }),
+import { postMessage, uploadMediaImage } from "./facebook-actions-steps"
+
+export const makeFacebookPost = async (
+  message: string,
+  carId: number,
+  numberOfImages: number
+) => {
+  try {
+    const imageUploadPromises = Array.from(
+      { length: numberOfImages },
+      (_, index) => uploadMediaImage(carId, index)
+    )
+    const mediaIds = await Promise.all(imageUploadPromises)
+
+    const postId = await postMessage(message, mediaIds)
+
+    return {
+      success: true,
+      message: "Post created successfully",
+      postId,
+      mediaIds,
     }
-  )
-
-  const data = await res.json()
-
-  if (!res.ok) {
+  } catch (error) {
     return {
       success: false,
-      message: data.error?.message || "Failed to create post",
+      message:
+        error instanceof Error ? error.message : "An unexpected error occurred",
     }
-  }
-
-  return {
-    success: true,
-    message: "Post created successfully",
-    postId: data.id as string,
   }
 }
 

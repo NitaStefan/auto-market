@@ -10,24 +10,29 @@ import { toast } from "sonner"
 const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   const [isAddingCar, setIsAddingCar] = useState(false)
   const [isPostingOnFb, setIsPostingOnFb] = useState(false)
-  const [isAddCarChecked, setIsAddCarChecked] = useState(false)
   const [isPostCarChecked, setIsPostCarChecked] = useState(false)
 
   const handleAddCar = async (updatedCar: Masina) => {
     setIsAddingCar(true)
-    const { success, message } = await addCar(updatedCar, imageFiles)
+    const { success, message, carId } = await addCar(updatedCar, imageFiles)
 
     if (success) toast.success(message)
     else toast.error(message || "Eroare la adăugare anunț")
 
     setIsAddingCar(false)
+
+    return carId
   }
 
-  const handleFacebookPost = async () => {
+  const handleFacebookPost = async (carId: number) => {
     const postMessage = `${car.marca}, ${car.model} - ${car.tip}`
     setIsPostingOnFb(true)
-
-    const { success, message, postId } = await makeFacebookPost(postMessage)
+    // todo: continue from here (use postId and mediaIds)
+    const { success, message, postId, mediaIds } = await makeFacebookPost(
+      postMessage,
+      carId,
+      imageFiles.length
+    )
     if (success) toast.success(message)
     else toast.error(message || "Eroare la postare")
 
@@ -36,15 +41,14 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   }
 
   const handleSubmit = async () => {
-    // todo: insert car, post on fb, then update the car to have the post id and car images to have the media files
-    let updatedCar = car
+    //insert car, post on fb, then update the car to have the post id and car images to have the media files
 
-    if (isPostCarChecked) {
-      const postId = await handleFacebookPost()
-      updatedCar = { ...car, post_id: postId }
+    const carId = await handleAddCar(car)
+
+    if (isPostCarChecked && carId) {
+      const postId = await handleFacebookPost(carId)
+      // updatedCar = { ...car, post_id: postId }
     }
-
-    if (isAddCarChecked) await handleAddCar(updatedCar)
   }
 
   return (
@@ -53,7 +57,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
         <div className="flex items-center">
           <Label
             htmlFor="platforma"
-            className="cursor-pointer border-3 py-2 pl-4 pr-10 rounded-md"
+            className="border-3 py-2 pl-4 pr-10 rounded-md"
           >
             Posteaza pe platforma
           </Label>
@@ -64,10 +68,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
               <Checkbox
                 id="platforma"
                 className="cursor-pointer"
-                checked={isAddCarChecked}
-                onCheckedChange={checked =>
-                  setIsAddCarChecked(checked === true)
-                }
+                checked={true}
               />
             )}
           </div>
@@ -95,11 +96,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
           </div>
         </div>
       </div>
-      <Button
-        onClick={handleSubmit}
-        disabled={!isAddCarChecked && !isPostCarChecked}
-        className="mt-8 w-full"
-      >
+      <Button onClick={handleSubmit} className="mt-8 w-full">
         Aplica si finalizeaza
       </Button>
     </>
