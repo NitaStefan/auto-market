@@ -1,5 +1,5 @@
 import CarDialog from "@/components/CarDialog"
-import { CAR_IMAGES_BUCKET_URL } from "@/lib/constants"
+import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants"
 import { MasinaRecord } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 
@@ -10,8 +10,6 @@ const Page = async () => {
     *,
     car_images (path)
   `)) as { data: MasinaRecord[] }
-
-  console.log(cars)
 
   return (
     <>

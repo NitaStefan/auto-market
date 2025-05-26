@@ -1,4 +1,4 @@
-import { CAR_IMAGES_BUCKET_URL } from "@/lib/constants"
+import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants"
 import { MasinaRecord } from "@/types"
 import React, { useEffect, useState } from "react"
 

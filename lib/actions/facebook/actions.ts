@@ -1,6 +1,6 @@
 "use server"
 
-import { postMessage, uploadMediaImage } from "./facebook-actions-steps"
+import { postMessage, uploadMediaImage } from "./action-steps"
 
 export const makeFacebookPost = async (
   message: string,
@@ -43,9 +43,7 @@ export const updateFacebookPost = async (message: string, postId: string) => {
     }),
   })
 
-  if (!res.ok) {
-    throw new Error("Failed to update post")
-  }
+  if (!res.ok) throw new Error("Failed to update post")
 
   return res.json()
 }

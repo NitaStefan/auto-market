@@ -1,6 +1,7 @@
 import { Masina, MasinaRecord } from "@/types"
 import { SupabaseClient } from "@supabase/supabase-js"
-import { imagePathFormat } from "../custom-utils"
+import { imagePathFormat } from "../../../utils/format-utils"
+import { createClient } from "@/utils/supabase/server"
 
 export const insertCarRecord = async (
   supabase: SupabaseClient<any, "public", any>,
@@ -26,7 +27,6 @@ export const updateCarRecord = async (
 ) => {
   const { error } = await supabase.from("cars").update(car).eq("id", car.id)
 
-  console.log("updateCarRecord ERROR", error)
   if (error) {
     console.error("Error updating car:", error.message)
     throw new Error(error.message || "Failed to update car")
@@ -63,7 +63,7 @@ export const insertCarImagesPaths = async (
 ) => {
   const { error } = await supabase.from("car_images").insert(
     Array.from({ length: numberOfImages }, (_, index) => ({
-      masina_id: carId,
+      car_id: carId,
       path: imagePathFormat(carId, index),
     }))
   )
@@ -99,7 +99,7 @@ export const deleteCarImagesPaths = async (
   const { error } = await supabase
     .from("car_images")
     .delete()
-    .eq("masina_id", carId)
+    .eq("car_id", carId)
 
   if (error) {
     console.error("Error deleting image paths:", error.message)
@@ -116,5 +116,41 @@ export const deleteCarRecord = async (
   if (error) {
     console.error("Error deleting car:", error.message)
     throw new Error(error.message || "Failed to delete car")
+  }
+}
+
+// facebook
+
+export const insertFbPostRecord = async (
+  supabase: SupabaseClient<any, "public", any>,
+  carId: number,
+  postId: string
+) => {
+  const { data: fbPostRecord, error } = await supabase
+    .from("facebook_posts")
+    .insert({ id: postId, car_id: carId })
+    .select()
+    .single()
+
+  if (error) {
+    console.error("Error inserting facebook post id:", error?.message)
+    throw new Error(error.message || "Failed to insert facebook post id")
+  }
+
+  return fbPostRecord.id as string
+}
+
+export const insertMediaId = async (
+  supabase: SupabaseClient<any, "public", any>,
+  fbPostRecordId: string,
+  mediaId: string
+) => {
+  const { error } = await supabase
+    .from("facebook_media")
+    .insert({ id: mediaId, fb_post_id: fbPostRecordId })
+
+  if (error) {
+    console.error("Error inserting facebook media:", error?.message)
+    throw new Error(error.message || "Failed to insert facebook media")
   }
 }

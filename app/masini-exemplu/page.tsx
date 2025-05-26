@@ -9,7 +9,7 @@ export default function Page() {
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await supabase.from("masini").select()
+      const { data } = await supabase.from("cars").select()
       setNotes(data)
     }
     getData()

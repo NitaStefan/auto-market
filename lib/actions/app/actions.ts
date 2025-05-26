@@ -11,12 +11,15 @@ import {
   deleteCarImagesPaths,
   removeCarImages,
   deleteCarRecord,
-} from "./app-actions-steps"
+  insertFbPostRecord,
+  insertMediaId,
+} from "./action-steps"
 
 export const addCar = async (car: Masina, images: File[]) => {
   try {
     const supabase = await createClient()
 
+    //todo: only take the dbCarId
     const dbCar = await insertCarRecord(supabase, car)
 
     await Promise.all([
@@ -82,6 +85,30 @@ export const deleteCar = async (
 
     revalidatePath("/masini")
     return { success: true, message: "Car and images deleted successfully" }
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    }
+  }
+}
+
+export const addFacebookPostData = async (
+  carId: number,
+  postId: string,
+  mediaIds: string[]
+) => {
+  try {
+    const supabase = await createClient()
+
+    const fbPostRecordId = await insertFbPostRecord(supabase, carId, postId)
+
+    await Promise.all(
+      mediaIds.map(mediaId => insertMediaId(supabase, fbPostRecordId, mediaId))
+    )
+
+    return { success: true, message: "Facebook data inserted successfully" }
   } catch (error) {
     return {
       success: false,

@@ -1,8 +1,7 @@
-import { euroPoluantOptions, tipCombustibilOptions } from "./lib/constants"
+import { euroPoluantOptions, tipCombustibilOptions } from "./utils/constants"
 
 export type Masina = {
   id?: number
-  post_id?: string
   tip: "vanzare" | "dezmembrari"
   marca: string
   model: string
@@ -16,7 +15,7 @@ export type Masina = {
   euro_poluant?: (typeof euroPoluantOptions)[number]
   tip_combustibil?: (typeof tipCombustibilOptions)[number]
   detalii?: string
-  car_images?: { path: string; media_id?: string }[]
+  car_images?: { path: string }[]
 }
 
 export type MasinaRecord = Masina & {

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { updateCar } from "@/lib/actions/app-actions"
+import { updateCar } from "@/lib/actions/app/actions"
 import { MasinaRecord } from "@/types"
 import React, { useState } from "react"
 import { toast } from "sonner"

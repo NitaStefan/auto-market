@@ -1,5 +1,5 @@
-import { CAR_IMAGES_BUCKET_URL } from "../constants"
-import { imagePathFormat } from "../custom-utils"
+import { CAR_IMAGES_BUCKET_URL } from "../../../utils/constants"
+import { imagePathFormat } from "../../../utils/format-utils"
 
 export const postMessage = async (message: string, mediaIds: string[]) => {
   const res = await fetch(
@@ -12,9 +12,7 @@ export const postMessage = async (message: string, mediaIds: string[]) => {
       },
       body: JSON.stringify({
         message,
-        attached_media: mediaIds.map(mediaId => {
-          media_fbid: mediaId
-        }),
+        attached_media: mediaIds.map(mediaId => ({ media_fbid: mediaId })),
       }),
     }
   )

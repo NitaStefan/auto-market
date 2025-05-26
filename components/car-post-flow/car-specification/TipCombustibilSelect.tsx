@@ -9,8 +9,8 @@ import {
   SelectValue,
 } from "../../ui/select"
 import { archivo } from "@/app/fonts"
-import { tipCombustibilOptions } from "@/lib/constants"
-import { formatLabel } from "@/lib/custom-utils"
+import { tipCombustibilOptions } from "@/utils/constants"
+import { formatLabel } from "@/utils/format-utils"
 
 const TipCombustibilSelect = ({
   initTipCombustibil,
