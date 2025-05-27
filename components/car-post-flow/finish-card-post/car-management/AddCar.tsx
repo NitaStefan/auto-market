@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
 import { addCar, addFacebookPostData } from "@/lib/actions/app/actions"
 import { makeFacebookPost } from "@/lib/actions/facebook/actions"
 import { useDialog } from "@/lib/hooks/useDialog"
@@ -9,14 +7,16 @@ import { getAddCarButtonLabel } from "@/utils/utils"
 import { LoaderCircle } from "lucide-react"
 import React, { useState } from "react"
 import { toast } from "sonner"
+import LabeledCheckbox from "./LabeledCheckbox"
 
 const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   const { closeDialog } = useDialog()
   const [loadingState, setLoadingState] = useState<
-    "idle" | "addingCar" | "postingFb" | "savingFbData" | "finished"
+    "idle" | "addingCar" | "postingFb" | "savingFbData"
   >("idle")
   const [isPostCarChecked, setIsPostCarChecked] = useState(false)
 
+  //TODO: handle success and error states proeprly
   const handleAddCar = async () => {
     setLoadingState("addingCar")
     const { success, message, carId } = await addCar(
@@ -68,34 +68,24 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
         await handleAddFacebookPostData(carId, postId, mediaIds)
     }
 
-    setLoadingState("finished")
+    toast.success("Anunț adăugat cu succes")
     closeDialog()
   }
 
   return (
     <>
-      <div className="flex items-center">
-        <Label
-          htmlFor="facebook"
-          className="cursor-pointer border-3 py-2 pl-4 pr-10 rounded-md w-full text-center"
-        >
-          Postează și pe facebook
-        </Label>
-        <div className="-translate-x-8">
-          <Checkbox
-            id="facebook"
-            className="cursor-pointer"
-            checked={isPostCarChecked}
-            onCheckedChange={checked => setIsPostCarChecked(checked === true)}
-          />
-        </div>
-      </div>
+      <LabeledCheckbox
+        labelFor="facebook-post"
+        checked={isPostCarChecked}
+        onChange={checked => setIsPostCarChecked(checked === true)}
+        label="Postează și pe facebook"
+      />
       <Button
         onClick={handleSubmit}
         className="mt-8 w-full"
         disabled={loadingState !== "idle"}
       >
-        {loadingState !== "idle" && loadingState !== "finished" && (
+        {loadingState !== "idle" && (
           <LoaderCircle className="mr-2 animate-spin" />
         )}
         {getAddCarButtonLabel(loadingState, isPostCarChecked)}

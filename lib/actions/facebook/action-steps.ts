@@ -52,3 +52,35 @@ export const uploadMediaImage = async (carId: number, index: number) => {
 
   return data.id as string
 }
+
+export const deleteMedia = async (mediaId: string) => {
+  const res = await fetch(`https://graph.facebook.com/v22.0/${mediaId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+    },
+  })
+
+  if (!res.ok) {
+    const data = await res.json()
+    console.error("Error deleting media from Facebook:", data.error.message)
+    throw new Error(
+      data.error.message || "Failed to delete media from Facebook"
+    )
+  }
+}
+
+export const deletePost = async (postId: string) => {
+  const res = await fetch(`https://graph.facebook.com/v22.0/${postId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+    },
+  })
+
+  if (!res.ok) {
+    const data = await res.json()
+    console.error("Error deleting Facebook post:", data.error.message)
+    throw new Error(data.error.message || "Failed to delete Facebook post")
+  }
+}

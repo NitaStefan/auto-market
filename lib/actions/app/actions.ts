@@ -23,12 +23,11 @@ export const addCar = async (
   try {
     const supabase = await createClient()
 
-    //todo: only take the dbCarId
-    const dbCar = await insertCarRecord(supabase, car)
+    const carId = await insertCarRecord(supabase, car)
 
     await Promise.all([
-      uploadCarImages(supabase, images, dbCar.id),
-      insertCarImagesPaths(supabase, images.length, dbCar.id),
+      uploadCarImages(supabase, images, carId),
+      insertCarImagesPaths(supabase, images.length, carId),
     ])
 
     if (revalidate) revalidatePath("/masini")
@@ -36,7 +35,7 @@ export const addCar = async (
     return {
       success: true,
       message: "Car and images added successfully",
-      carId: dbCar.id as number,
+      carId: carId,
     }
   } catch (error) {
     return {
@@ -115,6 +114,39 @@ export const addFacebookPostData = async (
     revalidatePath("/masini")
 
     return { success: true, message: "Facebook data inserted successfully" }
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    }
+  }
+}
+
+//RETRIEVE
+
+export const getThenDeleteFacebookPostData = async (carId: number) => {
+  try {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+      .from("facebook_posts")
+      .select("id, facebook_media (id)")
+      .eq("car_id", carId)
+      .single()
+
+    if (error) {
+      console.error("Error retrieving facebook data", error.message)
+      throw new Error(error.message || `Failed to retrieve facebook data`)
+    }
+
+    await supabase.from("facebook_posts").delete().eq("car_id", carId)
+
+    return {
+      success: true,
+      postId: data.id as string,
+      mediaIds: data.facebook_media.map(m => m.id as string),
+    }
   } catch (error) {
     return {
       success: false,

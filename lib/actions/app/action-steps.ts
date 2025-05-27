@@ -13,11 +13,11 @@ export const insertCarRecord = async (
     .single()
 
   if (error) {
-    console.error("Error inserting car:", error?.message)
+    console.error("Error inserting car:", error.message)
     throw new Error(error.message || "Failed to insert car")
   }
 
-  return dbCar
+  return dbCar.id as number
 }
 
 export const updateCarRecord = async (
@@ -44,7 +44,7 @@ export const uploadCarImages = async (
         .upload(imagePathFormat(carId, index), file)
 
       if (error) {
-        console.error(`Error uploading file ${file.name}:`, error?.message)
+        console.error(`Error uploading file ${file.name}:`, error.message)
         throw new Error(error.message || `Failed to upload ${file.name}`)
       }
 
@@ -132,7 +132,7 @@ export const insertFbPostRecord = async (
     .single()
 
   if (error) {
-    console.error("Error inserting facebook post id:", error?.message)
+    console.error("Error inserting facebook post id:", error.message)
     throw new Error(error.message || "Failed to insert facebook post id")
   }
 
@@ -149,7 +149,7 @@ export const insertMediaId = async (
     .insert({ id: mediaId, fb_post_id: fbPostRecordId })
 
   if (error) {
-    console.error("Error inserting facebook media:", error?.message)
+    console.error("Error inserting facebook media:", error.message)
     throw new Error(error.message || "Failed to insert facebook media")
   }
 }

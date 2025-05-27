@@ -12,8 +12,6 @@ const Page = async () => {
     facebook_posts (id)
   `)) as { data: MasinaRecord[] }
 
-  console.log("Fetched cars: ", cars)
-
   return (
     <>
       <CarDialog />

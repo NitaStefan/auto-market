@@ -1,6 +1,12 @@
 "use server"
 
-import { postMessage, uploadMediaImage } from "./action-steps"
+import { revalidatePath } from "next/cache"
+import {
+  deleteMedia,
+  deletePost,
+  postMessage,
+  uploadMediaImage,
+} from "./action-steps"
 
 export const makeFacebookPost = async (
   message: string,
@@ -46,4 +52,28 @@ export const updateFacebookPost = async (message: string, postId: string) => {
   if (!res.ok) throw new Error("Failed to update post")
 
   return res.json()
+}
+
+export const deleteFacebookPost = async (
+  postId: string,
+  mediaIds: string[],
+  revalidate: boolean
+) => {
+  try {
+    const deleteMediaPromises = mediaIds.map(mediaId => deleteMedia(mediaId))
+    const deletePostPromise = deletePost(postId)
+
+    await Promise.all([deletePostPromise, ...deleteMediaPromises])
+
+    console.log("REVALIDATE?", revalidate)
+
+    if (revalidate) revalidatePath("/masini")
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    }
+  }
 }

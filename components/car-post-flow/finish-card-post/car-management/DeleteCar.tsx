@@ -1,33 +1,38 @@
-import { Button } from "@/components/ui/button"
-import { deleteCar } from "@/lib/actions/app/actions"
-import { MasinaRecord } from "@/types"
 import React, { useState } from "react"
-import { toast } from "sonner"
+import LabeledCheckbox from "./LabeledCheckbox"
+import { CheckedState } from "@radix-ui/react-checkbox"
 
-const DeleteCar = ({ car }: { car: MasinaRecord }) => {
-  const [isDeleting, setIsDeleting] = useState(false)
-
-  const handleDeleteCar = async () => {
-    setIsDeleting(true)
-    const { success, message } = await deleteCar(car.id, car.car_images)
-
-    if (success) toast.success(message)
-    else toast.error(message || "Eroare la postare")
-
-    setIsDeleting(false)
-  }
-
+const DeleteCar = ({
+  deleteRecord,
+  handleOnRecordDeleteChange,
+  deleteFbPost,
+  handleOnFbPostDeleteChange,
+}: {
+  deleteRecord: boolean
+  handleOnRecordDeleteChange: (checked: CheckedState) => void
+  deleteFbPost: boolean
+  handleOnFbPostDeleteChange: (checked: CheckedState) => void
+}) => {
   return (
-    <div className="flex">
-      <Button
-        onClick={handleDeleteCar}
-        className="font-bold"
-        disabled={isDeleting}
-      >
-        Sterge de pe platforma {isDeleting && "......"}
-      </Button>
-      <Button className="opacity-30">Sterge de pe fb</Button>
-    </div>
+    <>
+      <div className="flex gap-1">
+        <LabeledCheckbox
+          label="Sterge de pe platforma"
+          labelFor="delete-record"
+          checked={deleteRecord}
+          onChange={handleOnRecordDeleteChange}
+        />
+        <LabeledCheckbox
+          label="Sterge de pe facebook"
+          labelFor="delete-fb-post"
+          checked={deleteFbPost}
+          onChange={handleOnFbPostDeleteChange}
+        />
+      </div>
+      <p className="text-xs text-gray-400">
+        * daca stergi de pe platforma, trebuie sa stergi si de pe facebook
+      </p>
+    </>
   )
 }
 

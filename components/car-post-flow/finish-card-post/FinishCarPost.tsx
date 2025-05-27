@@ -3,8 +3,7 @@ import { Button } from "../../ui/button"
 import ImagePreviews from "../../ImagePreviews"
 import DetailsTextarea from "./DetailsTextarea"
 import AddCar from "./car-management/AddCar"
-import DeleteCar from "./car-management/DeleteCar"
-import UpdateCar from "./car-management/UpdateCar"
+import ModifyPost from "./car-management/ModifyPost"
 
 const FinishCarPost = ({
   car,
@@ -34,17 +33,11 @@ const FinishCarPost = ({
         handleSetDetails={handleSetDetails}
       />
 
-      <div>
-        {car.id ? (
-          <div>
-            <div className="h-2 bg-gray-200 my-2"></div>
-            <DeleteCar car={car as MasinaRecord} />
-            <UpdateCar car={car as MasinaRecord} imageFiles={imageFiles} />
-          </div>
-        ) : (
-          <AddCar car={car} imageFiles={imageFiles} />
-        )}
-      </div>
+      {car.id ? (
+        <ModifyPost car={car as MasinaRecord} imageFiles={imageFiles} />
+      ) : (
+        <AddCar car={car} imageFiles={imageFiles} />
+      )}
 
       <pre className="text-sm">{JSON.stringify(car, null, 2)}</pre>
     </div>
