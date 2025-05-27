@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { archivo } from "@/app/fonts"
 import CarPostFlow from "./car-post-flow/CarPostFlow"
-import { MasinaRecord } from "@/types"
+import { MasinaRecord } from "@/types/app-types"
 import { useState } from "react"
 import { DialogContext } from "@/lib/hooks/useDialog"
 

@@ -1,4 +1,4 @@
-import { Masina } from "@/types"
+import { Masina } from "@/types/app-types"
 import React, { useState } from "react"
 import { Label } from "../../ui/label"
 import {

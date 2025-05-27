@@ -1,4 +1,4 @@
-import { Masina, MasinaRecord } from "@/types"
+import { Masina, MasinaRecord } from "@/types/app-types"
 import { Button } from "../../ui/button"
 import ImagePreviews from "../../ImagePreviews"
 import DetailsTextarea from "./DetailsTextarea"

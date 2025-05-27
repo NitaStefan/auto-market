@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select"
-import { Masina } from "@/types"
+import { Masina } from "@/types/app-types"
 import { archivo } from "@/app/fonts"
 
 const TipSelect = ({

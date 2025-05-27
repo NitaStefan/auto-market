@@ -1,4 +1,4 @@
-import { euroPoluantOptions, tipCombustibilOptions } from "./utils/constants"
+import { euroPoluantOptions, tipCombustibilOptions } from "../utils/constants"
 
 export type Masina = {
   id?: number

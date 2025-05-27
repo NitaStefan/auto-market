@@ -32,7 +32,9 @@ export const makeFacebookPost = async (
     return {
       success: false,
       message:
-        error instanceof Error ? error.message : "An unexpected error occurred",
+        error instanceof Error
+          ? error.message
+          : "A apărut o eroare neașteptată. Încearcă din nou.",
     }
   }
 }
@@ -64,8 +66,6 @@ export const deleteFacebookPost = async (
     const deletePostPromise = deletePost(postId)
 
     await Promise.all([deletePostPromise, ...deleteMediaPromises])
-
-    console.log("REVALIDATE?", revalidate)
 
     if (revalidate) revalidatePath("/masini")
     return { success: true }

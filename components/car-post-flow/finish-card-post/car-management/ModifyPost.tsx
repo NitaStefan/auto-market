@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import DeleteCar from "./DeleteCar"
 import UpdateCar from "./UpdateCar"
-import { MasinaRecord } from "@/types"
+import { MasinaRecord } from "@/types/app-types"
 import { Button } from "@/components/ui/button"
 import {
   deleteCar,
@@ -35,22 +35,21 @@ const ModifyPost = ({
   }
 
   // Call actions
+  //TODO: follow AddCar component error handling
   const handleSubmit = async () => {
-    if (deleteFbPost) {
-      const fbPostData = await getThenDeleteFacebookPostData(car.id)
-
-      if (fbPostData.postId && fbPostData.mediaIds)
-        await deleteFacebookPost(
-          fbPostData.postId,
-          fbPostData.mediaIds,
-          !deleteRecord
-        )
-    }
-    if (deleteRecord) {
-      const { success, message } = await deleteCar(car.id, car.car_images)
-    }
-
-    closeDialog()
+    //   if (deleteFbPost) {
+    //     const fbPostData = await getThenDeleteFacebookPostData(car.id)
+    //     if (fbPostData.postId && fbPostData.mediaIds)
+    //       await deleteFacebookPost(
+    //         fbPostData.postId,
+    //         fbPostData.mediaIds,
+    //         !deleteRecord
+    //       )
+    //   }
+    //   if (deleteRecord) {
+    //     const { success, message } = await deleteCar(car.id, car.car_images)
+    //   }
+    //   closeDialog()
   }
 
   return (

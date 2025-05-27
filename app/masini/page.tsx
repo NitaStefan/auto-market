@@ -1,6 +1,6 @@
 import CarDialog from "@/components/CarDialog"
 import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants"
-import { MasinaRecord } from "@/types"
+import { MasinaRecord } from "@/types/app-types"
 import { createClient } from "@/utils/supabase/server"
 
 const Page = async () => {

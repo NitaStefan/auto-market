@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { addCar, addFacebookPostData } from "@/lib/actions/app/actions"
 import { makeFacebookPost } from "@/lib/actions/facebook/actions"
 import { useDialog } from "@/lib/hooks/useDialog"
-import { Masina } from "@/types"
+import { Masina } from "@/types/app-types"
 import { getAddCarButtonLabel } from "@/utils/utils"
 import { LoaderCircle } from "lucide-react"
 import React, { useState } from "react"
@@ -16,30 +16,29 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   >("idle")
   const [isPostCarChecked, setIsPostCarChecked] = useState(false)
 
-  //TODO: handle success and error states proeprly
   const handleAddCar = async () => {
     setLoadingState("addingCar")
-    const { success, message, carId } = await addCar(
-      car,
-      imageFiles,
-      !isPostCarChecked
-    )
+    const res = await addCar(car, imageFiles, !isPostCarChecked)
 
-    if (!success) toast.error(message || "Eroare la adăugare anunț")
+    if (!res.success) throw new Error(res.message)
 
-    return carId
+    return res.carId
   }
 
   const handleFacebookPost = async (carId: number) => {
-    const postMessage = `${car.marca}, ${car.model} - ${car.tip}`
     setLoadingState("postingFb")
+
+    const postMessage = `${car.marca}, ${car.model} - ${car.tip}`
+
+    //TODO: change logic of error handling
     const { success, message, postId, mediaIds } = await makeFacebookPost(
       postMessage,
       carId,
       imageFiles.length
     )
 
-    if (!success) toast.error(message || "Eroare la postare pe facebook")
+    if (!success || !postId || !mediaIds)
+      throw new Error(message || "Eroare la postare pe facebook")
 
     return { postId, mediaIds }
   }
@@ -50,26 +49,29 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
     mediaIds: string[]
   ) => {
     setLoadingState("savingFbData")
-    const { success, message } = await addFacebookPostData(
-      carId,
-      postId,
-      mediaIds
-    )
-    if (!success)
-      toast.error(message || "Eroare la postare inserarea datelor facebook")
+    const res = await addFacebookPostData(carId, postId, mediaIds)
+
+    if (!res.success) throw new Error(res.message)
   }
 
+  //TODO: maybe combine all here
   const handleSubmit = async () => {
-    const carId = await handleAddCar()
+    try {
+      const carId = await handleAddCar()
 
-    if (isPostCarChecked && carId) {
-      const { postId, mediaIds } = await handleFacebookPost(carId)
-      if (postId && mediaIds)
+      if (isPostCarChecked) {
+        const { postId, mediaIds } = await handleFacebookPost(carId)
         await handleAddFacebookPostData(carId, postId, mediaIds)
-    }
+      }
 
-    toast.success("Anunț adăugat cu succes")
-    closeDialog()
+      toast.success("Anunț adăugat cu succes")
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "A apărut o eroare necunoscută"
+      )
+    } finally {
+      closeDialog()
+    }
   }
 
   return (

@@ -1,4 +1,4 @@
-import { Masina, MasinaRecord } from "@/types"
+import { Masina, MasinaRecord } from "@/types/app-types"
 import React, { useState } from "react"
 import CarSpecification from "./car-specification/CarSpecification"
 import FinishCarPost from "./finish-card-post/FinishCarPost"

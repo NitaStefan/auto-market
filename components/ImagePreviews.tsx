@@ -1,5 +1,5 @@
 import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants"
-import { MasinaRecord } from "@/types"
+import { MasinaRecord } from "@/types/app-types"
 import React, { useEffect, useState } from "react"
 
 const ImagePreviews = ({

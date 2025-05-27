@@ -1,4 +1,4 @@
-import { Masina, MasinaRecord } from "@/types"
+import { Masina, MasinaRecord } from "@/types/app-types"
 import { SupabaseClient } from "@supabase/supabase-js"
 import { imagePathFormat } from "../../../utils/format-utils"
 
@@ -13,8 +13,8 @@ export const insertCarRecord = async (
     .single()
 
   if (error) {
-    console.error("Error inserting car:", error.message)
-    throw new Error(error.message || "Failed to insert car")
+    console.error("Error inserting car record: ", error)
+    throw error
   }
 
   return dbCar.id as number
@@ -27,8 +27,8 @@ export const updateCarRecord = async (
   const { error } = await supabase.from("cars").update(car).eq("id", car.id)
 
   if (error) {
-    console.error("Error updating car:", error.message)
-    throw new Error(error.message || "Failed to update car")
+    console.error("Error updating car:", error)
+    throw error
   }
 }
 
@@ -44,8 +44,8 @@ export const uploadCarImages = async (
         .upload(imagePathFormat(carId, index), file)
 
       if (error) {
-        console.error(`Error uploading file ${file.name}:`, error.message)
-        throw new Error(error.message || `Failed to upload ${file.name}`)
+        console.error(`Error uploading file ${file.name}:`, error)
+        throw error
       }
 
       return data.path
@@ -68,8 +68,8 @@ export const insertCarImagesPaths = async (
   )
 
   if (error) {
-    console.error("Error inserting image paths:", error.message)
-    throw new Error(error.message || "Failed to insert image paths")
+    console.error("Error inserting image paths:", error)
+    throw error
   }
 }
 
@@ -84,10 +84,8 @@ export const removeCarImages = async (
     .remove(pathsToDelete)
 
   if (error) {
-    console.error("Error deleting folder contents:", error.message)
-    throw new Error(
-      error.message || "Failed to delete folder contents from storage"
-    )
+    console.error("Error deleting folder contents:", error)
+    throw error
   }
 }
 
@@ -101,8 +99,8 @@ export const deleteCarImagesPaths = async (
     .eq("car_id", carId)
 
   if (error) {
-    console.error("Error deleting image paths:", error.message)
-    throw new Error(error.message || "Failed to delete image paths")
+    console.error("Error deleting image paths:", error)
+    throw error
   }
 }
 
@@ -113,8 +111,8 @@ export const deleteCarRecord = async (
   const { error } = await supabase.from("cars").delete().eq("id", carId)
 
   if (error) {
-    console.error("Error deleting car:", error.message)
-    throw new Error(error.message || "Failed to delete car")
+    console.error("Error deleting car:", error)
+    throw error
   }
 }
 
@@ -132,8 +130,8 @@ export const insertFbPostRecord = async (
     .single()
 
   if (error) {
-    console.error("Error inserting facebook post id:", error.message)
-    throw new Error(error.message || "Failed to insert facebook post id")
+    console.error("Error inserting facebook post id:", error)
+    throw error
   }
 
   return fbPostRecord.id as string
@@ -149,7 +147,7 @@ export const insertMediaId = async (
     .insert({ id: mediaId, fb_post_id: fbPostRecordId })
 
   if (error) {
-    console.error("Error inserting facebook media:", error.message)
-    throw new Error(error.message || "Failed to insert facebook media")
+    console.error("Error inserting facebook media:", error)
+    throw error
   }
 }

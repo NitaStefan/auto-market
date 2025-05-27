@@ -40,3 +40,14 @@ export const getAddCarButtonLabel = (
       return `Postează pe platformă${postOnFb ? " și pe Facebook" : ""}`
   }
 }
+
+export const handleServerError = (
+  context: string,
+  error: unknown
+): { success: false; message: string } => {
+  console.error(`❌ CONTEXT: ${context}`, error)
+  return {
+    success: false,
+    message: `A apărut o eroare neașteptată la ${context}`,
+  }
+}

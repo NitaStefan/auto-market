@@ -1,6 +1,6 @@
 "use server"
 
-import { Masina, MasinaRecord } from "@/types"
+import { Masina, MasinaRecord } from "@/types/app-types"
 import { createClient } from "@/utils/supabase/server"
 import { revalidatePath } from "next/cache"
 import {
@@ -14,12 +14,17 @@ import {
   insertFbPostRecord,
   insertMediaId,
 } from "./action-steps"
+import { handleServerError } from "@/utils/utils"
+import {
+  AddCarResult,
+  AddFacebookPostDataResult,
+} from "@/types/server-responses"
 
 export const addCar = async (
   car: Masina,
   images: File[],
   revalidate: boolean
-) => {
+): Promise<AddCarResult> => {
   try {
     const supabase = await createClient()
 
@@ -34,15 +39,10 @@ export const addCar = async (
 
     return {
       success: true,
-      message: "Car and images added successfully",
       carId: carId,
     }
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error ? error.message : "An unexpected error occurred",
-    }
+    return handleServerError("adăugarea anunțului", error)
   }
 }
 
@@ -64,13 +64,9 @@ export const updateCar = async (car: MasinaRecord, images: File[]) => {
 
     revalidatePath("/masini")
 
-    return { success: true, message: "Car and images updated successfully" }
+    return { success: true }
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error ? error.message : "An unexpected error occurred",
-    }
+    return handleServerError("modificarea anunțului", error)
   }
 }
 
@@ -87,13 +83,9 @@ export const deleteCar = async (
     ])
 
     revalidatePath("/masini")
-    return { success: true, message: "Car and images deleted successfully" }
+    return { success: true }
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error ? error.message : "An unexpected error occurred",
-    }
+    return handleServerError("ștergerea anunțului", error)
   }
 }
 
@@ -101,7 +93,7 @@ export const addFacebookPostData = async (
   carId: number,
   postId: string,
   mediaIds: string[]
-) => {
+): Promise<AddFacebookPostDataResult> => {
   try {
     const supabase = await createClient()
 
@@ -113,13 +105,9 @@ export const addFacebookPostData = async (
 
     revalidatePath("/masini")
 
-    return { success: true, message: "Facebook data inserted successfully" }
+    return { success: true }
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error ? error.message : "An unexpected error occurred",
-    }
+    return handleServerError("adăugarea datelor postării de pe Facebook", error)
   }
 }
 
@@ -129,18 +117,26 @@ export const getThenDeleteFacebookPostData = async (carId: number) => {
   try {
     const supabase = await createClient()
 
-    const { data, error } = await supabase
+    const { data, error: selectError } = await supabase
       .from("facebook_posts")
       .select("id, facebook_media (id)")
       .eq("car_id", carId)
       .single()
 
-    if (error) {
-      console.error("Error retrieving facebook data", error.message)
-      throw new Error(error.message || `Failed to retrieve facebook data`)
+    if (selectError) {
+      console.error("Error retrieving facebook data", selectError)
+      throw selectError
     }
 
-    await supabase.from("facebook_posts").delete().eq("car_id", carId)
+    const { error: deleteError } = await supabase
+      .from("facebook_posts")
+      .delete()
+      .eq("car_id", carId)
+
+    if (deleteError) {
+      console.error("Error deleting facebook data", deleteError)
+      throw deleteError
+    }
 
     return {
       success: true,
@@ -148,10 +144,9 @@ export const getThenDeleteFacebookPostData = async (carId: number) => {
       mediaIds: data.facebook_media.map(m => m.id as string),
     }
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error ? error.message : "An unexpected error occurred",
-    }
+    return handleServerError(
+      "obținerea/ștergerea datelor postării de pe Facebook",
+      error
+    )
   }
 }
