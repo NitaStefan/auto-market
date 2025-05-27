@@ -15,7 +15,11 @@ import {
   insertMediaId,
 } from "./action-steps"
 
-export const addCar = async (car: Masina, images: File[]) => {
+export const addCar = async (
+  car: Masina,
+  images: File[],
+  revalidate: boolean
+) => {
   try {
     const supabase = await createClient()
 
@@ -27,7 +31,7 @@ export const addCar = async (car: Masina, images: File[]) => {
       insertCarImagesPaths(supabase, images.length, dbCar.id),
     ])
 
-    revalidatePath("/masini")
+    if (revalidate) revalidatePath("/masini")
 
     return {
       success: true,
@@ -107,6 +111,8 @@ export const addFacebookPostData = async (
     await Promise.all(
       mediaIds.map(mediaId => insertMediaId(supabase, fbPostRecordId, mediaId))
     )
+
+    revalidatePath("/masini")
 
     return { success: true, message: "Facebook data inserted successfully" }
   } catch (error) {

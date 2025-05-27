@@ -15,12 +15,17 @@ import {
 import { archivo } from "@/app/fonts"
 import CarPostFlow from "./car-post-flow/CarPostFlow"
 import { MasinaRecord } from "@/types"
+import { useState } from "react"
+import { DialogContext } from "@/lib/hooks/useDialog"
 
 const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
+  const [open, setOpen] = useState(false)
+  const closeDialog = () => setOpen(false)
+
   const addNewCar = !dbCar
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <Button className={archivo.className} asChild>
         <DialogTrigger>
           {addNewCar ? "Adaugă un anunț nou" : "Modifică postarea"}
@@ -34,7 +39,9 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[calc(100vh-200px)]">
-          <CarPostFlow dbCar={dbCar} />
+          <DialogContext.Provider value={{ closeDialog }}>
+            <CarPostFlow dbCar={dbCar} />
+          </DialogContext.Provider>
         </ScrollArea>
       </DialogContent>
     </Dialog>

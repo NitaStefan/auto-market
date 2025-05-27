@@ -3,20 +3,27 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { addCar, addFacebookPostData } from "@/lib/actions/app/actions"
 import { makeFacebookPost } from "@/lib/actions/facebook/actions"
+import { useDialog } from "@/lib/hooks/useDialog"
 import { Masina } from "@/types"
 import { getAddCarButtonLabel } from "@/utils/utils"
+import { LoaderCircle } from "lucide-react"
 import React, { useState } from "react"
 import { toast } from "sonner"
 
 const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
+  const { closeDialog } = useDialog()
   const [loadingState, setLoadingState] = useState<
     "idle" | "addingCar" | "postingFb" | "savingFbData" | "finished"
   >("idle")
   const [isPostCarChecked, setIsPostCarChecked] = useState(false)
 
-  const handleAddCar = async (car: Masina) => {
+  const handleAddCar = async () => {
     setLoadingState("addingCar")
-    const { success, message, carId } = await addCar(car, imageFiles)
+    const { success, message, carId } = await addCar(
+      car,
+      imageFiles,
+      !isPostCarChecked
+    )
 
     if (!success) toast.error(message || "Eroare la adăugare anunț")
 
@@ -53,7 +60,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   }
 
   const handleSubmit = async () => {
-    const carId = await handleAddCar(car)
+    const carId = await handleAddCar()
 
     if (isPostCarChecked && carId) {
       const { postId, mediaIds } = await handleFacebookPost(carId)
@@ -62,6 +69,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
     }
 
     setLoadingState("finished")
+    closeDialog()
   }
 
   return (
@@ -82,7 +90,14 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
           />
         </div>
       </div>
-      <Button onClick={handleSubmit} className="mt-8 w-full">
+      <Button
+        onClick={handleSubmit}
+        className="mt-8 w-full"
+        disabled={loadingState !== "idle"}
+      >
+        {loadingState !== "idle" && loadingState !== "finished" && (
+          <LoaderCircle className="mr-2 animate-spin" />
+        )}
         {getAddCarButtonLabel(loadingState, isPostCarChecked)}
       </Button>
     </>
