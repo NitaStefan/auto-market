@@ -26,12 +26,6 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
           {addNewCar ? "Adaugă un anunț nou" : "Modifică postarea"}
         </DialogTrigger>
       </Button>
-      {/* To be deleted */}
-      {!addNewCar && (
-        <p>
-          {dbCar.marca} {dbCar.model} - id:{dbCar.id}
-        </p>
-      )}
       <DialogContent className={`${archivo.className}`}>
         <DialogHeader>
           <DialogTitle>

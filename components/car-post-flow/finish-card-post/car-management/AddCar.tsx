@@ -4,11 +4,12 @@ import { Label } from "@/components/ui/label"
 import { addCar, addFacebookPostData } from "@/lib/actions/app/actions"
 import { makeFacebookPost } from "@/lib/actions/facebook/actions"
 import { Masina } from "@/types"
+import { getAddCarButtonLabel } from "@/utils/utils"
 import React, { useState } from "react"
 import { toast } from "sonner"
 
 const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
-  const [loaadingState, setLoadingState] = useState<
+  const [loadingState, setLoadingState] = useState<
     "idle" | "addingCar" | "postingFb" | "savingFbData" | "finished"
   >("idle")
   const [isPostCarChecked, setIsPostCarChecked] = useState(false)
@@ -82,8 +83,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
         </div>
       </div>
       <Button onClick={handleSubmit} className="mt-8 w-full">
-        Postează pe platformă {isPostCarChecked && " și pe facebook"}{" "}
-        <span className="text-xl pl-5">{loaadingState}</span>
+        {getAddCarButtonLabel(loadingState, isPostCarChecked)}
       </Button>
     </>
   )

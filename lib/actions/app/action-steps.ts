@@ -1,7 +1,6 @@
 import { Masina, MasinaRecord } from "@/types"
 import { SupabaseClient } from "@supabase/supabase-js"
 import { imagePathFormat } from "../../../utils/format-utils"
-import { createClient } from "@/utils/supabase/server"
 
 export const insertCarRecord = async (
   supabase: SupabaseClient<any, "public", any>,

@@ -16,6 +16,7 @@ export type Masina = {
   tip_combustibil?: (typeof tipCombustibilOptions)[number]
   detalii?: string
   car_images?: { path: string }[]
+  facebook_posts: { id?: string }
 }
 
 export type MasinaRecord = Masina & {

@@ -8,8 +8,11 @@ const Page = async () => {
 
   const { data: cars } = (await supabase.from("cars").select(`
     *,
-    car_images (path)
+    car_images (path),
+    facebook_posts (id)
   `)) as { data: MasinaRecord[] }
+
+  console.log("Fetched cars: ", cars)
 
   return (
     <>
@@ -19,6 +22,14 @@ const Page = async () => {
 
         {cars.map(car => (
           <div key={car.id} className="mb-8">
+            <p>
+              {car.marca} {car.model} - id:{car.id}
+              {car.facebook_posts?.id && (
+                <span className="text-lg font-medium text-blue-800 pl-2">
+                  (fb)
+                </span>
+              )}
+            </p>
             <CarDialog dbCar={car} />
 
             <div className="flex flex-wrap gap-4">

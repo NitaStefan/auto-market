@@ -27,7 +27,7 @@ const FinishCarPost = ({
       <ImagePreviews imageFiles={imageFiles} imageUrls={car?.car_images} />
 
       <p className="px-2 bg-blue-100 text-blue-700">
-        {car.post_id ? "Postat pe fb" : "Nepostat pe fb"}
+        {car.facebook_posts?.id ? "Postat pe fb" : "Nepostat pe fb"}
       </p>
       <DetailsTextarea
         detalii={car.detalii}

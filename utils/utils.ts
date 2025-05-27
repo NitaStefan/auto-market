@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"
 
 /**
  * Redirects to a specified path with an encoded message as a query parameter.
@@ -10,7 +10,33 @@ import { redirect } from "next/navigation";
 export function encodedRedirect(
   type: "error" | "success",
   path: string,
-  message: string,
+  message: string
 ) {
-  return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
+  return redirect(`${path}?${type}=${encodeURIComponent(message)}`)
+}
+
+// FROM ME:
+
+export const getAddCarButtonLabel = (
+  loaadingState:
+    | "idle"
+    | "addingCar"
+    | "postingFb"
+    | "savingFbData"
+    | "finished",
+  postOnFb: boolean
+) => {
+  switch (loaadingState) {
+    case "addingCar":
+      return "Se adaugă anunțul..."
+    case "postingFb":
+      return "Se postează pe Facebook..."
+    case "savingFbData":
+      return "Se salvează datele Facebook..."
+    case "finished":
+      return "Anunț adăugat cu succes!"
+    case "idle":
+    default:
+      return `Postează pe platformă${postOnFb ? " și pe Facebook" : ""}`
+  }
 }
