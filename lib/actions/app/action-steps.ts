@@ -4,7 +4,7 @@ import { imagePathFormat } from "../../../utils/format-utils"
 
 export const insertCarRecord = async (
   supabase: SupabaseClient<any, "public", any>,
-  car: Masina
+  car: Omit<Masina, "facebook_posts">
 ) => {
   const { data: dbCar, error } = await supabase
     .from("cars")
@@ -22,7 +22,7 @@ export const insertCarRecord = async (
 
 export const updateCarRecord = async (
   supabase: SupabaseClient<any, "public", any>,
-  car: Omit<MasinaRecord, "car_images">
+  car: Omit<MasinaRecord, "car_images" | "facebook_posts">
 ) => {
   const { error } = await supabase.from("cars").update(car).eq("id", car.id)
 

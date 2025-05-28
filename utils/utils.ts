@@ -1,3 +1,4 @@
+import { ModifyLoadingState } from "@/types/app-types"
 import { redirect } from "next/navigation"
 
 /**
@@ -34,14 +35,21 @@ export const getAddCarButtonLabel = (
   }
 }
 
-export const getModifyCarButtonLabel = (
-  loaadingState: "idle" | "deleting-fb-post" | "deleting-record"
-) => {
+export const getModifyCarButtonLabel = (loaadingState: ModifyLoadingState) => {
   switch (loaadingState) {
     case "deleting-fb-post":
       return "Se șterge anunțul de pe Facebook..."
     case "deleting-record":
       return "Se șterge anunțul de pe platformă..."
+    case "updating-record":
+      return "Se modifică anunțul de pe platformă..."
+    case "posting-fb":
+      return "Se postează pe Facebook..."
+    case "updating-post":
+      return "Se modifică postarea de pe Facebook..."
+    case "reposting-fb":
+      return "Se repostează pe Facebook..."
+
     case "idle":
     default:
       return "Finalizează"

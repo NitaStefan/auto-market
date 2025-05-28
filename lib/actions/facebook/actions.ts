@@ -1,6 +1,5 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
 import {
   deleteMedia,
   deletePost,
@@ -34,7 +33,10 @@ export const makeFacebookPost = async (
   }
 }
 
-export const updateFacebookPost = async (message: string, postId: string) => {
+export const updateFacebookPost = async (
+  postId: string,
+  message: string
+): Promise<SimpleResult> => {
   try {
     const res = await fetch(`https://graph.facebook.com/v22.0/${postId}`, {
       method: "POST",
@@ -49,7 +51,7 @@ export const updateFacebookPost = async (message: string, postId: string) => {
 
     if (!res.ok) throw new Error("Failed to update post")
 
-    return res.json()
+    return { success: true }
   } catch (error) {
     return handleServerError("actualizarea anunțului pe Facebook", error)
   }
@@ -57,8 +59,7 @@ export const updateFacebookPost = async (message: string, postId: string) => {
 
 export const deleteFacebookPost = async (
   postId: string,
-  mediaIds: string[],
-  revalidate: boolean
+  mediaIds: string[]
 ): Promise<SimpleResult> => {
   try {
     const deleteMediaPromises = mediaIds.map(mediaId => deleteMedia(mediaId))
@@ -66,7 +67,6 @@ export const deleteFacebookPost = async (
 
     await Promise.all([deletePostPromise, ...deleteMediaPromises])
 
-    if (revalidate) revalidatePath("/masini")
     return { success: true }
   } catch (error) {
     return handleServerError("ștergerea anunțului de pe Facebook", error)

@@ -1,5 +1,9 @@
 import { Button } from "@/components/ui/button"
-import { addCar, addFacebookPostData } from "@/lib/actions/app/actions"
+import {
+  addCar,
+  addFacebookPostData,
+  revalidateCarsPath,
+} from "@/lib/actions/app/actions"
 import { makeFacebookPost } from "@/lib/actions/facebook/actions"
 import { useDialog } from "@/lib/hooks/useDialog"
 import { Masina } from "@/types/app-types"
@@ -8,6 +12,7 @@ import { LoaderCircle } from "lucide-react"
 import React, { useState } from "react"
 import { toast } from "sonner"
 import LabeledCheckbox from "./LabeledCheckbox"
+import { formatFbMessage } from "@/utils/format-utils"
 
 const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   const { closeDialog } = useDialog()
@@ -18,7 +23,8 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
 
   const handleAddCar = async () => {
     setLoadingState("adding-car")
-    const res = await addCar(car, imageFiles, !isPostCarChecked)
+    const { facebook_posts, ...carRows } = car
+    const res = await addCar(carRows, imageFiles)
 
     if (!res.success) throw new Error(res.message)
 
@@ -27,8 +33,9 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
 
   const handleFacebookPost = async (carId: number) => {
     setLoadingState("posting-fb")
-    const postMessage = `${car.marca}, ${car.model}\n - ${car.tip}`
+    const postMessage = formatFbMessage(car)
 
+    //TODO: file names of the images must be unique
     const res = await makeFacebookPost(postMessage, carId, imageFiles.length)
 
     if (!res.success) throw new Error(res.message)
@@ -56,6 +63,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
         await handleAddFacebookPostData(carId, postId, mediaIds)
       }
 
+      await revalidateCarsPath()
       toast.success("Anunț adăugat cu succes")
     } catch (error) {
       toast.error(
@@ -72,7 +80,8 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
         labelFor="facebook-post"
         checked={isPostCarChecked}
         onChange={checked => setIsPostCarChecked(checked === true)}
-        label="Postează și pe facebook"
+        label="Postează și pe Facebook"
+        icon="facebook"
       />
       <Button
         onClick={handleSubmit}

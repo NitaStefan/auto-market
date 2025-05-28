@@ -65,6 +65,7 @@ const CarSpecification = ({
         id: initCar?.id,
         detalii: initCar?.detalii,
         car_images: initCar?.car_images,
+        facebook_posts: { id: initCar?.facebook_posts?.id },
       })
     else setErrors(errors)
   }

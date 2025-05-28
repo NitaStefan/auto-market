@@ -18,13 +18,13 @@ import { handleServerError } from "@/utils/utils"
 import {
   AddCarResult,
   GetAndDeleteFacebookPostDataResult,
+  GetFacebookPostIdResult,
   SimpleResult,
 } from "@/types/server-responses"
 
 export const addCar = async (
-  car: Masina,
-  images: File[],
-  revalidate: boolean
+  car: Omit<Masina, "facebook_posts">,
+  images: File[]
 ): Promise<AddCarResult> => {
   try {
     const supabase = await createClient()
@@ -35,8 +35,6 @@ export const addCar = async (
       uploadCarImages(supabase, images, carId),
       insertCarImagesPaths(supabase, images.length, carId),
     ])
-
-    if (revalidate) revalidatePath("/masini")
 
     return {
       success: true,
@@ -54,19 +52,17 @@ export const updateCar = async (
   try {
     const supabase = await createClient()
 
-    const { car_images, ...carWithoutImages } = car
+    const { car_images, facebook_posts, ...carRows } = car
 
     if (images.length !== 0) {
       await Promise.all([
         removeCarImages(supabase, car_images),
-        deleteCarImagesPaths(supabase, car.id),
         uploadCarImages(supabase, images, car.id),
+        deleteCarImagesPaths(supabase, car.id),
         insertCarImagesPaths(supabase, images.length, car.id),
-        updateCarRecord(supabase, carWithoutImages),
+        updateCarRecord(supabase, carRows),
       ])
-    } else await updateCarRecord(supabase, carWithoutImages)
-
-    revalidatePath("/masini")
+    } else await updateCarRecord(supabase, carRows)
 
     return { success: true }
   } catch (error) {
@@ -86,7 +82,6 @@ export const deleteCar = async (
       deleteCarRecord(supabase, carId),
     ])
 
-    revalidatePath("/masini")
     return { success: true }
   } catch (error) {
     return handleServerError("ștergerea anunțului", error)
@@ -106,8 +101,6 @@ export const addFacebookPostData = async (
     await Promise.all(
       mediaIds.map(mediaId => insertMediaId(supabase, fbPostRecordId, mediaId))
     )
-
-    revalidatePath("/masini")
 
     return { success: true }
   } catch (error) {
@@ -155,4 +148,35 @@ export const getThenDeleteFacebookPostData = async (
       error
     )
   }
+}
+
+export const getFacebookPostId = async (
+  carId: number
+): Promise<GetFacebookPostIdResult> => {
+  try {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+      .from("facebook_posts")
+      .select("id")
+      .eq("car_id", carId)
+      .single()
+
+    if (error) {
+      console.error("Error retrieving facebook data", error)
+      throw error
+    }
+
+    return {
+      success: true,
+      postId: data.id as string,
+    }
+  } catch (error) {
+    return handleServerError("obținerea postării de pe Facebook", error)
+  }
+}
+
+// REVALIDATE
+export async function revalidateCarsPath() {
+  revalidatePath("/masini")
 }

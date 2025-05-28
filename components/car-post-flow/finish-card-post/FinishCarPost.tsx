@@ -38,8 +38,6 @@ const FinishCarPost = ({
       ) : (
         <AddCar car={car} imageFiles={imageFiles} />
       )}
-
-      <pre className="text-sm">{JSON.stringify(car, null, 2)}</pre>
     </div>
   )
 }

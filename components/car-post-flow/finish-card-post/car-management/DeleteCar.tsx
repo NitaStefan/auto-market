@@ -1,40 +1,51 @@
+import { cn } from "@/lib/utils"
 import LabeledCheckbox from "./LabeledCheckbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
 
 const DeleteCar = ({
+  disable,
   deleteRecord,
   handleOnRecordDeleteChange,
   isOnFb,
   deleteFbPost,
-  handleOnFbPostDeleteChange,
+  handleOnPostDeleteChange,
 }: {
+  disable: boolean
   deleteRecord: boolean
   handleOnRecordDeleteChange: (checked: CheckedState) => void
   isOnFb: boolean
   deleteFbPost: boolean
-  handleOnFbPostDeleteChange: (checked: CheckedState) => void
+  handleOnPostDeleteChange: (checked: CheckedState) => void
 }) => {
   return (
     <>
-      <div className="flex gap-1">
+      <div
+        className={cn(
+          "flex gap-1",
+          disable && "pointer-events-none opacity-50"
+        )}
+      >
         <LabeledCheckbox
-          label="Sterge de pe platforma"
+          label="Șterge"
           labelFor="delete-record"
           checked={deleteRecord}
           onChange={handleOnRecordDeleteChange}
         />
         {isOnFb && (
           <LabeledCheckbox
-            label="Sterge de pe facebook"
+            label="Șterge"
             labelFor="delete-fb-post"
             checked={deleteFbPost}
-            onChange={handleOnFbPostDeleteChange}
+            onChange={handleOnPostDeleteChange}
+            icon="facebook"
           />
         )}
       </div>
-      <p className="text-xs text-gray-400">
-        * daca stergi de pe platforma, trebuie sa stergi si de pe facebook
-      </p>
+      {isOnFb && (
+        <p className="text-xs text-gray-400">
+          * dacă ștergi de pe platformă, trebuie să ștergi și de pe Facebook
+        </p>
+      )}
     </>
   )
 }
