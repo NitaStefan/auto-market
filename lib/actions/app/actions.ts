@@ -17,7 +17,8 @@ import {
 import { handleServerError } from "@/utils/utils"
 import {
   AddCarResult,
-  AddFacebookPostDataResult,
+  GetAndDeleteFacebookPostDataResult,
+  SimpleResult,
 } from "@/types/server-responses"
 
 export const addCar = async (
@@ -46,7 +47,10 @@ export const addCar = async (
   }
 }
 
-export const updateCar = async (car: MasinaRecord, images: File[]) => {
+export const updateCar = async (
+  car: MasinaRecord,
+  images: File[]
+): Promise<SimpleResult> => {
   try {
     const supabase = await createClient()
 
@@ -73,7 +77,7 @@ export const updateCar = async (car: MasinaRecord, images: File[]) => {
 export const deleteCar = async (
   carId: number,
   car_images: MasinaRecord["car_images"]
-) => {
+): Promise<SimpleResult> => {
   try {
     const supabase = await createClient()
 
@@ -93,7 +97,7 @@ export const addFacebookPostData = async (
   carId: number,
   postId: string,
   mediaIds: string[]
-): Promise<AddFacebookPostDataResult> => {
+): Promise<SimpleResult> => {
   try {
     const supabase = await createClient()
 
@@ -113,7 +117,9 @@ export const addFacebookPostData = async (
 
 //RETRIEVE
 
-export const getThenDeleteFacebookPostData = async (carId: number) => {
+export const getThenDeleteFacebookPostData = async (
+  carId: number
+): Promise<GetAndDeleteFacebookPostDataResult> => {
   try {
     const supabase = await createClient()
 

@@ -12,12 +12,12 @@ import LabeledCheckbox from "./LabeledCheckbox"
 const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   const { closeDialog } = useDialog()
   const [loadingState, setLoadingState] = useState<
-    "idle" | "addingCar" | "postingFb" | "savingFbData"
+    "idle" | "adding-car" | "posting-fb" | "saving-fb-data"
   >("idle")
   const [isPostCarChecked, setIsPostCarChecked] = useState(false)
 
   const handleAddCar = async () => {
-    setLoadingState("addingCar")
+    setLoadingState("adding-car")
     const res = await addCar(car, imageFiles, !isPostCarChecked)
 
     if (!res.success) throw new Error(res.message)
@@ -26,21 +26,14 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   }
 
   const handleFacebookPost = async (carId: number) => {
-    setLoadingState("postingFb")
+    setLoadingState("posting-fb")
+    const postMessage = `${car.marca}, ${car.model}\n - ${car.tip}`
 
-    const postMessage = `${car.marca}, ${car.model} - ${car.tip}`
+    const res = await makeFacebookPost(postMessage, carId, imageFiles.length)
 
-    //TODO: change logic of error handling
-    const { success, message, postId, mediaIds } = await makeFacebookPost(
-      postMessage,
-      carId,
-      imageFiles.length
-    )
+    if (!res.success) throw new Error(res.message)
 
-    if (!success || !postId || !mediaIds)
-      throw new Error(message || "Eroare la postare pe facebook")
-
-    return { postId, mediaIds }
+    return { postId: res.postId, mediaIds: res.mediaIds }
   }
 
   const handleAddFacebookPostData = async (
@@ -48,13 +41,12 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
     postId: string,
     mediaIds: string[]
   ) => {
-    setLoadingState("savingFbData")
+    setLoadingState("saving-fb-data")
     const res = await addFacebookPostData(carId, postId, mediaIds)
 
     if (!res.success) throw new Error(res.message)
   }
 
-  //TODO: maybe combine all here
   const handleSubmit = async () => {
     try {
       const carId = await handleAddCar()

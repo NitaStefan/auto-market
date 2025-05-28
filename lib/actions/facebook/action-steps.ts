@@ -20,7 +20,7 @@ export const postMessage = async (message: string, mediaIds: string[]) => {
   const data = await res.json()
 
   if (!res.ok) {
-    console.error("Error posting message on facebook:", data.error.message)
+    console.error("Error posting message on facebook:", data.error)
     throw new Error(data.error.message || "Failed to post message on facebook")
   }
 
@@ -46,7 +46,7 @@ export const uploadMediaImage = async (carId: number, index: number) => {
   const data = await res.json()
 
   if (!res.ok) {
-    console.error("Error uploading image to Facebook:", data.error.message)
+    console.error("Error uploading image to Facebook:", data.error)
     throw new Error(data.error.message || "Failed to upload image to Facebook")
   }
 
@@ -63,7 +63,7 @@ export const deleteMedia = async (mediaId: string) => {
 
   if (!res.ok) {
     const data = await res.json()
-    console.error("Error deleting media from Facebook:", data.error.message)
+    console.error("Error deleting media from Facebook:", data.error)
     throw new Error(
       data.error.message || "Failed to delete media from Facebook"
     )
@@ -80,7 +80,7 @@ export const deletePost = async (postId: string) => {
 
   if (!res.ok) {
     const data = await res.json()
-    console.error("Error deleting Facebook post:", data.error.message)
+    console.error("Error deleting Facebook post:", data.error)
     throw new Error(data.error.message || "Failed to delete Facebook post")
   }
 }

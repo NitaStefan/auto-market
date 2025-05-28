@@ -18,26 +18,33 @@ export function encodedRedirect(
 // FROM ME:
 
 export const getAddCarButtonLabel = (
-  loaadingState:
-    | "idle"
-    | "addingCar"
-    | "postingFb"
-    | "savingFbData"
-    | "finished",
+  loaadingState: "idle" | "adding-car" | "posting-fb" | "saving-fb-data",
   postOnFb: boolean
 ) => {
   switch (loaadingState) {
-    case "addingCar":
+    case "adding-car":
       return "Se adaugă anunțul..."
-    case "postingFb":
+    case "posting-fb":
       return "Se postează pe Facebook..."
-    case "savingFbData":
+    case "saving-fb-data":
       return "Se salvează datele Facebook..."
-    case "finished":
-      return "Anunț adăugat cu succes!"
     case "idle":
     default:
       return `Postează pe platformă${postOnFb ? " și pe Facebook" : ""}`
+  }
+}
+
+export const getModifyCarButtonLabel = (
+  loaadingState: "idle" | "deleting-fb-post" | "deleting-record"
+) => {
+  switch (loaadingState) {
+    case "deleting-fb-post":
+      return "Se șterge anunțul de pe Facebook..."
+    case "deleting-record":
+      return "Se șterge anunțul de pe platformă..."
+    case "idle":
+    default:
+      return "Finalizează"
   }
 }
 

@@ -5,13 +5,7 @@ type ServiceError = {
 
 export type AddCarResult = { success: true; carId: number } | ServiceError
 
-export type AddFacebookPostDataResult = { success: true } | ServiceError
-
-//TODO: Check the types from below
-
-export type UpdateCarResult = { success: true } | ServiceError
-
-export type DeleteCarResult = { success: true } | ServiceError
+export type SimpleResult = { success: true } | ServiceError
 
 export type GetAndDeleteFacebookPostDataResult =
   | {
@@ -19,4 +13,8 @@ export type GetAndDeleteFacebookPostDataResult =
       postId: string
       mediaIds: string[]
     }
+  | ServiceError
+
+export type MakeFacebookPostResult =
+  | { success: true; postId: string; mediaIds: string[] }
   | ServiceError

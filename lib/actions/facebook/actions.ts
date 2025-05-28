@@ -7,12 +7,14 @@ import {
   postMessage,
   uploadMediaImage,
 } from "./action-steps"
+import { handleServerError } from "@/utils/utils"
+import { MakeFacebookPostResult, SimpleResult } from "@/types/server-responses"
 
 export const makeFacebookPost = async (
   message: string,
   carId: number,
   numberOfImages: number
-) => {
+): Promise<MakeFacebookPostResult> => {
   try {
     const imageUploadPromises = Array.from(
       { length: numberOfImages },
@@ -24,43 +26,40 @@ export const makeFacebookPost = async (
 
     return {
       success: true,
-      message: "Post created successfully",
       postId,
       mediaIds,
     }
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : "A apărut o eroare neașteptată. Încearcă din nou.",
-    }
+    return handleServerError("postarea anunțului pe Facebook", error)
   }
 }
 
 export const updateFacebookPost = async (message: string, postId: string) => {
-  const res = await fetch(`https://graph.facebook.com/v22.0/${postId}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
-    },
-    body: JSON.stringify({
-      message,
-    }),
-  })
+  try {
+    const res = await fetch(`https://graph.facebook.com/v22.0/${postId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+        message,
+      }),
+    })
 
-  if (!res.ok) throw new Error("Failed to update post")
+    if (!res.ok) throw new Error("Failed to update post")
 
-  return res.json()
+    return res.json()
+  } catch (error) {
+    return handleServerError("actualizarea anunțului pe Facebook", error)
+  }
 }
 
 export const deleteFacebookPost = async (
   postId: string,
   mediaIds: string[],
   revalidate: boolean
-) => {
+): Promise<SimpleResult> => {
   try {
     const deleteMediaPromises = mediaIds.map(mediaId => deleteMedia(mediaId))
     const deletePostPromise = deletePost(postId)
@@ -70,10 +69,6 @@ export const deleteFacebookPost = async (
     if (revalidate) revalidatePath("/masini")
     return { success: true }
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error ? error.message : "An unexpected error occurred",
-    }
+    return handleServerError("ștergerea anunțului de pe Facebook", error)
   }
 }
