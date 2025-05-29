@@ -21,6 +21,7 @@ import {
   GetFacebookPostIdResult,
   SimpleResult,
 } from "@/types/server-responses"
+import { versionOf } from "@/utils/format-utils"
 
 export const addCar = async (
   car: Omit<Masina, "facebook_posts">,
@@ -55,11 +56,17 @@ export const updateCar = async (
     const { car_images, facebook_posts, ...carRows } = car
 
     if (images.length !== 0) {
+      const version = versionOf(car_images[0].path) + 1
+
+      const replaceImagePaths = async () => {
+        await deleteCarImagesPaths(supabase, car.id)
+        await insertCarImagesPaths(supabase, images.length, car.id, version)
+      }
+
       await Promise.all([
         removeCarImages(supabase, car_images),
-        uploadCarImages(supabase, images, car.id),
-        deleteCarImagesPaths(supabase, car.id),
-        insertCarImagesPaths(supabase, images.length, car.id),
+        uploadCarImages(supabase, images, car.id, version),
+        replaceImagePaths(),
         updateCarRecord(supabase, carRows),
       ])
     } else await updateCarRecord(supabase, carRows)

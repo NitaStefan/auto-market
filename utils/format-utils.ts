@@ -7,10 +7,14 @@ export const formatLabel = (text: string) => {
   return text.replace(/_/g, " ").replace(/^\w/, c => c.toUpperCase())
 }
 
-export const imagePathFormat = (carId: number, index: number) => {
-  return `masina-${carId}/poza-${index + 1}`
+export const imagePathFormat = (carId: number, index: number, version = 0) => {
+  return `masina-${carId}/poza-${index + 1}.${version}`
 }
 
 export const formatFbMessage = (car: Masina) => {
   return `${car.marca}, ${car.model}\n - ${car.tip}`
+}
+
+export const versionOf = (path: string) => {
+  return Number(path.split(".").pop())
 }

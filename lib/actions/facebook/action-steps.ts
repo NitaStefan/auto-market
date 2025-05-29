@@ -27,7 +27,11 @@ export const postMessage = async (message: string, mediaIds: string[]) => {
   return data.id as string
 }
 
-export const uploadMediaImage = async (carId: number, index: number) => {
+export const uploadMediaImage = async (
+  carId: number,
+  index: number,
+  version: number
+) => {
   const res = await fetch(
     `https://graph.facebook.com/v22.0/${process.env.FB_PAGE_ID}/photos`,
     {
@@ -37,7 +41,7 @@ export const uploadMediaImage = async (carId: number, index: number) => {
         Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
       },
       body: JSON.stringify({
-        url: `${CAR_IMAGES_BUCKET_URL}${imagePathFormat(carId, index)}`,
+        url: `${CAR_IMAGES_BUCKET_URL}${imagePathFormat(carId, index, version)}`,
         published: false,
       }),
     }

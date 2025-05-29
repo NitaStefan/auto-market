@@ -12,12 +12,13 @@ import { MakeFacebookPostResult, SimpleResult } from "@/types/server-responses"
 export const makeFacebookPost = async (
   message: string,
   carId: number,
-  numberOfImages: number
+  numberOfImages: number,
+  version = 0
 ): Promise<MakeFacebookPostResult> => {
   try {
     const imageUploadPromises = Array.from(
       { length: numberOfImages },
-      (_, index) => uploadMediaImage(carId, index)
+      (_, index) => uploadMediaImage(carId, index, version)
     )
     const mediaIds = await Promise.all(imageUploadPromises)
 

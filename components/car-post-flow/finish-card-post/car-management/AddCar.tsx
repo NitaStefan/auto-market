@@ -35,7 +35,6 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
     setLoadingState("posting-fb")
     const postMessage = formatFbMessage(car)
 
-    //TODO: file names of the images must be unique
     const res = await makeFacebookPost(postMessage, carId, imageFiles.length)
 
     if (!res.success) throw new Error(res.message)

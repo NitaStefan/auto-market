@@ -21,7 +21,7 @@ import { useDialog } from "@/lib/hooks/useDialog"
 import { toast } from "sonner"
 import { getModifyCarButtonLabel } from "@/utils/utils"
 import { LoaderCircle } from "lucide-react"
-import { formatFbMessage } from "@/utils/format-utils"
+import { formatFbMessage, versionOf } from "@/utils/format-utils"
 
 const ModifyPost = ({
   car,
@@ -59,19 +59,31 @@ const ModifyPost = ({
 
   // Update onChange handlers
   const handleOnRecordUpdateChange = (checked: CheckedState) => {
-    setUpdateRecord(checked === true)
+    const isChecked = checked === true
+    setUpdateRecord(isChecked)
+    if (!isChecked) {
+      setAddFbPost(false)
+      setUpdatePost(false)
+      setRepost(false)
+    }
   }
 
   const handleOnPostAddChange = (checked: CheckedState) => {
-    setAddFbPost(checked === true)
+    const isChecked = checked === true
+    setAddFbPost(isChecked)
+    if (isChecked) setUpdateRecord(true)
   }
 
   const handleOnRepostChange = (checked: CheckedState) => {
-    setRepost(checked === true)
+    const isChecked = checked === true
+    setRepost(isChecked)
+    if (isChecked) setUpdateRecord(true)
   }
 
   const handleOnPostUpdateChange = (checked: CheckedState) => {
-    setUpdatePost(checked === true)
+    const isChecked = checked === true
+    setUpdatePost(isChecked)
+    if (isChecked) setUpdateRecord(true)
   }
 
   // Call actions
@@ -85,10 +97,13 @@ const ModifyPost = ({
 
       if (addFbPost) {
         setLoadingState("posting-fb")
+        const newV = imageFiles.length > 0 ? 1 : 0
+
         const fbPostRes = await makeFacebookPost(
           formatFbMessage(car),
           car.id,
-          car.car_images.length
+          imageFiles.length || car.car_images.length,
+          versionOf(car.car_images[0].path) + newV
         )
         if (!fbPostRes.success) throw new Error(fbPostRes.message)
 
@@ -115,28 +130,37 @@ const ModifyPost = ({
       if (repost) {
         setLoadingState("reposting-fb")
 
-        const fbPostData = await getThenDeleteFacebookPostData(car.id)
-        if (!fbPostData.success) throw new Error(fbPostData.message)
+        const deleteFbPostPromise = async () => {
+          const fbPostData = await getThenDeleteFacebookPostData(car.id)
+          if (!fbPostData.success) throw new Error(fbPostData.message)
 
-        const delFbPostRes = await deleteFacebookPost(
-          fbPostData.postId,
-          fbPostData.mediaIds
-        )
-        if (!delFbPostRes.success) throw new Error(delFbPostRes.message)
+          const delFbPostRes = await deleteFacebookPost(
+            fbPostData.postId,
+            fbPostData.mediaIds
+          )
+          if (!delFbPostRes.success) throw new Error(delFbPostRes.message)
+        }
 
-        const addFbPostRes = await makeFacebookPost(
-          formatFbMessage(car),
-          car.id,
-          imageFiles.length || car.car_images.length
-        )
-        if (!addFbPostRes.success) throw new Error(addFbPostRes.message)
+        const postOnFbPromise = async () => {
+          const newV = imageFiles.length > 0 ? 1 : 0
 
-        const postDataRes = await addFacebookPostData(
-          car.id,
-          addFbPostRes.postId,
-          addFbPostRes.mediaIds
-        )
-        if (!postDataRes.success) throw new Error(postDataRes.message)
+          const addFbPostRes = await makeFacebookPost(
+            formatFbMessage(car),
+            car.id,
+            imageFiles.length || car.car_images.length,
+            versionOf(car.car_images[0].path) + newV
+          )
+          if (!addFbPostRes.success) throw new Error(addFbPostRes.message)
+
+          const postDataRes = await addFacebookPostData(
+            car.id,
+            addFbPostRes.postId,
+            addFbPostRes.mediaIds
+          )
+          if (!postDataRes.success) throw new Error(postDataRes.message)
+        }
+
+        await Promise.all([deleteFbPostPromise(), postOnFbPromise()])
       }
 
       await revalidateCarsPath()

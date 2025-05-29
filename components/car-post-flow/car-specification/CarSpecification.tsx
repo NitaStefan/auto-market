@@ -53,7 +53,7 @@ const CarSpecification = ({
 
     const errors = []
     if (!imageFiles.length && !initCar?.car_images)
-      errors.push("Pune măcar o poza")
+      errors.push("Pune măcar o poză")
     if (!carData.marca) errors.push("Marca este obligatorie")
     if (!carData.model) errors.push("Modelul este obligatoriu")
     if (tip === "vanzare" && !carData.pret)
