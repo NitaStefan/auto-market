@@ -32,77 +32,68 @@ const ModifyPost = ({
 }) => {
   const { closeDialog } = useDialog()
   const [loadingState, setLoadingState] = useState<ModifyLoadingState>("idle")
-  const [deleteRecord, setDeleteRecord] = useState(false)
-  const [deleteFbPost, setDeleteFbPost] = useState(false)
-  const [updateRecord, setUpdateRecord] = useState(false)
-  const [addFbPost, setAddFbPost] = useState(false)
-  const [updatePost, setUpdatePost] = useState(false)
-  const [repost, setRepost] = useState(false)
+
+  const [actions, setActions] = useState({
+    deleteRecord: false,
+    deleteFbPost: false,
+    updateRecord: false,
+    addFbPost: false,
+    updatePost: false,
+    repost: false,
+  })
 
   const isOnFacebook = !!car.facebook_posts?.id
 
-  const disableUpdate = deleteRecord || deleteFbPost
-  const disableDelete = updateRecord || addFbPost || repost || updatePost
+  const disableUpdate = actions.deleteRecord || actions.deleteFbPost
+  const disableDelete = actions.updateRecord
 
-  // Delete onChange handlers
-  const handleOnRecordDeleteChange = (checked: CheckedState) => {
+  const handleCheckboxChange = (
+    name: keyof typeof actions,
+    checked: CheckedState
+  ) => {
     const isChecked = checked === true
-    setDeleteRecord(isChecked)
-    if (isChecked && isOnFacebook) setDeleteFbPost(true)
-  }
 
-  const handleOnPostDeleteChange = (checked: CheckedState) => {
-    const isChecked = checked === true
-    setDeleteFbPost(isChecked)
-    if (!isChecked) setDeleteRecord(false)
-  }
+    setActions(prev => {
+      const updated = { ...prev, [name]: isChecked }
 
-  // Update onChange handlers
-  const handleOnRecordUpdateChange = (checked: CheckedState) => {
-    const isChecked = checked === true
-    setUpdateRecord(isChecked)
-    if (!isChecked) {
-      setAddFbPost(false)
-      setUpdatePost(false)
-      setRepost(false)
-    }
-  }
+      if (name === "deleteRecord" && isChecked && isOnFacebook)
+        updated.deleteFbPost = true
 
-  const handleOnPostAddChange = (checked: CheckedState) => {
-    const isChecked = checked === true
-    setAddFbPost(isChecked)
-    if (isChecked) setUpdateRecord(true)
-  }
+      if (name === "deleteFbPost" && !isChecked) updated.deleteRecord = false
 
-  const handleOnRepostChange = (checked: CheckedState) => {
-    const isChecked = checked === true
-    setRepost(isChecked)
-    if (isChecked) setUpdateRecord(true)
-  }
+      if (["addFbPost", "repost", "updatePost"].includes(name) && isChecked)
+        updated.updateRecord = true
 
-  const handleOnPostUpdateChange = (checked: CheckedState) => {
-    const isChecked = checked === true
-    setUpdatePost(isChecked)
-    if (isChecked) setUpdateRecord(true)
+      if (name === "updateRecord" && !isChecked)
+        Object.assign(updated, {
+          addFbPost: false,
+          updatePost: false,
+          repost: false,
+        })
+
+      return updated
+    })
   }
 
   // Call actions
   const handleUpdate = async () => {
     try {
-      if (updateRecord) {
+      if (actions.updateRecord) {
         setLoadingState("updating-record")
         const updateCarRes = await updateCar(car, imageFiles)
         if (!updateCarRes.success) throw new Error(updateCarRes.message)
       }
 
-      if (addFbPost) {
+      const newV = imageFiles.length > 0 ? 1 : 0
+      const imagesLength = imageFiles.length || car.car_images.length
+
+      if (actions.addFbPost) {
         setLoadingState("posting-fb")
-        const newV = imageFiles.length > 0 ? 1 : 0
 
         const fbPostRes = await makeFacebookPost(
           formatFbMessage(car),
           car.id,
-          imageFiles.length || car.car_images.length,
+          imagesLength,
           versionOf(car.car_images[0].path) + newV
         )
         if (!fbPostRes.success) throw new Error(fbPostRes.message)
@@ -115,7 +106,7 @@ const ModifyPost = ({
         if (!fbDataRes.success) throw new Error(fbDataRes.message)
       }
 
-      if (updatePost) {
+      if (actions.updatePost) {
         setLoadingState("updating-post")
         const postIdRes = await getFacebookPostId(car.id)
         if (!postIdRes.success) throw new Error(postIdRes.message)
@@ -127,7 +118,7 @@ const ModifyPost = ({
         if (!updatePostRes.success) throw new Error(updatePostRes.message)
       }
 
-      if (repost) {
+      if (actions.repost) {
         setLoadingState("reposting-fb")
 
         const deleteFbPostPromise = async () => {
@@ -142,12 +133,10 @@ const ModifyPost = ({
         }
 
         const postOnFbPromise = async () => {
-          const newV = imageFiles.length > 0 ? 1 : 0
-
           const addFbPostRes = await makeFacebookPost(
             formatFbMessage(car),
             car.id,
-            imageFiles.length || car.car_images.length,
+            imagesLength,
             versionOf(car.car_images[0].path) + newV
           )
           if (!addFbPostRes.success) throw new Error(addFbPostRes.message)
@@ -178,10 +167,10 @@ const ModifyPost = ({
     try {
       const promises: Promise<any>[] = []
 
-      if (deleteFbPost) {
+      if (actions.deleteFbPost) {
         promises.push(
           (async () => {
-            if (!deleteRecord) setLoadingState("deleting-fb-post")
+            if (!actions.deleteRecord) setLoadingState("deleting-fb-post")
 
             const fbPostData = await getThenDeleteFacebookPostData(car.id)
             if (!fbPostData.success) throw new Error(fbPostData.message)
@@ -195,7 +184,7 @@ const ModifyPost = ({
         )
       }
 
-      if (deleteRecord) {
+      if (actions.deleteRecord) {
         promises.push(
           (async () => {
             //since deleting record is faster, first show its message
@@ -203,7 +192,7 @@ const ModifyPost = ({
 
             const res = await deleteCar(car.id, car.car_images)
             if (!res.success) throw new Error(res.message)
-            if (deleteFbPost) setLoadingState("deleting-fb-post")
+            if (actions.deleteFbPost) setLoadingState("deleting-fb-post")
           })()
         )
       }
@@ -231,25 +220,36 @@ const ModifyPost = ({
       <div className="h-2 bg-gray-200 my-2"></div>
       <DeleteCar
         disable={disableDelete}
-        deleteRecord={deleteRecord}
-        handleOnRecordDeleteChange={handleOnRecordDeleteChange}
+        deleteRecord={actions.deleteRecord}
+        handleOnRecordDeleteChange={checked =>
+          handleCheckboxChange("deleteRecord", checked)
+        }
         isOnFb={isOnFacebook}
-        deleteFbPost={deleteFbPost}
-        handleOnPostDeleteChange={handleOnPostDeleteChange}
+        deleteFbPost={actions.deleteFbPost}
+        handleOnPostDeleteChange={checked =>
+          handleCheckboxChange("deleteFbPost", checked)
+        }
       />
-      {/* TODO: disable modify current post if there are new images  */}
       <UpdateCar
         disable={disableUpdate}
         disableUpdatePost={imageFiles.length !== 0}
         isOnFb={isOnFacebook}
-        updateRecord={updateRecord}
-        handleOnRecordUpdateChange={handleOnRecordUpdateChange}
-        addFbPost={addFbPost}
-        handleOnPostAddChange={handleOnPostAddChange}
-        repost={repost}
-        handleOnRepostChange={handleOnRepostChange}
-        updatePost={updatePost}
-        handleOnPostUpdateChange={handleOnPostUpdateChange}
+        updateRecord={actions.updateRecord}
+        handleOnRecordUpdateChange={checked =>
+          handleCheckboxChange("updateRecord", checked)
+        }
+        addFbPost={actions.addFbPost}
+        handleOnPostAddChange={checked =>
+          handleCheckboxChange("addFbPost", checked)
+        }
+        repost={actions.repost}
+        handleOnRepostChange={checked =>
+          handleCheckboxChange("repost", checked)
+        }
+        updatePost={actions.updatePost}
+        handleOnPostUpdateChange={checked =>
+          handleCheckboxChange("updatePost", checked)
+        }
       />
       <Button
         onClick={handleSubmit}

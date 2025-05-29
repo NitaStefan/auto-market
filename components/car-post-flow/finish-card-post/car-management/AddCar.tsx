@@ -21,45 +21,32 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   >("idle")
   const [isPostCarChecked, setIsPostCarChecked] = useState(false)
 
-  const handleAddCar = async () => {
-    setLoadingState("adding-car")
-    const { facebook_posts, ...carRows } = car
-    const res = await addCar(carRows, imageFiles)
-
-    if (!res.success) throw new Error(res.message)
-
-    return res.carId
-  }
-
-  const handleFacebookPost = async (carId: number) => {
-    setLoadingState("posting-fb")
-    const postMessage = formatFbMessage(car)
-
-    const res = await makeFacebookPost(postMessage, carId, imageFiles.length)
-
-    if (!res.success) throw new Error(res.message)
-
-    return { postId: res.postId, mediaIds: res.mediaIds }
-  }
-
-  const handleAddFacebookPostData = async (
-    carId: number,
-    postId: string,
-    mediaIds: string[]
-  ) => {
-    setLoadingState("saving-fb-data")
-    const res = await addFacebookPostData(carId, postId, mediaIds)
-
-    if (!res.success) throw new Error(res.message)
-  }
-
   const handleSubmit = async () => {
     try {
-      const carId = await handleAddCar()
+      setLoadingState("adding-car")
+      const { facebook_posts, ...carRows } = car
+      const addCarRes = await addCar(carRows, imageFiles)
+      if (!addCarRes.success) throw new Error(addCarRes.message)
 
       if (isPostCarChecked) {
-        const { postId, mediaIds } = await handleFacebookPost(carId)
-        await handleAddFacebookPostData(carId, postId, mediaIds)
+        setLoadingState("posting-fb")
+        const postMessage = formatFbMessage(car)
+
+        const fbPostRes = await makeFacebookPost(
+          postMessage,
+          addCarRes.carId,
+          imageFiles.length
+        )
+        if (!fbPostRes.success) throw new Error(fbPostRes.message)
+
+        setLoadingState("saving-fb-data")
+        const fbDataRes = await addFacebookPostData(
+          addCarRes.carId,
+          fbPostRes.postId,
+          fbPostRes.mediaIds
+        )
+
+        if (!fbDataRes.success) throw new Error(fbDataRes.message)
       }
 
       await revalidateCarsPath()
