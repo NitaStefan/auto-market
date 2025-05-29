@@ -8,7 +8,6 @@ import {
   SelectValue,
 } from "../../ui/select"
 import { Masina } from "@/types/app-types"
-import { archivo } from "@/app/fonts"
 
 const TipSelect = ({
   tip,
@@ -26,7 +25,7 @@ const TipSelect = ({
         <SelectTrigger className="w-full">
           <SelectValue placeholder="De vânzare sau dezmembrări?" />
         </SelectTrigger>
-        <SelectContent className={archivo.className}>
+        <SelectContent>
           <SelectItem value="vanzare">De vânzare</SelectItem>
           <SelectItem value="dezmembrari">Dezmembrări</SelectItem>
         </SelectContent>

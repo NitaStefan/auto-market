@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select"
-import { archivo } from "@/app/fonts"
 import { tipCombustibilOptions } from "@/utils/constants"
 import { formatLabel } from "@/utils/format-utils"
 
@@ -33,7 +32,7 @@ const TipCombustibilSelect = ({
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Alege tipul de combustibil" />
         </SelectTrigger>
-        <SelectContent className={archivo.className}>
+        <SelectContent>
           {tipCombustibilOptions.map(value => (
             <SelectItem key={value} value={value}>
               {formatLabel(value)}

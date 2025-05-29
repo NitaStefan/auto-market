@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/ui/sonner"
-import { oswald } from "./fonts"
+import { archivo, oswald } from "./fonts"
 import "./globals.css"
 
 const defaultUrl = process.env.VERCEL_URL
@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={oswald.className} suppressHydrationWarning>
+    <html lang="en" className={archivo.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
         <main>{children}</main>
         <Toaster />

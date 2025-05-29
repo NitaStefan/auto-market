@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select"
-import { archivo } from "@/app/fonts"
 import { formatLabel } from "@/utils/format-utils"
 import { euroPoluantOptions } from "@/utils/constants"
 
@@ -29,7 +28,7 @@ const EuroPoluantSelect = ({
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Alege euro poluant" />
         </SelectTrigger>
-        <SelectContent className={archivo.className}>
+        <SelectContent>
           {euroPoluantOptions.map(value => (
             <SelectItem key={value} value={value}>
               {formatLabel(value)}

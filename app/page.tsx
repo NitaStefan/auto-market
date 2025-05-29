@@ -1,7 +1,10 @@
-export default async function Home() {
+import FacebookOauth from "@/components/facebook/FacebookOauth"
+
+export default async function HomePage() {
   return (
     <>
-      <main className="flex-1 flex flex-col gap-6 px-4">{"Main Page"}</main>
+      <FacebookOauth />
+      <main className="flex-1 flex flex-col gap-6 px-4">Home Page</main>
     </>
   )
 }

@@ -8,6 +8,7 @@ import {
 } from "./action-steps"
 import { handleServerError } from "@/utils/utils"
 import { MakeFacebookPostResult, SimpleResult } from "@/types/server-responses"
+import { cookies } from "next/headers"
 
 export const makeFacebookPost = async (
   message: string,
@@ -72,4 +73,15 @@ export const deleteFacebookPost = async (
   } catch (error) {
     return handleServerError("ștergerea anunțului de pe Facebook", error)
   }
+}
+
+//AUTHORIZATION
+
+export const getFacebookPageAccessToken = async () => {
+  const cookieStore = await cookies()
+  cookieStore.set("simulate_fb_access_token", "cel mai prost token", {
+    httpOnly: true,
+    secure: true,
+    maxAge: 20,
+  })
 }

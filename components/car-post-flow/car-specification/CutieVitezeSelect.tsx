@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select"
-import { archivo } from "@/app/fonts"
 
 const CutieVitezeSelect = ({
   initCutieViteze,
@@ -27,7 +26,7 @@ const CutieVitezeSelect = ({
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Alege cutia de viteze" />
         </SelectTrigger>
-        <SelectContent className={archivo.className}>
+        <SelectContent>
           <SelectItem value="manuala">Manuală</SelectItem>
           <SelectItem value="automata">Automată</SelectItem>
         </SelectContent>

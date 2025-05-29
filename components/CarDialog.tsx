@@ -12,7 +12,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { archivo } from "@/app/fonts"
 import CarPostFlow from "./car-post-flow/CarPostFlow"
 import { MasinaRecord } from "@/types/app-types"
 import { useState } from "react"
@@ -26,12 +25,12 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button className={archivo.className} asChild>
+      <Button asChild>
         <DialogTrigger>
           {addNewCar ? "Adaugă un anunț nou" : "Modifică postarea"}
         </DialogTrigger>
       </Button>
-      <DialogContent className={`${archivo.className}`}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>
             {addNewCar ? "Adaugă un anunț nou" : "Modifică postarea"}
