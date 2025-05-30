@@ -11,6 +11,14 @@ import { MakeFacebookPostResult, SimpleResult } from "@/types/server-responses"
 import { cookies } from "next/headers"
 import { NGROK_BASE_URL } from "@/utils/constants"
 
+const getPageAccessToken = async () => {
+  const cookieStore = await cookies()
+  const pageAccessToken = cookieStore.get("page_access_token")
+  if (!pageAccessToken) throw Error("Page access token not found")
+
+  return pageAccessToken.value
+}
+
 export const makeFacebookPost = async (
   message: string,
   carId: number,
@@ -18,13 +26,15 @@ export const makeFacebookPost = async (
   version = 0
 ): Promise<MakeFacebookPostResult> => {
   try {
+    const pageAccessToken = await getPageAccessToken()
+
     const imageUploadPromises = Array.from(
       { length: numberOfImages },
-      (_, index) => uploadMediaImage(carId, index, version)
+      (_, index) => uploadMediaImage(carId, index, version, pageAccessToken)
     )
     const mediaIds = await Promise.all(imageUploadPromises)
 
-    const postId = await postMessage(message, mediaIds)
+    const postId = await postMessage(message, mediaIds, pageAccessToken)
 
     return {
       success: true,
@@ -41,11 +51,13 @@ export const updateFacebookPost = async (
   message: string
 ): Promise<SimpleResult> => {
   try {
+    const pageAccessToken = await getPageAccessToken()
+
     const res = await fetch(`https://graph.facebook.com/v22.0/${postId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+        Authorization: `Bearer ${pageAccessToken}`,
       },
       body: JSON.stringify({
         message,
@@ -65,8 +77,12 @@ export const deleteFacebookPost = async (
   mediaIds: string[]
 ): Promise<SimpleResult> => {
   try {
-    const deleteMediaPromises = mediaIds.map(mediaId => deleteMedia(mediaId))
-    const deletePostPromise = deletePost(postId)
+    const pageAccessToken = await getPageAccessToken()
+
+    const deleteMediaPromises = mediaIds.map(mediaId =>
+      deleteMedia(mediaId, pageAccessToken)
+    )
+    const deletePostPromise = deletePost(postId, pageAccessToken)
 
     await Promise.all([deletePostPromise, ...deleteMediaPromises])
 

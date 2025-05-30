@@ -13,7 +13,7 @@ const GettingAccessToken = ({ code }: { code?: string }) => {
     const getToken = async () => {
       if (!code) return
       // await getFacebookPageAccessToken(code)
-      // await setDummyPageAccessToken()
+      await setDummyPageAccessToken()
 
       setStatus("success")
     }

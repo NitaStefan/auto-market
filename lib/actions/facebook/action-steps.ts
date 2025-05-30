@@ -1,14 +1,18 @@
 import { CAR_IMAGES_BUCKET_URL } from "../../../utils/constants"
 import { imagePathFormat } from "../../../utils/format-utils"
 
-export const postMessage = async (message: string, mediaIds: string[]) => {
+export const postMessage = async (
+  message: string,
+  mediaIds: string[],
+  pageAccessToken: string
+) => {
   const res = await fetch(
     `https://graph.facebook.com/v22.0/${process.env.FB_PAGE_ID}/feed`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+        Authorization: `Bearer ${pageAccessToken}`,
       },
       body: JSON.stringify({
         message,
@@ -30,7 +34,8 @@ export const postMessage = async (message: string, mediaIds: string[]) => {
 export const uploadMediaImage = async (
   carId: number,
   index: number,
-  version: number
+  version: number,
+  pageAccessToken: string
 ) => {
   const res = await fetch(
     `https://graph.facebook.com/v22.0/${process.env.FB_PAGE_ID}/photos`,
@@ -38,7 +43,7 @@ export const uploadMediaImage = async (
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+        Authorization: `Bearer ${pageAccessToken}`,
       },
       body: JSON.stringify({
         url: `${CAR_IMAGES_BUCKET_URL}${imagePathFormat(carId, index, version)}`,
@@ -57,11 +62,11 @@ export const uploadMediaImage = async (
   return data.id as string
 }
 
-export const deleteMedia = async (mediaId: string) => {
+export const deleteMedia = async (mediaId: string, pageAccessToken: string) => {
   const res = await fetch(`https://graph.facebook.com/v22.0/${mediaId}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${pageAccessToken}`,
     },
   })
 
@@ -74,11 +79,11 @@ export const deleteMedia = async (mediaId: string) => {
   }
 }
 
-export const deletePost = async (postId: string) => {
+export const deletePost = async (postId: string, pageAccessToken: string) => {
   const res = await fetch(`https://graph.facebook.com/v22.0/${postId}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${process.env.FB_PAGE_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${pageAccessToken}`,
     },
   })
 
