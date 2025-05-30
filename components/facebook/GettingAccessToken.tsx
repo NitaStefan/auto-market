@@ -1,14 +1,20 @@
 "use client"
 
-import { getFacebookPageAccessToken } from "@/lib/actions/facebook/actions"
+import {
+  getFacebookPageAccessToken,
+  setDummyPageAccessToken,
+} from "@/lib/actions/facebook/actions"
 import React, { useEffect, useState } from "react"
 
-const GettingAccessToken = () => {
+const GettingAccessToken = ({ code }: { code?: string }) => {
   const [status, setStatus] = useState("pending")
 
   useEffect(() => {
     const getToken = async () => {
-      await getFacebookPageAccessToken()
+      if (!code) return
+      // await getFacebookPageAccessToken(code)
+      // await setDummyPageAccessToken()
+
       setStatus("success")
     }
 

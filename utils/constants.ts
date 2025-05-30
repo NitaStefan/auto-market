@@ -32,4 +32,4 @@ export const CAR_IMAGES_BUCKET_URL =
 
 //for facebook oauth
 export const SCOPES = "pages_manage_posts,pages_read_engagement,pages_show_list"
-export const NGROK_BASE_URL = "https://78a6-188-27-128-98.ngrok-free.app/"
+export const NGROK_BASE_URL = "https://b256-188-27-128-98.ngrok-free.app/"

@@ -1,6 +1,8 @@
 import { Toaster } from "@/components/ui/sonner"
 import { archivo, oswald } from "./fonts"
 import "./globals.css"
+import FbAssociationChecker from "@/components/facebook/FbAssociationChecker"
+import { Suspense } from "react"
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,6 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={archivo.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
+        <Suspense>
+          <FbAssociationChecker />
+        </Suspense>
+
         <main>{children}</main>
         <Toaster />
         <footer></footer>
