@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { CheckedState } from "@radix-ui/react-checkbox"
 import Image from "next/image"
 import React from "react"
+import ActionIcon from "./ActionIcon"
 
 const LabeledCheckbox = ({
   checked,
@@ -23,13 +24,16 @@ const LabeledCheckbox = ({
   return (
     <div
       className={cn(
-        "flex items-center flex-1",
+        "flex-1 relative",
         disable && "pointer-events-none opacity-50"
       )}
     >
       <Label
         htmlFor={labelFor}
-        className="cursor-pointer flex items-center h-full border-3 py-2 pl-2 pr-8 rounded-md w-full text-center"
+        className={cn(
+          "cursor-pointer flex items-center h-full border-3 border-gray-200 py-2 pl-2 pr-8 rounded-md w-full text-center",
+          checked && "border-primary"
+        )}
       >
         <Image
           className="rounded-lg mr-1 self-center"
@@ -38,16 +42,24 @@ const LabeledCheckbox = ({
           height={22}
           alt={`${icon} logo`}
         />
-        <span className="mx-auto">{label}</span>
+        <div className="w-full">
+          <div className="flex justify-center gap-1 items-center">
+            <ActionIcon iconFor={labelFor} />
+            <span className="text-left">{label}</span>
+          </div>
+          {labelFor === "update-post" && (
+            <p className="text-xs text-txt-secondary-300 mt-[-2px]">
+              postarea actuală
+            </p>
+          )}
+        </div>
       </Label>
-      <div className="-translate-x-7">
-        <Checkbox
-          id={labelFor}
-          className="cursor-pointer"
-          checked={checked}
-          onCheckedChange={onChange}
-        />
-      </div>
+      <Checkbox
+        id={labelFor}
+        className="absolute cursor-pointer right-3 top-1/2 -translate-y-1/2"
+        checked={checked}
+        onCheckedChange={onChange}
+      />
     </div>
   )
 }

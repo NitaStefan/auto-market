@@ -30,7 +30,7 @@ const UpdateCar = ({
   return (
     <div
       className={cn(
-        "flex gap-1 pt-5",
+        "flex gap-3 pt-5",
         disable && "pointer-events-none opacity-50"
       )}
     >
@@ -43,15 +43,15 @@ const UpdateCar = ({
       {!isOnFb ? (
         <LabeledCheckbox
           label="Postează"
-          labelFor="add-post"
+          labelFor="post-facebook"
           checked={addFbPost}
           onChange={handleOnPostAddChange}
           icon="facebook"
         />
       ) : (
-        <div className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-3 flex-1">
           <LabeledCheckbox
-            label="Modifică postarea actuală"
+            label="Modifică"
             labelFor="update-post"
             checked={updatePost}
             onChange={handleOnPostUpdateChange}

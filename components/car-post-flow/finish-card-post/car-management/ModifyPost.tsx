@@ -153,7 +153,9 @@ const ModifyPost = ({
       }
 
       await revalidateCarsPath()
-      toast.success("Modificarea anunțului a avut succes")
+      toast.success(
+        `${actions.repost ? "Repostarea" : "Modificarea"} anunțului a avut succes`
+      )
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "A apărut o eroare necunoscută"
@@ -216,8 +218,7 @@ const ModifyPost = ({
   }
 
   return (
-    <div>
-      <div className="h-2 bg-gray-200 my-2"></div>
+    <>
       <DeleteCar
         disable={disableDelete}
         deleteRecord={actions.deleteRecord}
@@ -253,7 +254,7 @@ const ModifyPost = ({
       />
       <Button
         onClick={handleSubmit}
-        className="mt-5 w-full"
+        className="mt-5 w-full font-semibold"
         disabled={loadingState !== "idle" || (!disableUpdate && !disableDelete)}
       >
         {loadingState !== "idle" && (
@@ -261,7 +262,7 @@ const ModifyPost = ({
         )}
         {getModifyCarButtonLabel(loadingState)}
       </Button>
-    </div>
+    </>
   )
 }
 

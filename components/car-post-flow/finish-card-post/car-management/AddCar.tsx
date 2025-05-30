@@ -63,7 +63,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   return (
     <>
       <LabeledCheckbox
-        labelFor="facebook-post"
+        labelFor="post-facebook"
         checked={isPostCarChecked}
         onChange={checked => setIsPostCarChecked(checked === true)}
         label="Postează și pe Facebook"
@@ -71,7 +71,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
       />
       <Button
         onClick={handleSubmit}
-        className="mt-8 w-full"
+        className="mt-8 w-full font-semibold"
         disabled={loadingState !== "idle"}
       >
         {loadingState !== "idle" && (

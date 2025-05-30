@@ -33,9 +33,13 @@ const DetailsTextarea = ({
     </form>
   ) : (
     <div>
-      <p className="text-gray-400">- Componentul pentru detalii -</p>
       <p className="whitespace-pre">{detalii}</p>
-      <Button onClick={() => setIsAddingDetails(prev => !prev)}>
+      <Button
+        variant="secondary"
+        size="sm"
+        className="w-full h-8 mb-5"
+        onClick={() => setIsAddingDetails(prev => !prev)}
+      >
         {detalii ? "Modifică detaliile" : "Adaugă detalii"}
       </Button>
     </div>

@@ -21,7 +21,7 @@ const DeleteCar = ({
     <>
       <div
         className={cn(
-          "flex gap-1",
+          "flex gap-3",
           disable && "pointer-events-none opacity-50"
         )}
       >

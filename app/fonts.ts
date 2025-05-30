@@ -8,6 +8,6 @@ export const oswald = Oswald({
 
 export const archivo = Archivo({
   display: "swap",
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 })
