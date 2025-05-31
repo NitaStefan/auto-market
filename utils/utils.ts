@@ -1,5 +1,5 @@
-import { ModifyLoadingState } from "@/types/app-types"
-import { redirect } from "next/navigation"
+import { ModifyLoadingState } from "@/types/app-types";
+import { redirect } from "next/navigation";
 
 /**
  * Redirects to a specified path with an encoded message as a query parameter.
@@ -11,58 +11,63 @@ import { redirect } from "next/navigation"
 export function encodedRedirect(
   type: "error" | "success",
   path: string,
-  message: string
+  message: string,
 ) {
-  return redirect(`${path}?${type}=${encodeURIComponent(message)}`)
+  return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
 }
 
 // FROM ME:
 
 export const getAddCarButtonLabel = (
   loaadingState: "idle" | "adding-car" | "posting-fb" | "saving-fb-data",
-  postOnFb: boolean
+  postOnFb: boolean,
 ) => {
   switch (loaadingState) {
     case "adding-car":
-      return "Se adaugă anunțul..."
+      return "Se adaugă anunțul...";
     case "posting-fb":
-      return "Se postează pe Facebook..."
+      return "Se postează pe Facebook...";
     case "saving-fb-data":
-      return "Se salvează datele Facebook..."
+      return "Se salvează datele Facebook...";
     case "idle":
     default:
-      return `Postează pe platformă${postOnFb ? " și pe Facebook" : ""}`
+      return `Postează pe platformă${postOnFb ? " și pe Facebook" : ""}`;
   }
-}
+};
 
 export const getModifyCarButtonLabel = (loaadingState: ModifyLoadingState) => {
   switch (loaadingState) {
     case "deleting-fb-post":
-      return "Se șterge anunțul de pe Facebook..."
+      return "Se șterge anunțul de pe Facebook...";
     case "deleting-record":
-      return "Se șterge anunțul de pe platformă..."
+      return "Se șterge anunțul de pe platformă...";
     case "updating-record":
-      return "Se modifică anunțul de pe platformă..."
+      return "Se modifică anunțul de pe platformă...";
     case "posting-fb":
-      return "Se postează pe Facebook..."
+      return "Se postează pe Facebook...";
     case "updating-post":
-      return "Se modifică postarea de pe Facebook..."
+      return "Se modifică postarea de pe Facebook...";
     case "reposting-fb":
-      return "Se repostează pe Facebook..."
+      return "Se repostează pe Facebook...";
 
     case "idle":
     default:
-      return "Finalizează"
+      return "Finalizează";
   }
-}
+};
+
+export const convertCpToKw = (cp: number): number => {
+  const kW = cp * 0.7355;
+  return Math.round(kW);
+};
 
 export const handleServerError = (
   context: string,
-  error: unknown
+  error: unknown,
 ): { success: false; message: string } => {
-  console.error(`❌ CONTEXT: ${context}`, error)
+  console.error(`❌ CONTEXT: ${context}`, error);
   return {
     success: false,
     message: `A apărut o eroare neașteptată la ${context}`,
-  }
-}
+  };
+};

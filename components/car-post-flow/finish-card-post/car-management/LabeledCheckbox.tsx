@@ -13,6 +13,7 @@ const LabeledCheckbox = ({
   labelFor,
   icon = "app",
   disable = false,
+  isOnFb,
 }: {
   checked: boolean;
   onChange: (checked: CheckedState) => void;
@@ -20,6 +21,7 @@ const LabeledCheckbox = ({
   labelFor: string;
   icon?: "facebook" | "app";
   disable?: boolean;
+  isOnFb?: boolean;
 }) => {
   return (
     <div
@@ -50,6 +52,11 @@ const LabeledCheckbox = ({
           {labelFor === "update-post" && (
             <p className="text-txt-secondary-300 mt-[-2px] text-xs">
               postarea actuală
+            </p>
+          )}
+          {labelFor === "update-record" && isOnFb === false && (
+            <p className="text-txt-secondary-300 mt-[-2px] text-xs">
+              dacă e nevoie
             </p>
           )}
         </div>

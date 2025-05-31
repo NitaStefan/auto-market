@@ -1,4 +1,5 @@
 import { Masina } from "@/types/app-types";
+import { convertCpToKw } from "./utils";
 
 export const formatLabel = (text?: string) => {
   if (!text) return "";
@@ -28,7 +29,9 @@ export const formatFbMessage = (car: Masina) => {
     car.cutie_viteze
       ? `✔️ Cutie ${car.cutie_viteze === "automata" ? "automată" : "manuală"}`
       : null,
-    car.cai_putere ? `✔️ ${car.cai_putere} CP` : null,
+    car.cai_putere
+      ? `✔️ ${car.cai_putere} CP (${convertCpToKw(car.cai_putere)} kW)`
+      : null,
     car.euro_poluant ? `✔️ Normă Euro: ${formatLabel(car.euro_poluant)}` : null,
     car.detalii ? `\n${car.detalii}` : null,
   ];

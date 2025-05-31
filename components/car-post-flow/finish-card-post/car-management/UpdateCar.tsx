@@ -1,6 +1,6 @@
-import { CheckedState } from "@radix-ui/react-checkbox"
-import LabeledCheckbox from "./LabeledCheckbox"
-import { cn } from "@/lib/utils"
+import { CheckedState } from "@radix-ui/react-checkbox";
+import LabeledCheckbox from "./LabeledCheckbox";
+import { cn } from "@/lib/utils";
 
 const UpdateCar = ({
   disable,
@@ -15,23 +15,23 @@ const UpdateCar = ({
   updatePost,
   handleOnPostUpdateChange,
 }: {
-  disable: boolean
-  disableUpdatePost: boolean
-  isOnFb: boolean
-  updateRecord: boolean
-  handleOnRecordUpdateChange: (checked: CheckedState) => void
-  addFbPost: boolean
-  handleOnPostAddChange: (checked: CheckedState) => void
-  repost: boolean
-  handleOnRepostChange: (checked: CheckedState) => void
-  updatePost: boolean
-  handleOnPostUpdateChange: (checked: CheckedState) => void
+  disable: boolean;
+  disableUpdatePost: boolean;
+  isOnFb: boolean;
+  updateRecord: boolean;
+  handleOnRecordUpdateChange: (checked: CheckedState) => void;
+  addFbPost: boolean;
+  handleOnPostAddChange: (checked: CheckedState) => void;
+  repost: boolean;
+  handleOnRepostChange: (checked: CheckedState) => void;
+  updatePost: boolean;
+  handleOnPostUpdateChange: (checked: CheckedState) => void;
 }) => {
   return (
     <div
       className={cn(
         "flex gap-3 pt-5",
-        disable && "pointer-events-none opacity-50"
+        disable && "pointer-events-none opacity-50",
       )}
     >
       <LabeledCheckbox
@@ -39,6 +39,7 @@ const UpdateCar = ({
         labelFor="update-record"
         checked={updateRecord}
         onChange={handleOnRecordUpdateChange}
+        isOnFb={isOnFb}
       />
       {!isOnFb ? (
         <LabeledCheckbox
@@ -49,7 +50,7 @@ const UpdateCar = ({
           icon="facebook"
         />
       ) : (
-        <div className="flex flex-col gap-3 flex-1">
+        <div className="flex flex-1 flex-col gap-3">
           <LabeledCheckbox
             label="Modifică"
             labelFor="update-post"
@@ -69,7 +70,7 @@ const UpdateCar = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default UpdateCar
+export default UpdateCar;
