@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { FormEvent, useState } from "react"
-import { Input } from "../../ui/input"
-import { Button } from "../../ui/button"
-import { Label } from "../../ui/label"
-import { Masina } from "@/types/app-types"
-import ImagePreviews from "../../ImagePreviews"
-import TipSelect from "./TipSelect"
-import TipCombustibilSelect from "./TipCombustibilSelect"
-import CutieVitezeSelect from "./CutieVitezeSelect"
-import DisplayErrors from "./DisplayErrors"
-import EuroPoluantSelect from "./EuroPoluantSelect"
+import { FormEvent, useState } from "react";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { Label } from "../../ui/label";
+import { Masina } from "@/types/app-types";
+import ImagePreviews from "../../ImagePreviews";
+import TipSelect from "./TipSelect";
+import TipCombustibilSelect from "./TipCombustibilSelect";
+import CutieVitezeSelect from "./CutieVitezeSelect";
+import DisplayErrors from "./DisplayErrors";
+import EuroPoluantSelect from "./EuroPoluantSelect";
 
 type CarSpecificationProps = {
-  initCar?: Masina
-  imageFiles: File[]
-  handleCarSpecification: (car: Masina) => void
-  handleImageFiles: (imageFiles: File[]) => void
-}
+  initCar?: Masina;
+  imageFiles: File[];
+  handleCarSpecification: (car: Masina) => void;
+  handleImageFiles: (imageFiles: File[]) => void;
+};
 
 const CarSpecification = ({
   initCar,
@@ -25,13 +25,13 @@ const CarSpecification = ({
   handleCarSpecification,
   handleImageFiles,
 }: CarSpecificationProps) => {
-  const [tip, setTip] = useState<Masina["tip"]>(initCar?.tip ?? "vanzare")
-  const [errors, setErrors] = useState<string[]>([])
+  const [tip, setTip] = useState<Masina["tip"]>(initCar?.tip ?? "vanzare");
+  const [errors, setErrors] = useState<string[]>([]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData(e.currentTarget);
     const carData = {
       tip: formData.get("tip") as Masina["tip"],
       marca: (formData.get("marca") as string).trim(),
@@ -49,15 +49,15 @@ const CarSpecification = ({
         undefined,
       pret: Number(formData.get("pret")) || undefined,
       negociabil: formData.has("negociabil"),
-    }
+    };
 
-    const errors = []
+    const errors = [];
     if (!imageFiles.length && !initCar?.car_images)
-      errors.push("Pune măcar o poză")
-    if (!carData.marca) errors.push("Marca este obligatorie")
-    if (!carData.model) errors.push("Modelul este obligatoriu")
+      errors.push("Pune măcar o poză");
+    if (!carData.marca) errors.push("Marca este obligatorie");
+    if (!carData.model) errors.push("Modelul este obligatoriu");
     if (tip === "vanzare" && !carData.pret)
-      errors.push("Prețul este obligatoriu")
+      errors.push("Prețul este obligatoriu");
 
     if (errors.length === 0)
       handleCarSpecification({
@@ -66,9 +66,9 @@ const CarSpecification = ({
         detalii: initCar?.detalii,
         car_images: initCar?.car_images,
         facebook_posts: { id: initCar?.facebook_posts?.id },
-      })
-    else setErrors(errors)
-  }
+      });
+    else setErrors(errors);
+  };
 
   return (
     <form onSubmit={onSubmit} className="pr-4 pl-1">
@@ -80,9 +80,9 @@ const CarSpecification = ({
         type="file"
         multiple
         accept="image/*"
-        onChange={e => {
-          const files = Array.from(e.target.files || [])
-          handleImageFiles(files)
+        onChange={(e) => {
+          const files = Array.from(e.target.files || []);
+          handleImageFiles(files);
         }}
       />
 
@@ -92,7 +92,7 @@ const CarSpecification = ({
 
       {tip === "vanzare" && (
         <div className="flex gap-4">
-          <div className="grow">
+          <div className="relative grow">
             <Label htmlFor="pret">
               Prețul <span className="text-red-300">*</span>
             </Label>
@@ -100,14 +100,21 @@ const CarSpecification = ({
               id="pret"
               name="pret"
               type="number"
-              placeholder="Prețul"
+              placeholder="ex: 15000"
+              className="pl-9"
               defaultValue={initCar?.pret ?? ""}
             />
+            <span className="absolute bottom-4 left-2 border-r-2 pr-2 leading-none text-gray-600">
+              €
+            </span>
           </div>
+
           <div>
-            <Label htmlFor="negociabil">Negociabil?</Label>
+            <Label className="cursor-pointer" htmlFor="negociabil">
+              Negociabil?
+            </Label>
             <Input
-              className="h-6 mt-2"
+              className="mt-1 h-6 cursor-pointer"
               id="negociabil"
               name="negociabil"
               type="checkbox"
@@ -123,7 +130,7 @@ const CarSpecification = ({
       <Input
         id="marca"
         name="marca"
-        placeholder="Marca"
+        placeholder="ex: BMW"
         defaultValue={initCar?.marca ?? ""}
       />
 
@@ -133,7 +140,7 @@ const CarSpecification = ({
       <Input
         id="model"
         name="model"
-        placeholder="Modelul"
+        placeholder="ex: X5"
         defaultValue={initCar?.model ?? ""}
       />
 
@@ -142,7 +149,7 @@ const CarSpecification = ({
         type="number"
         id="an"
         name="an"
-        placeholder="Anul"
+        placeholder="ex: 2018"
         defaultValue={initCar?.an ?? ""}
       />
 
@@ -150,20 +157,26 @@ const CarSpecification = ({
       <Input
         id="motorizare"
         name="motorizare"
-        placeholder="Motorizarea"
+        placeholder="ex: 2.0 diesel"
         defaultValue={initCar?.motorizare ?? ""}
       />
 
       <TipCombustibilSelect initTipCombustibil={initCar?.tip_combustibil} />
 
-      <Label htmlFor="kilometraj">Kilometrajul</Label>
-      <Input
-        id="kilometraj"
-        type="number"
-        name="kilometraj"
-        placeholder="Kilometrajul"
-        defaultValue={initCar?.kilometraj ?? ""}
-      />
+      <div className="relative">
+        <Label htmlFor="kilometraj">Kilometrajul</Label>
+        <Input
+          id="kilometraj"
+          type="number"
+          name="kilometraj"
+          placeholder="ex: 135000"
+          className="pl-11"
+          defaultValue={initCar?.kilometraj ?? ""}
+        />
+        <span className="absolute bottom-2 left-2 border-r-2 pr-2 text-sm leading-none text-gray-600">
+          km
+        </span>
+      </div>
 
       <CutieVitezeSelect initCutieViteze={initCar?.cutie_viteze} />
 
@@ -172,7 +185,7 @@ const CarSpecification = ({
         type="number"
         id="cai_putere"
         name="cai_putere"
-        placeholder="Cai putere"
+        placeholder="ex: 190"
         defaultValue={initCar?.cai_putere ?? ""}
       />
 
@@ -180,9 +193,11 @@ const CarSpecification = ({
 
       <DisplayErrors errors={errors} />
 
-      <Button type="submit">Mai Departe</Button>
+      <Button className="w-full" type="submit">
+        Mai Departe
+      </Button>
     </form>
-  )
-}
+  );
+};
 
-export default CarSpecification
+export default CarSpecification;

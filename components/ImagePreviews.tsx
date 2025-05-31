@@ -1,32 +1,32 @@
-import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants"
-import { MasinaRecord } from "@/types/app-types"
-import React, { useEffect, useState } from "react"
+import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants";
+import { MasinaRecord } from "@/types/app-types";
+import React, { useEffect, useState } from "react";
 
 const ImagePreviews = ({
   imageFiles,
   imageUrls,
 }: {
-  imageFiles: File[]
-  imageUrls?: MasinaRecord["car_images"]
+  imageFiles: File[];
+  imageUrls?: MasinaRecord["car_images"];
 }) => {
-  const [previews, setPreviews] = useState<string[]>([])
+  const [previews, setPreviews] = useState<string[]>([]);
 
   useEffect(() => {
-    const urls = imageFiles.map(file => URL.createObjectURL(file))
-    setPreviews(urls)
+    const urls = imageFiles.map((file) => URL.createObjectURL(file));
+    setPreviews(urls);
 
-    return () => urls.forEach(url => URL.revokeObjectURL(url))
-  }, [imageFiles])
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, [imageFiles]);
 
   return (
-    <div className="grid grid-cols-3 gap-4 mt-2">
+    <div className="grid grid-cols-3 gap-4">
       {previews.length > 0
         ? previews.map((src, index) => (
             <img
               key={index}
               src={src}
               alt={`preview-${index}`}
-              className="w-full aspect-square object-cover rounded border"
+              className="aspect-square w-full rounded border object-cover"
             />
           ))
         : imageUrls?.map((image, index) => (
@@ -34,11 +34,11 @@ const ImagePreviews = ({
               key={index}
               src={CAR_IMAGES_BUCKET_URL + image.path}
               alt={`preview-${index}`}
-              className="w-full aspect-square object-cover rounded border"
+              className="aspect-square w-full rounded border object-cover"
             />
           ))}
     </div>
-  )
-}
+  );
+};
 
-export default ImagePreviews
+export default ImagePreviews;

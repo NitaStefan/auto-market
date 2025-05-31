@@ -50,7 +50,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
       }
 
       await revalidateCarsPath()
-      toast.success("Anunț adăugat cu succes")
+      toast.success("Anunțul a fost adăugat cu succes")
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "A apărut o eroare necunoscută"

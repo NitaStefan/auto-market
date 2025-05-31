@@ -1,39 +1,39 @@
-import { Masina } from "@/types/app-types"
-import React, { useState } from "react"
-import { Label } from "../../ui/label"
+import { Masina } from "@/types/app-types";
+import React, { useState } from "react";
+import { Label } from "../../ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../ui/select"
-import { tipCombustibilOptions } from "@/utils/constants"
-import { formatLabel } from "@/utils/format-utils"
+} from "../../ui/select";
+import { tipCombustibilOptions } from "@/utils/constants";
+import { formatLabel } from "@/utils/format-utils";
 
 const TipCombustibilSelect = ({
   initTipCombustibil,
 }: {
-  initTipCombustibil: Masina["tip_combustibil"]
+  initTipCombustibil: Masina["tip_combustibil"];
 }) => {
   const [tipCombustibil, setTipCombustibil] = useState(
-    initTipCombustibil ?? undefined
-  )
+    initTipCombustibil ?? undefined,
+  );
 
   return (
     <>
       <Label htmlFor="tip_combustibil">Tipul combustibilului</Label>
       <Select
         value={tipCombustibil}
-        onValueChange={value =>
+        onValueChange={(value) =>
           setTipCombustibil(value as Masina["tip_combustibil"])
         }
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger size="sm" className="mb-2 w-full">
           <SelectValue placeholder="Alege tipul de combustibil" />
         </SelectTrigger>
         <SelectContent>
-          {tipCombustibilOptions.map(value => (
+          {tipCombustibilOptions.map((value) => (
             <SelectItem key={value} value={value}>
               {formatLabel(value)}
             </SelectItem>
@@ -47,7 +47,7 @@ const TipCombustibilSelect = ({
         value={tipCombustibil ?? ""}
       />
     </>
-  )
-}
+  );
+};
 
-export default TipCombustibilSelect
+export default TipCombustibilSelect;

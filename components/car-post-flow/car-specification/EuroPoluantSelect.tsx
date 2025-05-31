@@ -1,35 +1,35 @@
-import { Masina } from "@/types/app-types"
-import React, { useState } from "react"
-import { Label } from "../../ui/label"
+import { Masina } from "@/types/app-types";
+import React, { useState } from "react";
+import { Label } from "../../ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../ui/select"
-import { formatLabel } from "@/utils/format-utils"
-import { euroPoluantOptions } from "@/utils/constants"
+} from "../../ui/select";
+import { formatLabel } from "@/utils/format-utils";
+import { euroPoluantOptions } from "@/utils/constants";
 
 const EuroPoluantSelect = ({
   initEuroPoluant,
 }: {
-  initEuroPoluant: Masina["euro_poluant"]
+  initEuroPoluant: Masina["euro_poluant"];
 }) => {
-  const [euroPoluant, setEuroPoluant] = useState(initEuroPoluant ?? undefined)
+  const [euroPoluant, setEuroPoluant] = useState(initEuroPoluant ?? undefined);
 
   return (
     <>
       <Label htmlFor="euro_poluant">Euro poluant</Label>
       <Select
         value={euroPoluant}
-        onValueChange={val => setEuroPoluant(val as Masina["euro_poluant"])}
+        onValueChange={(val) => setEuroPoluant(val as Masina["euro_poluant"])}
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger size="sm" className="mb-4 w-full">
           <SelectValue placeholder="Alege euro poluant" />
         </SelectTrigger>
         <SelectContent>
-          {euroPoluantOptions.map(value => (
+          {euroPoluantOptions.map((value) => (
             <SelectItem key={value} value={value}>
               {formatLabel(value)}
             </SelectItem>
@@ -43,7 +43,7 @@ const EuroPoluantSelect = ({
         value={euroPoluant ?? ""}
       />
     </>
-  )
-}
+  );
+};
 
-export default EuroPoluantSelect
+export default EuroPoluantSelect;
