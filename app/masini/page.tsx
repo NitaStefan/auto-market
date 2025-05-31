@@ -1,16 +1,9 @@
-import CarDialog from "@/components/CarDialog"
-import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants"
-import { MasinaRecord } from "@/types/app-types"
-import { createClient } from "@/utils/supabase/server"
+import CarDialog from "@/components/CarDialog";
+import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants";
+import { getCars } from "@/lib/actions/app/actions";
 
 const Page = async () => {
-  const supabase = await createClient()
-
-  const { data: cars } = (await supabase.from("cars").select(`
-    *,
-    car_images (path),
-    facebook_posts (id)
-  `)) as { data: MasinaRecord[] }
+  const cars = await getCars();
 
   return (
     <>
@@ -18,12 +11,12 @@ const Page = async () => {
       <div>
         <h1 className="text-2xl underline">Toate masinile din baza de date</h1>
 
-        {cars.map(car => (
+        {cars.map((car) => (
           <div key={car.id} className="mb-8">
             <p>
               {car.marca} {car.model} - id:{car.id}
               {car.facebook_posts?.id && (
-                <span className="text-lg font-medium text-blue-800 pl-2">
+                <span className="pl-2 text-lg font-medium text-blue-800">
                   (fb)
                 </span>
               )}
@@ -36,7 +29,7 @@ const Page = async () => {
                   key={index}
                   src={CAR_IMAGES_BUCKET_URL + image.path}
                   alt={`${car.marca} ${car.model}`}
-                  className="w-48 h-32 object-cover rounded-md"
+                  className="h-32 w-48 rounded-md object-cover"
                 />
               ))}
             </div>
@@ -46,7 +39,7 @@ const Page = async () => {
         <pre>{JSON.stringify(cars, null, 2)}</pre>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
