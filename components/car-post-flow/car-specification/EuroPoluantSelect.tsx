@@ -25,7 +25,7 @@ const EuroPoluantSelect = ({
         value={euroPoluant}
         onValueChange={(val) => setEuroPoluant(val as Masina["euro_poluant"])}
       >
-        <SelectTrigger size="sm" className="mb-4 w-full">
+        <SelectTrigger size="sm" className="mb-6 w-full">
           <SelectValue placeholder="Alege euro poluant" />
         </SelectTrigger>
         <SelectContent>

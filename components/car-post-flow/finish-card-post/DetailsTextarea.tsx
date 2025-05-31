@@ -1,35 +1,40 @@
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import React, { FormEvent, useState } from "react"
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { ListCheck, ListEnd, ListPlus } from "lucide-react";
+import React, { FormEvent, useState } from "react";
 
 const DetailsTextarea = ({
   handleSetDetails,
   detalii,
 }: {
-  handleSetDetails: (detalii: string) => void
-  detalii?: string
+  handleSetDetails: (detalii: string) => void;
+  detalii?: string;
 }) => {
-  const [isAddingDetails, setIsAddingDetails] = useState(false)
+  const [isAddingDetails, setIsAddingDetails] = useState(false);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const formData = new FormData(e.currentTarget)
-    handleSetDetails((formData.get("detalii") as string).trim())
-    setIsAddingDetails(false)
-  }
+    const formData = new FormData(e.currentTarget);
+    handleSetDetails((formData.get("detalii") as string).trim());
+    setIsAddingDetails(false);
+  };
 
   return isAddingDetails ? (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="mb-6">
       <Label htmlFor="detalii">Alte detalii</Label>
       <Textarea
+        className="mb-3 text-sm"
         placeholder="Adaugă și alte detalii..."
         id="detalii"
         name="detalii"
         defaultValue={detalii ?? ""}
       />
-      <Button type="submit">Salvează mesajul</Button>
+      <Button size="sm" type="submit" variant="secondary">
+        <ListCheck size={15} className="text-txt-secondary-600 mr-1" />
+        Salvează mesajul
+      </Button>
     </form>
   ) : (
     <div>
@@ -37,13 +42,18 @@ const DetailsTextarea = ({
       <Button
         variant="secondary"
         size="sm"
-        className="w-full h-8 mb-5"
-        onClick={() => setIsAddingDetails(prev => !prev)}
+        className="mb-6"
+        onClick={() => setIsAddingDetails((prev) => !prev)}
       >
+        {detalii ? (
+          <ListEnd size={15} className="text-txt-secondary-600 mr-1" />
+        ) : (
+          <ListPlus size={15} className="text-txt-secondary-600 mr-1" />
+        )}
         {detalii ? "Modifică detaliile" : "Adaugă detalii"}
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default DetailsTextarea
+export default DetailsTextarea;

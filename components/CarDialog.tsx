@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
   Dialog,
@@ -11,29 +11,29 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import CarPostFlow from "./car-post-flow/CarPostFlow"
-import { MasinaRecord } from "@/types/app-types"
-import { useState } from "react"
-import { DialogContext } from "@/lib/hooks/useDialog"
+} from "@/components/ui/dialog";
+import CarPostFlow from "./car-post-flow/CarPostFlow";
+import { MasinaRecord } from "@/types/app-types";
+import { useState } from "react";
+import { DialogContext } from "@/lib/hooks/useDialog";
 
 const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
-  const [open, setOpen] = useState(false)
-  const closeDialog = () => setOpen(false)
+  const [open, setOpen] = useState(false);
+  const closeDialog = () => setOpen(false);
 
-  const addNewCar = !dbCar
+  const addNewCar = !dbCar;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button asChild>
         <DialogTrigger>
-          {addNewCar ? "Adaugă un anunț nou" : "Modifică postarea"}
+          {addNewCar ? "Adaugă un anunț nou" : "Modifică anunțul"}
         </DialogTrigger>
       </Button>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {addNewCar ? "Adaugă un anunț nou" : "Modifică postarea"}
+            {addNewCar ? "Adaugă un anunț nou" : "Modifică anunțul"}
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
@@ -44,7 +44,7 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
         </ScrollArea>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default CarDialog
+export default CarDialog;

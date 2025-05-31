@@ -71,7 +71,7 @@ const CarSpecification = ({
   };
 
   return (
-    <form onSubmit={onSubmit} className="pr-4 pl-1">
+    <form onSubmit={onSubmit} className="pr-3.5 pl-1">
       <Label htmlFor="poze">
         Pozele <span className="text-red-300">*</span>
       </Label>
@@ -130,7 +130,7 @@ const CarSpecification = ({
       <Input
         id="marca"
         name="marca"
-        placeholder="ex: BMW"
+        placeholder="ex: Volkswagen"
         defaultValue={initCar?.marca ?? ""}
       />
 
@@ -140,7 +140,7 @@ const CarSpecification = ({
       <Input
         id="model"
         name="model"
-        placeholder="ex: X5"
+        placeholder="ex: Sharan"
         defaultValue={initCar?.model ?? ""}
       />
 
@@ -170,7 +170,7 @@ const CarSpecification = ({
           type="number"
           name="kilometraj"
           placeholder="ex: 135000"
-          className="pl-11"
+          className="pl-11.5"
           defaultValue={initCar?.kilometraj ?? ""}
         />
         <span className="absolute bottom-2 left-2 border-r-2 pr-2 text-sm leading-none text-gray-600">
@@ -193,7 +193,7 @@ const CarSpecification = ({
 
       <DisplayErrors errors={errors} />
 
-      <Button className="w-full" type="submit">
+      <Button className="w-full font-semibold" type="submit">
         Mai Departe
       </Button>
     </form>
