@@ -26,7 +26,7 @@ const DetailsTextarea = ({
       <Label htmlFor="detalii">Alte detalii</Label>
       <Textarea
         className="mb-3 text-sm"
-        placeholder="Adaugă și alte detalii..."
+        placeholder="ex: Mașină în stare foarte bună, recent schimbate consumabilele."
         id="detalii"
         name="detalii"
         defaultValue={detalii ?? ""}

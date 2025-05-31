@@ -157,7 +157,7 @@ const CarSpecification = ({
       <Input
         id="motorizare"
         name="motorizare"
-        placeholder="ex: 2.0 diesel"
+        placeholder="ex: 2.0 TDI"
         defaultValue={initCar?.motorizare ?? ""}
       />
 
