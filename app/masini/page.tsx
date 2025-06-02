@@ -11,7 +11,6 @@ const Page = async () => {
     <>
       <CarDialog />
       <div>
-        <h1 className="text-2xl underline">Toate masinile din baza de date</h1>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {cars.map((car) => (
             <Car car={car} key={car.id} />

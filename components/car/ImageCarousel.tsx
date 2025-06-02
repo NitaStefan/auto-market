@@ -38,8 +38,8 @@ const ImageCarousel = ({
   }, [api]);
 
   return (
-    <Carousel setApi={setApi}>
-      <CarouselContent className="group ml-0">
+    <Carousel className="group" setApi={setApi}>
+      <CarouselContent className="ml-0">
         {carImages.map((image) => (
           <CarouselItem key={image.path} className="relative h-60 w-full pl-0">
             <Image
@@ -52,7 +52,7 @@ const ImageCarousel = ({
         ))}
       </CarouselContent>
       <div
-        className={`absolute bottom-1 left-1 rounded-lg bg-black/20 px-1.5 py-0.5 text-xs text-white ${oswald.className}`}
+        className={`absolute bottom-1 left-1 rounded-lg bg-black/20 px-1.5 py-0.5 text-xs font-medium text-white ${oswald.className}`}
       >
         {current} / {count}
       </div>

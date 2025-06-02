@@ -42,3 +42,6 @@ export const formatFbMessage = (car: Masina) => {
 export const versionOf = (path: string) => {
   return Number(path.split(".").pop());
 };
+
+export const normalizeBrand = (brand: string) =>
+  brand.trim().toLowerCase().replace(/\s+/g, "-");

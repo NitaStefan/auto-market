@@ -29,10 +29,7 @@ const UpdateCar = ({
 }) => {
   return (
     <div
-      className={cn(
-        "flex gap-3 pt-5",
-        disable && "pointer-events-none opacity-50",
-      )}
+      className={cn("flex gap-3", disable && "pointer-events-none opacity-50")}
     >
       <LabeledCheckbox
         label="Modifică"

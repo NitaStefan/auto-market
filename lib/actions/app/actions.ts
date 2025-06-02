@@ -200,6 +200,24 @@ export const getCars = async () => {
   return cars;
 };
 
+export const getCarById = async (id: number) => {
+  const supabase = await createClientNoAuth();
+
+  const { data: car } = (await supabase
+    .from("cars")
+    .select(
+      `
+      *,
+      car_images (path),
+      facebook_posts (id)
+    `,
+    )
+    .eq("id", id)
+    .single()) as { data: MasinaRecord | null };
+
+  return car;
+};
+
 // REVALIDATE
 export async function revalidateCarsPath() {
   revalidatePath("/masini");

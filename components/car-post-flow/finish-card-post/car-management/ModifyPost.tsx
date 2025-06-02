@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { getModifyCarButtonLabel } from "@/utils/utils";
 import { LoaderCircle } from "lucide-react";
 import { formatFbMessage, versionOf } from "@/utils/format-utils";
+import ActionDivider from "./ActionDivider";
 
 const ModifyPost = ({
   car,
@@ -235,6 +236,7 @@ const ModifyPost = ({
           handleCheckboxChange("deleteFbPost", checked)
         }
       />
+      <ActionDivider />
       <UpdateCar
         disable={disableUpdate}
         disableUpdatePost={imageFiles.length !== 0}
