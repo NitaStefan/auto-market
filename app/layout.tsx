@@ -23,7 +23,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={archivo.className}>
       <body className="text-foreground bg-[#F5F5F5]">
-        {/* TODO: fix navbar (maybe max width of 100vw) */}
         <header className="fixed top-0 right-0 left-0 z-50 mx-auto w-full max-w-7xl">
           <Navbar />
         </header>
