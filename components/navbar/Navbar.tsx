@@ -18,7 +18,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="bg-background flex h-17 items-center justify-between rounded-b-sm px-6 shadow-xs">
+    <nav className="bg-background flex h-17 items-center justify-between rounded-b-sm px-6 shadow-sm">
       <div className="rounded-full border-3 p-1.5">
         <Image src="/logos/app.svg" alt="website logo" width={42} height={42} />
       </div>
@@ -35,7 +35,7 @@ const Navbar = () => {
         </PopoverTrigger>
         <PopoverContent
           onClick={() => setOpen(false)}
-          className="flex w-screen flex-col gap-4 rounded-t-none px-0"
+          className={`flex w-screen flex-col gap-4 rounded-t-none px-0 ${oswald.className}`}
         >
           <NavLink to="/masini" isMobile isActive={pathname === "/masini"} />
           <NavLink
