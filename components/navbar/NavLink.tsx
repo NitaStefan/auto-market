@@ -29,22 +29,12 @@ const NavLink = ({
         </>
       ) : (
         <>
-          {isActive ? (
-            <Image
-              src="/icons/tractari-active.svg"
-              alt="tractari icon"
-              width={18}
-              height={18}
-            />
-          ) : (
-            <Image
-              src="/icons/tractari.svg"
-              alt="tractari icon"
-              width={14}
-              height={14}
-            />
-          )}
-
+          <Image
+            src={`/icons/towing${isActive ? "-active" : ""}.svg`}
+            alt="tractari icon"
+            width={20}
+            height={20}
+          />
           <span>Tractări auto</span>
         </>
       )}

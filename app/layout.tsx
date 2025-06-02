@@ -21,12 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={archivo.className} suppressHydrationWarning>
+    <html lang="en" className={archivo.className}>
       <body className="text-foreground bg-[#F5F5F5]">
+        {/* TODO: fix navbar (maybe max width of 100vw) */}
         <header className="fixed top-0 right-0 left-0 z-50 mx-auto w-full max-w-7xl">
           <Navbar />
         </header>
-
         <main className="mx-auto max-w-7xl px-12 pt-20">
           {/* !!! THIS MAKES THE ROUTE DYNAMIC */}
           {/* <Suspense fallback={<div className="text-gray-500">Loading...</div>}>

@@ -1,8 +1,8 @@
-import React, { useState } from "react"
-import DeleteCar from "./DeleteCar"
-import UpdateCar from "./UpdateCar"
-import { MasinaRecord, ModifyLoadingState } from "@/types/app-types"
-import { Button } from "@/components/ui/button"
+import React, { useState } from "react";
+import DeleteCar from "./DeleteCar";
+import UpdateCar from "./UpdateCar";
+import { MasinaRecord, ModifyLoadingState } from "@/types/app-types";
+import { Button } from "@/components/ui/button";
 import {
   addFacebookPostData,
   deleteCar,
@@ -10,28 +10,28 @@ import {
   getThenDeleteFacebookPostData,
   revalidateCarsPath,
   updateCar,
-} from "@/lib/actions/app/actions"
-import { CheckedState } from "@radix-ui/react-checkbox"
+} from "@/lib/actions/app/actions";
+import { CheckedState } from "@radix-ui/react-checkbox";
 import {
   deleteFacebookPost,
   makeFacebookPost,
   updateFacebookPost,
-} from "@/lib/actions/facebook/actions"
-import { useDialog } from "@/lib/hooks/useDialog"
-import { toast } from "sonner"
-import { getModifyCarButtonLabel } from "@/utils/utils"
-import { LoaderCircle } from "lucide-react"
-import { formatFbMessage, versionOf } from "@/utils/format-utils"
+} from "@/lib/actions/facebook/actions";
+import { useDialog } from "@/lib/hooks/useDialog";
+import { toast } from "sonner";
+import { getModifyCarButtonLabel } from "@/utils/utils";
+import { LoaderCircle } from "lucide-react";
+import { formatFbMessage, versionOf } from "@/utils/format-utils";
 
 const ModifyPost = ({
   car,
   imageFiles,
 }: {
-  car: MasinaRecord
-  imageFiles: File[]
+  car: MasinaRecord;
+  imageFiles: File[];
 }) => {
-  const { closeDialog } = useDialog()
-  const [loadingState, setLoadingState] = useState<ModifyLoadingState>("idle")
+  const { closeDialog } = useDialog();
+  const [loadingState, setLoadingState] = useState<ModifyLoadingState>("idle");
 
   const [actions, setActions] = useState({
     deleteRecord: false,
@@ -40,194 +40,198 @@ const ModifyPost = ({
     addFbPost: false,
     updatePost: false,
     repost: false,
-  })
+  });
 
-  const isOnFacebook = !!car.facebook_posts?.id
+  const isOnFacebook = !!car.facebook_posts?.id;
 
-  const disableUpdate = actions.deleteRecord || actions.deleteFbPost
-  const disableDelete = actions.updateRecord
+  const disableUpdate = actions.deleteRecord || actions.deleteFbPost;
+  const disableDelete = actions.updateRecord;
 
   const handleCheckboxChange = (
     name: keyof typeof actions,
-    checked: CheckedState
+    checked: CheckedState,
   ) => {
-    const isChecked = checked === true
+    const isChecked = checked === true;
 
-    setActions(prev => {
-      const updated = { ...prev, [name]: isChecked }
+    setActions((prev) => {
+      const updated = { ...prev, [name]: isChecked };
 
       if (name === "deleteRecord" && isChecked && isOnFacebook)
-        updated.deleteFbPost = true
+        updated.deleteFbPost = true;
 
-      if (name === "deleteFbPost" && !isChecked) updated.deleteRecord = false
+      if (name === "deleteFbPost" && !isChecked) updated.deleteRecord = false;
 
       if (["addFbPost", "repost", "updatePost"].includes(name) && isChecked)
-        updated.updateRecord = true
+        updated.updateRecord = true;
 
       if (name === "updateRecord" && !isChecked)
         Object.assign(updated, {
           addFbPost: false,
           updatePost: false,
           repost: false,
-        })
+        });
 
-      return updated
-    })
-  }
+      return updated;
+    });
+  };
 
   // Call actions
   const handleUpdate = async () => {
     try {
       if (actions.updateRecord) {
-        setLoadingState("updating-record")
-        const updateCarRes = await updateCar(car, imageFiles)
-        if (!updateCarRes.success) throw new Error(updateCarRes.message)
+        setLoadingState("updating-record");
+        const updateCarRes = await updateCar(car, imageFiles);
+        if (!updateCarRes.success) throw new Error(updateCarRes.message);
       }
 
-      const newV = imageFiles.length > 0 ? 1 : 0
-      const imagesLength = imageFiles.length || car.car_images.length
+      const newV = imageFiles.length > 0 ? 1 : 0;
+      const imagesLength = imageFiles.length || car.car_images.length;
 
       if (actions.addFbPost) {
-        setLoadingState("posting-fb")
+        setLoadingState("posting-fb");
 
         const fbPostRes = await makeFacebookPost(
           formatFbMessage(car),
           car.id,
           imagesLength,
-          versionOf(car.car_images[0].path) + newV
-        )
-        if (!fbPostRes.success) throw new Error(fbPostRes.message)
+          versionOf(car.car_images[0].path) + newV,
+        );
+        if (!fbPostRes.success) throw new Error(fbPostRes.message);
 
         const fbDataRes = await addFacebookPostData(
           car.id,
           fbPostRes.postId,
-          fbPostRes.mediaIds
-        )
-        if (!fbDataRes.success) throw new Error(fbDataRes.message)
+          fbPostRes.mediaIds,
+        );
+        if (!fbDataRes.success) throw new Error(fbDataRes.message);
       }
 
       if (actions.updatePost) {
-        setLoadingState("updating-post")
-        const postIdRes = await getFacebookPostId(car.id)
-        if (!postIdRes.success) throw new Error(postIdRes.message)
+        setLoadingState("updating-post");
+        const postIdRes = await getFacebookPostId(car.id);
+        if (!postIdRes.success) throw new Error(postIdRes.message);
 
         const updatePostRes = await updateFacebookPost(
           postIdRes.postId,
-          formatFbMessage(car)
-        )
-        if (!updatePostRes.success) throw new Error(updatePostRes.message)
+          formatFbMessage(car),
+        );
+        if (!updatePostRes.success) throw new Error(updatePostRes.message);
       }
 
       if (actions.repost) {
-        setLoadingState("reposting-fb")
+        setLoadingState("reposting-fb");
 
         const deleteFbPostPromise = async () => {
-          const fbPostData = await getThenDeleteFacebookPostData(car.id)
-          if (!fbPostData.success) throw new Error(fbPostData.message)
+          const fbPostData = await getThenDeleteFacebookPostData(car.id);
+          if (!fbPostData.success) throw new Error(fbPostData.message);
 
           const delFbPostRes = await deleteFacebookPost(
             fbPostData.postId,
-            fbPostData.mediaIds
-          )
-          if (!delFbPostRes.success) throw new Error(delFbPostRes.message)
-        }
+            fbPostData.mediaIds,
+          );
+          if (!delFbPostRes.success) throw new Error(delFbPostRes.message);
+        };
 
         const postOnFbPromise = async () => {
           const addFbPostRes = await makeFacebookPost(
             formatFbMessage(car),
             car.id,
             imagesLength,
-            versionOf(car.car_images[0].path) + newV
-          )
-          if (!addFbPostRes.success) throw new Error(addFbPostRes.message)
+            versionOf(car.car_images[0].path) + newV,
+          );
+          if (!addFbPostRes.success) throw new Error(addFbPostRes.message);
 
           const postDataRes = await addFacebookPostData(
             car.id,
             addFbPostRes.postId,
-            addFbPostRes.mediaIds
-          )
-          if (!postDataRes.success) throw new Error(postDataRes.message)
-        }
+            addFbPostRes.mediaIds,
+          );
+          if (!postDataRes.success) throw new Error(postDataRes.message);
+        };
 
-        await Promise.all([deleteFbPostPromise(), postOnFbPromise()])
+        await Promise.all([deleteFbPostPromise(), postOnFbPromise()]);
       }
 
-      await revalidateCarsPath()
       toast.success(
-        `${actions.repost ? "Repostarea" : "Modificarea"} anunțului a avut succes`
-      )
+        `${actions.repost ? "Repostarea" : "Modificarea"} anunțului a avut succes`,
+      );
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "A apărut o eroare necunoscută"
-      )
+        error instanceof Error
+          ? error.message
+          : "A apărut o eroare necunoscută",
+      );
     } finally {
-      closeDialog()
+      await revalidateCarsPath();
+      closeDialog();
     }
-  }
+  };
 
   const handleDelete = async () => {
     try {
-      const promises: Promise<any>[] = []
+      const promises: Promise<any>[] = [];
 
       if (actions.deleteFbPost) {
         promises.push(
           (async () => {
-            if (!actions.deleteRecord) setLoadingState("deleting-fb-post")
+            if (!actions.deleteRecord) setLoadingState("deleting-fb-post");
 
-            const fbPostData = await getThenDeleteFacebookPostData(car.id)
-            if (!fbPostData.success) throw new Error(fbPostData.message)
+            const fbPostData = await getThenDeleteFacebookPostData(car.id);
+            if (!fbPostData.success) throw new Error(fbPostData.message);
 
             const delFbPostRes = await deleteFacebookPost(
               fbPostData.postId,
-              fbPostData.mediaIds
-            )
-            if (!delFbPostRes.success) throw new Error(delFbPostRes.message)
-          })()
-        )
+              fbPostData.mediaIds,
+            );
+            if (!delFbPostRes.success) throw new Error(delFbPostRes.message);
+          })(),
+        );
       }
 
       if (actions.deleteRecord) {
         promises.push(
           (async () => {
             //since deleting record is faster, first show its message
-            setLoadingState("deleting-record")
+            setLoadingState("deleting-record");
 
-            const res = await deleteCar(car.id, car.car_images)
-            if (!res.success) throw new Error(res.message)
-            if (actions.deleteFbPost) setLoadingState("deleting-fb-post")
-          })()
-        )
+            const res = await deleteCar(car.id, car.car_images);
+            if (!res.success) throw new Error(res.message);
+            if (actions.deleteFbPost) setLoadingState("deleting-fb-post");
+          })(),
+        );
       }
 
-      await Promise.all(promises)
+      await Promise.all(promises);
 
-      await revalidateCarsPath()
-      toast.success("Anunțul a fost șters cu succes")
+      await revalidateCarsPath();
+      toast.success("Anunțul a fost șters cu succes");
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "A apărut o eroare necunoscută"
-      )
+        error instanceof Error
+          ? error.message
+          : "A apărut o eroare necunoscută",
+      );
     } finally {
-      closeDialog()
+      closeDialog();
     }
-  }
+  };
 
   const handleSubmit = async () => {
-    if (!disableDelete) await handleDelete()
-    if (!disableUpdate) await handleUpdate()
-  }
+    if (!disableDelete) await handleDelete();
+    if (!disableUpdate) await handleUpdate();
+  };
 
   return (
     <>
       <DeleteCar
         disable={disableDelete}
         deleteRecord={actions.deleteRecord}
-        handleOnRecordDeleteChange={checked =>
+        handleOnRecordDeleteChange={(checked) =>
           handleCheckboxChange("deleteRecord", checked)
         }
         isOnFb={isOnFacebook}
         deleteFbPost={actions.deleteFbPost}
-        handleOnPostDeleteChange={checked =>
+        handleOnPostDeleteChange={(checked) =>
           handleCheckboxChange("deleteFbPost", checked)
         }
       />
@@ -236,19 +240,19 @@ const ModifyPost = ({
         disableUpdatePost={imageFiles.length !== 0}
         isOnFb={isOnFacebook}
         updateRecord={actions.updateRecord}
-        handleOnRecordUpdateChange={checked =>
+        handleOnRecordUpdateChange={(checked) =>
           handleCheckboxChange("updateRecord", checked)
         }
         addFbPost={actions.addFbPost}
-        handleOnPostAddChange={checked =>
+        handleOnPostAddChange={(checked) =>
           handleCheckboxChange("addFbPost", checked)
         }
         repost={actions.repost}
-        handleOnRepostChange={checked =>
+        handleOnRepostChange={(checked) =>
           handleCheckboxChange("repost", checked)
         }
         updatePost={actions.updatePost}
-        handleOnPostUpdateChange={checked =>
+        handleOnPostUpdateChange={(checked) =>
           handleCheckboxChange("updatePost", checked)
         }
       />
@@ -263,7 +267,7 @@ const ModifyPost = ({
         {getModifyCarButtonLabel(loadingState)}
       </Button>
     </>
-  )
-}
+  );
+};
 
-export default ModifyPost
+export default ModifyPost;

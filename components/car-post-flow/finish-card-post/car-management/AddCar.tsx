@@ -49,7 +49,6 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
         if (!fbDataRes.success) throw new Error(fbDataRes.message);
       }
 
-      await revalidateCarsPath();
       toast.success("Anunțul a fost adăugat cu succes");
     } catch (error) {
       toast.error(
@@ -58,6 +57,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
           : "A apărut o eroare necunoscută",
       );
     } finally {
+      await revalidateCarsPath();
       closeDialog();
     }
   };

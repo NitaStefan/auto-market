@@ -6,11 +6,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "20mb",
     },
   },
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
 };
 
 export default nextConfig;

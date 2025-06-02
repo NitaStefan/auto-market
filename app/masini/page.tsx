@@ -1,8 +1,10 @@
 import CarDialog from "@/components/CarDialog";
 import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants";
 import { getCars } from "@/lib/actions/app/actions";
+import { unstable_cache } from "next/cache";
 
 const Page = async () => {
+  // const cars = await unstable_cache(async () => await getCars())();
   const cars = await getCars();
 
   return (
