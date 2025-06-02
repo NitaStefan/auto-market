@@ -1,21 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import NavLink from "./NavLink";
 import { usePathname } from "next/navigation";
 import { oswald } from "@/app/fonts";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet";
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ui/popover";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
     <nav className="bg-background flex h-17 items-center justify-between rounded-b-sm px-6 shadow-xs">
@@ -26,18 +26,25 @@ const Navbar = () => {
         <NavLink to="/masini" isActive={pathname === "/masini"} />
         <NavLink to="/tractari" isActive={pathname === "/tractari"} />
       </div>
-      <Sheet>
-        <SheetTrigger className="cursor-pointer sm:hidden">Open</SheetTrigger>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverAnchor asChild>
+          <div className="absolute bottom-1 left-1/2"></div>
+        </PopoverAnchor>
+        <PopoverTrigger className="cursor-pointer sm:hidden">
+          {open ? <X size={28} /> : <Menu size={28} />}
+        </PopoverTrigger>
+        <PopoverContent
+          onClick={() => setOpen(false)}
+          className="flex w-screen flex-col gap-4 rounded-t-none px-0"
+        >
+          <NavLink to="/masini" isMobile isActive={pathname === "/masini"} />
+          <NavLink
+            to="/tractari"
+            isMobile
+            isActive={pathname === "/tractari"}
+          />
+        </PopoverContent>
+      </Popover>
     </nav>
   );
 };

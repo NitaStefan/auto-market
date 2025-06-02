@@ -7,9 +7,11 @@ import React from "react";
 const NavLink = ({
   to,
   isActive,
+  isMobile = false,
 }: {
   to: "/masini" | "/tractari";
   isActive: boolean;
+  isMobile?: boolean;
 }) => {
   return (
     <Link
@@ -17,6 +19,7 @@ const NavLink = ({
       className={cn(
         "flex items-center gap-1.5 rounded-md border px-4 py-2",
         isActive && "bg-primary/8 text-primary border-none",
+        isMobile && "rounded-none border-x-0 py-2.5",
       )}
     >
       {to === "/masini" ? (

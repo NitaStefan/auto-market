@@ -38,7 +38,7 @@ const Page = async () => {
           </div>
         ))}
 
-        <pre>{JSON.stringify(cars, null, 2)}</pre>
+        <pre className="overflow-x-hidden">{JSON.stringify(cars, null, 2)}</pre>
       </div>
     </>
   );
