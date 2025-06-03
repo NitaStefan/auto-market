@@ -19,14 +19,14 @@ const ImagePreviews = ({
   }, [imageFiles]);
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="my-1 grid grid-cols-3 gap-x-2">
       {previews.length > 0
         ? previews.map((src, index) => (
             <img
               key={index}
               src={src}
               alt={`preview-${index}`}
-              className="aspect-square w-full rounded border object-cover"
+              className="my-1 aspect-square w-full rounded border object-cover"
             />
           ))
         : imageUrls?.map((image, index) => (

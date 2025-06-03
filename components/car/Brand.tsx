@@ -8,13 +8,14 @@ const Brand = ({ brand }: { brand: string }) => {
   return (
     <Image
       src={`/logos/cars/${normalizeBrand(brand)}.svg`}
-      width={28}
-      height={28}
+      width={20}
+      height={20}
       alt={brand}
       onError={(e) => {
         e.currentTarget.onerror = null;
         e.currentTarget.src = "/logos/cars/default.svg";
       }}
+      className="translate-y-px"
     />
   );
 };

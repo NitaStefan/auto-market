@@ -56,8 +56,8 @@ const ImageCarousel = ({
       >
         {current} / {count}
       </div>
-      <CarouselPrevious className="left-1 hidden group-hover:inline-flex" />
-      <CarouselNext className="right-1 hidden group-hover:inline-flex" />
+      <CarouselPrevious className="left-1 hidden bg-gray-800 text-white group-hover:inline-flex" />
+      <CarouselNext className="right-1 hidden bg-gray-800 text-white group-hover:inline-flex" />
     </Carousel>
   );
 };

@@ -11,7 +11,7 @@ export const euroPoluantOptions = [
   "euro_6c",
   "euro_6d-temp",
   "euro_6d",
-] as const
+] as const;
 
 export const tipCombustibilOptions = [
   "benzina",
@@ -25,11 +25,12 @@ export const tipCombustibilOptions = [
   "hibrid_clasic",
   "plug-in_hybrid",
   "mild_hybrid",
-] as const
+] as const;
 
 export const CAR_IMAGES_BUCKET_URL =
-  "https://rdwokiscvwvwsfkbyadb.supabase.co/storage/v1/object/public/car-images/"
+  "https://rdwokiscvwvwsfkbyadb.supabase.co/storage/v1/object/public/car-images/";
 
 //for facebook oauth
-export const SCOPES = "pages_manage_posts,pages_read_engagement,pages_show_list"
-export const NGROK_BASE_URL = "https://b256-188-27-128-98.ngrok-free.app/"
+export const SCOPES =
+  "pages_manage_posts,pages_read_engagement,pages_show_list,pages_read_user_content";
+export const NGROK_BASE_URL = "https://ed13-188-27-128-98.ngrok-free.app/";

@@ -11,6 +11,7 @@ import TipCombustibilSelect from "./TipCombustibilSelect";
 import CutieVitezeSelect from "./CutieVitezeSelect";
 import DisplayErrors from "./DisplayErrors";
 import EuroPoluantSelect from "./EuroPoluantSelect";
+import ImageInput from "./ImageInput";
 
 type CarSpecificationProps = {
   initCar?: Masina;
@@ -72,19 +73,7 @@ const CarSpecification = ({
 
   return (
     <form onSubmit={onSubmit} className="pr-3.5 pl-1">
-      <Label htmlFor="poze">
-        Pozele <span className="text-red-300">*</span>
-      </Label>
-      <Input
-        id="poze"
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={(e) => {
-          const files = Array.from(e.target.files || []);
-          handleImageFiles(files);
-        }}
-      />
+      <ImageInput handleImageFiles={handleImageFiles} />
 
       <ImagePreviews imageFiles={imageFiles} imageUrls={initCar?.car_images} />
 

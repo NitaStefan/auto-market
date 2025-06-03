@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
 import {
   getFacebookPageAccessToken,
   setDummyPageAccessToken,
-} from "@/lib/actions/facebook/actions"
-import React, { useEffect, useState } from "react"
+} from "@/lib/actions/facebook/actions";
+import React, { useEffect, useState } from "react";
 
 const GettingAccessToken = ({ code }: { code?: string }) => {
-  const [status, setStatus] = useState("pending")
+  const [status, setStatus] = useState("pending");
 
   useEffect(() => {
     const getToken = async () => {
-      if (!code) return
-      // await getFacebookPageAccessToken(code)
-      // await setDummyPageAccessToken()
+      if (!code) return;
+      // await getFacebookPageAccessToken(code);
+      await setDummyPageAccessToken();
 
-      setStatus("success")
-    }
+      setStatus("success");
+    };
 
-    getToken()
-  }, [])
+    getToken();
+  }, []);
 
-  return <div>Status: {status}</div>
-}
+  return <div>Status: {status}</div>;
+};
 
-export default GettingAccessToken
+export default GettingAccessToken;

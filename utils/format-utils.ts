@@ -4,6 +4,8 @@ import { convertCpToKw } from "./utils";
 export const formatLabel = (text?: string) => {
   if (!text) return "";
 
+  if (text === "automata") return "Automată";
+  if (text === "manuala") return "Manuală";
   if (text === "benzina") return "Benzină";
   if (text === "motorina") return "Diesel";
   if (text === "euro_6d-temp") return "Euro 6d-TEMP";

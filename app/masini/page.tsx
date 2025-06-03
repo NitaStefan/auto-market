@@ -2,6 +2,7 @@ import CarDialog from "@/components/CarDialog";
 import { getCars } from "@/lib/actions/app/actions";
 import { unstable_cache } from "next/cache";
 import Car from "@/components/car/Car";
+import FacebookOauth from "@/components/facebook/FacebookOauth";
 
 const Page = async () => {
   // const cars = await unstable_cache(async () => await getCars())();
@@ -9,6 +10,8 @@ const Page = async () => {
 
   return (
     <>
+      {/* <FacebookOauth /> */}
+
       <CarDialog />
       <div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

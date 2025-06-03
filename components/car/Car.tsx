@@ -6,17 +6,18 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import ShortSpecification from "./ShortSpecification";
 
 const Car = ({ car }: { car: MasinaRecord }) => {
   const isOnFb = car.facebook_posts?.id ? true : false;
 
   return (
-    <div className="rounded-md bg-white shadow-sm">
+    <div className="relative rounded-md bg-white shadow-sm">
       <ImageCarousel
         carImages={car.car_images}
         alt={`${car.marca} ${car.model}`}
       />
-      <div className={`p-5 ${oswald.className}`}>
+      <div className={`px-5 pt-2 pb-13 sm:pb-14 ${oswald.className}`}>
         {/* Title */}
         <div className="flex items-center gap-2 text-xl">
           <Brand brand={car.marca} />
@@ -47,9 +48,12 @@ const Car = ({ car }: { car: MasinaRecord }) => {
             <span>Dezmembrare pe piese</span>
           )}
         </div>
+
+        <ShortSpecification car={car} />
+
         <Button
           asChild
-          className={`mt-5 w-full text-[15px] ${archivo.className}`}
+          className={`absolute bottom-4 w-[calc(100%-2.5rem)] text-[15px] sm:bottom-5 ${archivo.className}`}
         >
           <Link href={`/masini/${car.id}`}>Vezi detalii</Link>
         </Button>
