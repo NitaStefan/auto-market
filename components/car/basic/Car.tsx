@@ -1,12 +1,12 @@
 import { MasinaRecord } from "@/types/app-types";
-import ImageCarousel from "./ImageCarousel";
-import Brand from "./Brand";
+import ImageCarousel from "../ImageCarousel";
+import Brand from "../Brand";
 import { archivo, oswald } from "@/app/fonts";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import ShortSpecification from "./ShortSpecification";
+import Specification from "./Specification";
 
 const Car = ({ car }: { car: MasinaRecord }) => {
   const isOnFb = car.facebook_posts?.id ? true : false;
@@ -49,7 +49,7 @@ const Car = ({ car }: { car: MasinaRecord }) => {
           )}
         </div>
 
-        <ShortSpecification car={car} />
+        <Specification car={car} />
 
         <Button
           asChild

@@ -4,12 +4,18 @@ import { normalizeBrand } from "@/utils/format-utils";
 import Image from "next/image";
 import React from "react";
 
-const Brand = ({ brand }: { brand: string }) => {
+const Brand = ({
+  brand,
+  large = false,
+}: {
+  brand: string;
+  large?: boolean;
+}) => {
   return (
     <Image
       src={`/logos/cars/${normalizeBrand(brand)}.svg`}
-      width={20}
-      height={20}
+      width={large ? 26 : 20}
+      height={large ? 26 : 20}
       alt={brand}
       onError={(e) => {
         e.currentTarget.onerror = null;

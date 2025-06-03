@@ -1,7 +1,7 @@
 import CarDialog from "@/components/CarDialog";
 import { getCars } from "@/lib/actions/app/actions";
 import { unstable_cache } from "next/cache";
-import Car from "@/components/car/Car";
+import Car from "@/components/car/basic/Car";
 import FacebookOauth from "@/components/facebook/FacebookOauth";
 
 const Page = async () => {

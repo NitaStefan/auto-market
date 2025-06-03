@@ -1,6 +1,7 @@
-import { Masina } from "@/types/app-types";
+import { Masina, Specs } from "@/types/app-types";
 import { convertCpToKw } from "./utils";
 
+// specs values
 export const formatLabel = (text?: string) => {
   if (!text) return "";
 
@@ -47,3 +48,13 @@ export const versionOf = (path: string) => {
 
 export const normalizeBrand = (brand: string) =>
   brand.trim().toLowerCase().replace(/\s+/g, "-");
+
+export const formatSpecName = (spec: Specs) => {
+  if (spec === "an") return "An fabricație";
+  if (spec === "motorizare") return "Motorizare";
+  if (spec === "tip_combustibil") return "Tip combustibil";
+  if (spec === "kilometraj") return "Kilometraj";
+  if (spec === "cutie_viteze") return "Cutie de viteze";
+  if (spec === "cai_putere") return "Cai putere";
+  if (spec === "euro_poluant") return "Standard poluare";
+};

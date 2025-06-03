@@ -38,7 +38,7 @@ const DetailsTextarea = ({
     </form>
   ) : (
     <div>
-      <p className="whitespace-pre">{detalii}</p>
+      <p className="text-sm whitespace-pre-line">{detalii}</p>
       <Button
         variant="secondary"
         size="sm"
