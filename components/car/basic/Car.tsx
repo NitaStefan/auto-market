@@ -6,7 +6,8 @@ import { Button } from "../../ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import Specification from "./Specification";
+import Specification from "../Specification";
+import Engagement from "../Engagement";
 
 const Car = ({ car }: { car: MasinaRecord }) => {
   const isOnFb = car.facebook_posts?.id ? true : false;
@@ -19,17 +20,18 @@ const Car = ({ car }: { car: MasinaRecord }) => {
       />
       <div className={`px-5 pt-2 pb-13 sm:pb-14 ${oswald.className}`}>
         {/* Title */}
-        <div className="flex items-center gap-2 text-xl">
+        <div className="relative flex items-center gap-2 text-xl">
           <Brand brand={car.marca} />
           <span className="font-light">{car.marca}</span> {car.model}
           {/* Show if posted on fb */}
           <Image
             src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
-            width={20}
-            height={20}
+            width={22}
+            height={22}
             alt="facebook"
             className={cn("ml-auto", !isOnFb && "opacity-50")}
           />
+          {isOnFb && <Engagement />}
         </div>
         {/* Price or dismantling */}
         <div className="text-primary pt-1 text-lg">

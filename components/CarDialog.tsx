@@ -16,6 +16,7 @@ import CarPostFlow from "./car-post-flow/CarPostFlow";
 import { MasinaRecord } from "@/types/app-types";
 import { useState } from "react";
 import { DialogContext } from "@/lib/hooks/useDialog";
+import { CirclePlus, Pen } from "lucide-react";
 
 const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <Button asChild>
         <DialogTrigger>
+          {addNewCar ? <CirclePlus /> : <Pen />}
           {addNewCar ? "Adaugă un anunț nou" : "Modifică anunțul"}
         </DialogTrigger>
       </Button>

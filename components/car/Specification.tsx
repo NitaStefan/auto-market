@@ -1,9 +1,9 @@
 import { MasinaRecord, Specs } from "@/types/app-types";
 import { formatLabel, formatSpecName } from "@/utils/format-utils";
 import React from "react";
-import SpecificationIcon from "./SpecificationIcon";
 import { cn } from "@/lib/utils";
 import { convertCpToKw } from "@/utils/utils";
+import SpecificationIcon from "./SpecificationIcon";
 
 const Specification = ({
   car,
@@ -16,7 +16,7 @@ const Specification = ({
     ["an", car.an?.toString()],
     ["motorizare", car.motorizare],
     ["tip_combustibil", car.tip_combustibil],
-    ["kilometraj", car.kilometraj?.toLocaleString()],
+    ["kilometraj", car.kilometraj?.toLocaleString("ro-RO")],
     ["cutie_viteze", car.cutie_viteze],
     ["cai_putere", car.cai_putere?.toString()],
     ["euro_poluant", car.euro_poluant],

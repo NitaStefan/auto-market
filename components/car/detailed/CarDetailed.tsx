@@ -5,19 +5,20 @@ import Brand from "../Brand";
 import { archivo, oswald } from "@/app/fonts";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Phone } from "lucide-react";
-import Specification from "../basic/Specification";
+import { ChevronLeft, Phone } from "lucide-react";
+import Specification from "../Specification";
+import Link from "next/link";
 
 const CarDetailed = ({ car }: { car: MasinaRecord }) => {
   return (
-    <div className="mb-20 flex flex-col rounded-md bg-white pb-10 shadow-md lg:flex-row">
+    <div className="relative mt-10 mb-20 flex flex-col rounded-md bg-white pb-10 shadow-md lg:flex-row">
       <div className="w-full shrink-0 lg:w-150">
         <ImageCarousel
           carImages={car.car_images}
           alt={`${car.marca} ${car.model}`}
           forDetailedView
         />
-        <div className="flex flex-col gap-8 px-6 pt-10 md:px-10 lg:px-6">
+        <div className="flex flex-col gap-8 px-4 pt-10 md:px-10 lg:px-6">
           <div className="flex flex-wrap justify-between gap-x-3 gap-y-1">
             <div
               className={`flex items-center gap-2 text-xl md:text-2xl ${oswald.className}`}
@@ -27,7 +28,7 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
               <span className="font-medium">{car.model}</span>
             </div>
             <div
-              className={`text-primary text-xl font-medium md:text-2xl ${oswald.className}`}
+              className={`text-primary text-xl md:text-2xl ${oswald.className}`}
             >
               {car.tip === "vanzare" ? (
                 <p className="flex items-center">
@@ -57,8 +58,13 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
               />
             </Button>
             <span className="text-txt-secondary-300">sau</span>
-            <Button className="bg-secondary-400 hover:bg-secondary-400/90 flex-1">
-              Sună la <Phone /> 0744 227 641
+            <Button
+              asChild
+              className="bg-secondary-400 hover:bg-secondary-400/90 flex-1"
+            >
+              <a href="tel:0744227641">
+                Sună la <Phone /> 0744 227 641
+              </a>
             </Button>
           </div>
         </div>
@@ -70,6 +76,13 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
           {car.detalii}
         </div>
       </div>
+      {/* GO BACK */}
+      <Link
+        href="/masini"
+        className="text-txt-secondary-600 absolute -top-8 flex items-center hover:text-black"
+      >
+        <ChevronLeft /> Toate mașinile
+      </Link>
     </div>
   );
 };
