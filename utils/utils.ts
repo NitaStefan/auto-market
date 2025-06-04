@@ -19,10 +19,10 @@ export function encodedRedirect(
 // FROM ME:
 
 export const getAddCarButtonLabel = (
-  loaadingState: "idle" | "adding-car" | "posting-fb" | "saving-fb-data",
+  loadingState: "idle" | "adding-car" | "posting-fb" | "saving-fb-data",
   postOnFb: boolean,
 ) => {
-  switch (loaadingState) {
+  switch (loadingState) {
     case "adding-car":
       return "Se adaugă anunțul...";
     case "posting-fb":
@@ -35,8 +35,8 @@ export const getAddCarButtonLabel = (
   }
 };
 
-export const getModifyCarButtonLabel = (loaadingState: ModifyLoadingState) => {
-  switch (loaadingState) {
+export const getModifyCarButtonLabel = (loadingState: ModifyLoadingState) => {
+  switch (loadingState) {
     case "deleting-fb-post":
       return "Se șterge anunțul de pe Facebook...";
     case "deleting-record":
