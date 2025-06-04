@@ -16,9 +16,7 @@ const TipCombustibilSelect = ({
 }: {
   initTipCombustibil: Masina["tip_combustibil"];
 }) => {
-  const [tipCombustibil, setTipCombustibil] = useState(
-    initTipCombustibil ?? undefined,
-  );
+  const [tipCombustibil, setTipCombustibil] = useState(initTipCombustibil);
 
   return (
     <>

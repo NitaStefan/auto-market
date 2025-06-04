@@ -8,6 +8,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Specification from "../Specification";
 import Engagement from "../Engagement";
+import { getCarBrandLabel } from "@/utils/utils";
 
 const Car = ({ car }: { car: MasinaRecord }) => {
   const isOnFb = car.facebook_posts?.id ? true : false;
@@ -22,7 +23,8 @@ const Car = ({ car }: { car: MasinaRecord }) => {
         {/* Title */}
         <div className="relative flex items-center gap-2 text-xl">
           <Brand brand={car.marca} />
-          <span className="font-light">{car.marca}</span> {car.model}
+          <span className="font-light">{getCarBrandLabel(car.marca)}</span>{" "}
+          {car.model}
           {/* Show if posted on fb */}
           <Image
             src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}

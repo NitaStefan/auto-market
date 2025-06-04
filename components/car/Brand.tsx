@@ -1,6 +1,5 @@
 "use client";
 
-import { normalizeBrand } from "@/utils/format-utils";
 import Image from "next/image";
 import React from "react";
 
@@ -13,7 +12,7 @@ const Brand = ({
 }) => {
   return (
     <Image
-      src={`/logos/cars/${normalizeBrand(brand)}.svg`}
+      src={`/logos/cars/${brand}.svg`}
       width={large ? 26 : 20}
       height={large ? 26 : 20}
       alt={brand}

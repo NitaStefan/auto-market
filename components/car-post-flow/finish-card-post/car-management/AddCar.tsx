@@ -57,8 +57,8 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
           : "A apărut o eroare necunoscută",
       );
     } finally {
-      await revalidateCarsPath();
       closeDialog();
+      await revalidateCarsPath();
     }
   };
 

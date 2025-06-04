@@ -12,6 +12,7 @@ import CutieVitezeSelect from "./CutieVitezeSelect";
 import DisplayErrors from "./DisplayErrors";
 import EuroPoluantSelect from "./EuroPoluantSelect";
 import ImageInput from "./ImageInput";
+import MarcaCombobox from "./MarcaCombobox";
 
 type CarSpecificationProps = {
   initCar?: Masina;
@@ -121,12 +122,7 @@ const CarSpecification = ({
       <Label htmlFor="marca">
         Marca <span className="text-red-300">*</span>
       </Label>
-      <Input
-        id="marca"
-        name="marca"
-        placeholder="ex: Volkswagen"
-        defaultValue={initCar?.marca ?? ""}
-      />
+      <MarcaCombobox marca={initCar?.marca} />
 
       <Label htmlFor="model">
         Modelul <span className="text-red-300">*</span>

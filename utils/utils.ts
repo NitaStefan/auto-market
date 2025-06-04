@@ -1,5 +1,6 @@
 import { MasinaRecord, ModifyLoadingState } from "@/types/app-types";
 import { redirect } from "next/navigation";
+import { CAR_BRANDS } from "./constants";
 
 /**
  * Redirects to a specified path with an encoded message as a query parameter.
@@ -55,6 +56,11 @@ export const getModifyCarButtonLabel = (loadingState: ModifyLoadingState) => {
       return "Finalizează";
   }
 };
+
+export function getCarBrandLabel(value: string): string {
+  const match = CAR_BRANDS.find((brand) => brand.value === value);
+  return match ? match.label : value;
+}
 
 export const convertCpToKw = (cp: number): number => {
   const kW = cp * 0.7355;

@@ -163,8 +163,8 @@ const ModifyPost = ({
           : "A apărut o eroare necunoscută",
       );
     } finally {
-      await revalidateCarsPath();
       closeDialog();
+      await revalidateCarsPath();
     }
   };
 

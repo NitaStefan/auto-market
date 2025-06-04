@@ -17,6 +17,7 @@ import { MasinaRecord } from "@/types/app-types";
 import { useState } from "react";
 import { DialogContext } from "@/lib/hooks/useDialog";
 import { CirclePlus, Pen } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
   const [open, setOpen] = useState(false);
@@ -25,13 +26,14 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
   const addNewCar = !dbCar;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} modal={false}>
       <Button asChild>
         <DialogTrigger className="mb-5">
           {addNewCar ? <CirclePlus /> : <Pen />}
           {addNewCar ? "Adaugă un anunț nou" : "Modifică anunțul"}
         </DialogTrigger>
       </Button>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>

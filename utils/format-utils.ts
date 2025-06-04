@@ -1,5 +1,5 @@
 import { Masina, Specs } from "@/types/app-types";
-import { convertCpToKw } from "./utils";
+import { convertCpToKw, getCarBrandLabel } from "./utils";
 
 // specs values
 export const formatLabel = (text?: string) => {
@@ -19,7 +19,7 @@ export const imagePathFormat = (carId: number, index: number, version = 0) => {
 
 export const formatFbMessage = (car: Masina) => {
   const lines = [
-    `${car.tip === "vanzare" ? "Vând" : "Dezmembrez"} ${car.marca} ${car.model}${car.an ? `, ${car.an}` : ""}`,
+    `${car.tip === "vanzare" ? "Vând" : "Dezmembrez"} ${getCarBrandLabel(car.marca)} ${car.model}${car.an ? `, ${car.an}` : ""}`,
     car.tip === "vanzare" && car.pret
       ? `🏷️ ${car.pret.toLocaleString("ro-RO")} €${car.negociabil ? " (negociabil)" : ""}`
       : null,
@@ -45,9 +45,6 @@ export const formatFbMessage = (car: Masina) => {
 export const versionOf = (path: string) => {
   return Number(path.split(".").pop());
 };
-
-export const normalizeBrand = (brand: string) =>
-  brand.trim().toLowerCase().replace(/\s+/g, "-");
 
 export const formatSpecName = (spec: Specs) => {
   if (spec === "an") return "An fabricație";

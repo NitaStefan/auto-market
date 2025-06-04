@@ -16,7 +16,7 @@ const EuroPoluantSelect = ({
 }: {
   initEuroPoluant: Masina["euro_poluant"];
 }) => {
-  const [euroPoluant, setEuroPoluant] = useState(initEuroPoluant ?? undefined);
+  const [euroPoluant, setEuroPoluant] = useState(initEuroPoluant);
 
   return (
     <>

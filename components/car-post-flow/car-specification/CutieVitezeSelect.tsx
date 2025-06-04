@@ -14,7 +14,7 @@ const CutieVitezeSelect = ({
 }: {
   initCutieViteze: Masina["cutie_viteze"];
 }) => {
-  const [cutieViteze, setCutieViteze] = useState(initCutieViteze ?? undefined);
+  const [cutieViteze, setCutieViteze] = useState(initCutieViteze);
 
   return (
     <>
