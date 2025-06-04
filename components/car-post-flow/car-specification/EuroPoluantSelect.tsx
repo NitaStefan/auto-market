@@ -22,13 +22,20 @@ const EuroPoluantSelect = ({
     <>
       <Label htmlFor="euro_poluant">Euro poluant</Label>
       <Select
-        value={euroPoluant}
+        value={euroPoluant || "necompletat"}
         onValueChange={(val) => setEuroPoluant(val as Masina["euro_poluant"])}
       >
         <SelectTrigger size="sm" className="mb-6 w-full">
-          <SelectValue placeholder="Alege euro poluant" />
+          <SelectValue />
         </SelectTrigger>
         <SelectContent>
+          <SelectItem
+            className="text-muted-foreground italic"
+            key="necompletat"
+            value="necompletat"
+          >
+            Necompletat
+          </SelectItem>
           {euroPoluantOptions.map((value) => (
             <SelectItem key={value} value={value}>
               {formatLabel(value)}
@@ -40,7 +47,7 @@ const EuroPoluantSelect = ({
         type="hidden"
         id="euro_poluant"
         name="euro_poluant"
-        value={euroPoluant ?? ""}
+        value={euroPoluant || "necompletat"}
       />
     </>
   );

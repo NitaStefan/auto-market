@@ -58,3 +58,24 @@ export const formatSpecName = (spec: Specs) => {
   if (spec === "cai_putere") return "Cai putere";
   if (spec === "euro_poluant") return "Standard poluare";
 };
+
+// WHATSAPP
+
+export function generateWhatsAppLink(
+  masina: string,
+  tip: "vanzare" | "dezmembrari",
+  carId: number,
+): string {
+  const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
+  const linkMasina = `${baseUrl}/masini/${carId}`;
+
+  const fullMessage =
+    tip === "vanzare"
+      ? `Bună ziua!\nSunt interesat(ă) de mașina ${masina} pe care ați publicat-o.\nEste încă disponibilă? Ați putea să-mi oferiți mai multe detalii?\n\nLinkul anunțului: ${linkMasina}`
+      : `Bună ziua!\nAm văzut că dezmembrați o mașină ${masina}. M-ar interesa câteva piese (ex: far dreapta, bară față).\n\nLinkul anunțului: ${linkMasina}`;
+
+  const encodedMessage = encodeURIComponent(fullMessage);
+
+  return `https://wa.me/40744227641?text=${encodedMessage}`;
+}

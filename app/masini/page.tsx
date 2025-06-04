@@ -13,14 +13,12 @@ const Page = async () => {
       {/* <FacebookOauth /> */}
 
       <CarDialog />
-      <div>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {cars.map((car) => (
-            <Car car={car} key={car.id} />
-          ))}
-        </div>
-        <pre className="overflow-x-hidden">{JSON.stringify(cars, null, 2)}</pre>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
+        {cars.map((car) => (
+          <Car car={car} key={car.id} />
+        ))}
       </div>
+      <pre className="overflow-x-hidden">{JSON.stringify(cars, null, 2)}</pre>
     </>
   );
 };

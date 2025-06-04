@@ -79,18 +79,22 @@ const ImageCarousel = ({
         </div>
       )}
 
-      <CarouselPrevious
-        className={cn(
-          "left-1 bg-gray-800 text-white",
-          !forDetailedView && "hidden group-hover:inline-flex",
-        )}
-      />
-      <CarouselNext
-        className={cn(
-          "right-1 bg-gray-800 text-white",
-          !forDetailedView && "hidden group-hover:inline-flex",
-        )}
-      />
+      {count > 1 && (
+        <>
+          <CarouselPrevious
+            className={cn(
+              "left-1 bg-gray-800 text-white",
+              !forDetailedView && "hidden group-hover:inline-flex",
+            )}
+          />
+          <CarouselNext
+            className={cn(
+              "right-1 bg-gray-800 text-white",
+              !forDetailedView && "hidden group-hover:inline-flex",
+            )}
+          />
+        </>
+      )}
     </Carousel>
   );
 };

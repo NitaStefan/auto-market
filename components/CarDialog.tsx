@@ -27,7 +27,7 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button asChild>
-        <DialogTrigger>
+        <DialogTrigger className="mb-5">
           {addNewCar ? <CirclePlus /> : <Pen />}
           {addNewCar ? "Adaugă un anunț nou" : "Modifică anunțul"}
         </DialogTrigger>

@@ -1,4 +1,4 @@
-import { ModifyLoadingState } from "@/types/app-types";
+import { MasinaRecord, ModifyLoadingState } from "@/types/app-types";
 import { redirect } from "next/navigation";
 
 /**
@@ -69,5 +69,24 @@ export const handleServerError = (
   return {
     success: false,
     message: `A apărut o eroare neașteptată la ${context}`,
+  };
+};
+
+//replace undefined values with null
+export const normalizeCar = (
+  car: Omit<MasinaRecord, "car_images" | "facebook_posts">,
+) => {
+  return {
+    ...car,
+    pret: car.pret === undefined ? null : car.pret,
+    an: car.an === undefined ? null : car.an,
+    motorizare: car.motorizare === undefined ? null : car.motorizare,
+    tip_combustibil:
+      car.tip_combustibil === undefined ? null : car.tip_combustibil,
+    kilometraj: car.kilometraj === undefined ? null : car.kilometraj,
+    cutie_viteze: car.cutie_viteze === undefined ? null : car.cutie_viteze,
+    cai_putere: car.cai_putere === undefined ? null : car.cai_putere,
+    euro_poluant: car.euro_poluant === undefined ? null : car.euro_poluant,
+    detalii: car.detalii === undefined ? null : car.detalii,
   };
 };

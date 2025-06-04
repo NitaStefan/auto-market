@@ -1,5 +1,4 @@
 export const euroPoluantOptions = [
-  "non-euro",
   "euro_1",
   "euro_2",
   "euro_3",

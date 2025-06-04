@@ -20,13 +20,20 @@ const CutieVitezeSelect = ({
     <>
       <Label htmlFor="cutie_viteze">Cutia de viteze</Label>
       <Select
-        value={cutieViteze}
+        value={cutieViteze || "necompletat"}
         onValueChange={(val) => setCutieViteze(val as Masina["cutie_viteze"])}
       >
         <SelectTrigger size="sm" className="mb-2 w-full">
-          <SelectValue placeholder="Alege cutia de viteze" />
+          <SelectValue />
         </SelectTrigger>
         <SelectContent>
+          <SelectItem
+            className="text-muted-foreground italic"
+            key="necompletat"
+            value="necompletat"
+          >
+            Necompletat
+          </SelectItem>
           <SelectItem value="manuala">Manuală</SelectItem>
           <SelectItem value="automata">Automată</SelectItem>
         </SelectContent>
@@ -35,7 +42,7 @@ const CutieVitezeSelect = ({
         type="hidden"
         id="cutie_viteze"
         name="cutie_viteze"
-        value={cutieViteze ?? ""}
+        value={cutieViteze || "necompletat"}
       />
     </>
   );
