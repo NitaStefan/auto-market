@@ -35,7 +35,10 @@ export default function RootLayout({
         </main>
         <Toaster
           toastOptions={{
-            className: "shadow-md !bg-white",
+            classNames: {
+              success: "!border-1 !border-green-700 !text-green-700 !bg-white",
+              error: "!border-1 !border-red-700 !text-red-700 !bg-white",
+            },
           }}
         />
         <footer></footer>
