@@ -1,14 +1,14 @@
 import { MasinaRecord } from "@/types/app-types";
-import ImageCarousel from "../ImageCarousel";
-import Brand from "../Brand";
-import { archivo, oswald } from "@/app/fonts";
-import { Button } from "../../ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import Specification from "../Specification";
-import Engagement from "../Engagement";
 import { getCarBrandLabel } from "@/utils/utils";
+import { archivo, oswald } from "@/app/fonts";
+import ImageCarousel from "./ImageCarousel";
+import Brand from "./Brand";
+import Engagement from "./Engagement";
+import Specification from "./Specification";
+import { Button } from "../ui/button";
 
 const Car = ({ car }: { car: MasinaRecord }) => {
   const isOnFb = car.facebook_posts?.id ? true : false;

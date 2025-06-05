@@ -1,12 +1,12 @@
 import { MasinaRecord } from "@/types/app-types";
 import React from "react";
-import ImageCarousel from "../ImageCarousel";
-import Brand from "../Brand";
+import ImageCarousel from "./ImageCarousel";
+import Brand from "./Brand";
 import { archivo, oswald } from "@/app/fonts";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ChevronLeft, Phone } from "lucide-react";
-import Specification from "../Specification";
+import Specification from "./Specification";
 import Link from "next/link";
 import { generateWhatsAppLink } from "@/utils/format-utils";
 import { getCarBrandLabel } from "@/utils/utils";
