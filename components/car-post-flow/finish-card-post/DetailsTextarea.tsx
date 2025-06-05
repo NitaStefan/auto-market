@@ -22,27 +22,32 @@ const DetailsTextarea = ({
   };
 
   return isAddingDetails ? (
-    <form onSubmit={onSubmit} className="mb-6">
-      <Label htmlFor="detalii">Alte detalii</Label>
+    <form onSubmit={onSubmit}>
       <Textarea
-        className="mb-3 text-sm"
+        className="px-1.5 py-1 text-sm sm:!text-base"
         placeholder="ex: Mașină în stare foarte bună, recent schimbate consumabilele."
-        id="detalii"
         name="detalii"
         defaultValue={detalii ?? ""}
       />
-      <Button size="sm" type="submit" variant="secondary">
-        <ListCheck size={15} className="text-txt-secondary-600 mr-1" />
-        Salvează mesajul
+      <Button
+        size="sm"
+        type="submit"
+        variant="secondary"
+        className="bg-primary hover:bg-primary/90 mt-2 mb-6 w-full"
+      >
+        <ListCheck size={15} className="mr-1 text-white" />
+        <span className="text-white">Salvează mesajul</span>
       </Button>
     </form>
   ) : (
     <div>
-      <p className="text-sm whitespace-pre-line">{detalii}</p>
+      <p className="border-y border-transparent px-1.5 py-1 text-sm whitespace-pre-line sm:text-base">
+        {detalii}
+      </p>
       <Button
         variant="secondary"
         size="sm"
-        className="mb-6"
+        className="border-txt-secondary-300 mt-2 mb-6 w-full border-2"
         onClick={() => setIsAddingDetails((prev) => !prev)}
       >
         {detalii ? (

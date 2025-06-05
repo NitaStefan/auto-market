@@ -43,7 +43,7 @@ const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
         </DialogTrigger>
       </Button>
 
-      <DialogContent>
+      <DialogContent className="p-3 sm:p-6">
         <DialogHeader>
           <DialogTitle>
             {addNewCar ? "Adaugă un anunț nou" : "Modifică anunțul"}

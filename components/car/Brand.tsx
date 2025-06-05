@@ -10,6 +10,8 @@ const Brand = ({
   brand: string;
   large?: boolean;
 }) => {
+  // todo: show nothing if brand not found
+
   return (
     <Image
       src={`/logos/cars/${brand}.svg`}

@@ -41,7 +41,7 @@ export default function RootLayout({
             },
           }}
         />
-        <footer></footer>
+        <footer className="bg-secondary-800 h-50"></footer>
       </body>
     </html>
   );

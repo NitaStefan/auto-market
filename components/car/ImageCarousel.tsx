@@ -21,11 +21,13 @@ const ImageCarousel = ({
   alt,
   forDetailedView = false,
   imageFiles = [],
+  roundedAll = false,
 }: {
   carImages: { path: string }[];
   alt: string;
   forDetailedView?: boolean;
   imageFiles?: File[];
+  roundedAll?: boolean;
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -68,6 +70,7 @@ const ImageCarousel = ({
               className={cn(
                 "rounded-t-md object-cover",
                 forDetailedView && "lg:rounded-tr-none lg:rounded-br-md",
+                roundedAll && "rounded-md",
               )}
             />
           </CarouselItem>

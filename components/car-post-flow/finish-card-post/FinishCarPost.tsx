@@ -4,6 +4,9 @@ import AddCar from "./car-management/AddCar";
 import ModifyPost from "./car-management/ModifyPost";
 import { ArrowLeft } from "lucide-react";
 import ImageCarousel from "@/components/car/ImageCarousel";
+import Specification from "@/components/car/Specification";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const FinishCarPost = ({
   car,
@@ -16,24 +19,37 @@ const FinishCarPost = ({
   imageFiles: File[];
   goToSpecifications: () => void;
 }) => {
+  const isOnFb = Boolean(car.facebook_posts?.id);
+
   return (
     <div className="pr-3.5 pl-1">
-      <button
-        onClick={goToSpecifications}
-        className="text-txt-secondary-600 flex cursor-pointer items-center px-0 text-sm underline hover:text-black"
-      >
-        <ArrowLeft size={16} /> <span className="pl-1">la specificații</span>
-      </button>
+      <div className="flex items-center justify-between">
+        <button
+          onClick={goToSpecifications}
+          className="text-txt-secondary-600 flex cursor-pointer items-center px-0 pb-2 text-sm underline hover:text-black"
+        >
+          <ArrowLeft size={16} /> <span className="pl-1">la specificații</span>
+        </button>
+        <div className={cn("flex gap-1", !isOnFb && "opacity-70")}>
+          <Image
+            src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
+            width={18}
+            height={18}
+            alt="facebook"
+          />
+          <p className="rounded-lg italic">{isOnFb ? "postat" : "nepostat"}</p>
+        </div>
+      </div>
 
       <ImageCarousel
         carImages={car.car_images ?? []}
         alt={`${car.marca} ${car.model}`}
         imageFiles={imageFiles}
+        roundedAll
       />
 
-      <p className="bg-blue-100 px-2 text-blue-700">
-        {car.facebook_posts?.id ? "Postat pe fb" : "Nepostat pe fb"}
-      </p>
+      <Specification car={car} detailed compact />
+
       <DetailsTextarea
         detalii={car.detalii}
         handleSetDetails={handleSetDetails}

@@ -1,16 +1,19 @@
-import { MasinaRecord, Specs } from "@/types/app-types";
+import { Masina, Specs } from "@/types/app-types";
 import { formatLabel, formatSpecName } from "@/utils/format-utils";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { convertCpToKw } from "@/utils/utils";
 import SpecificationIcon from "./SpecificationIcon";
+import { oswald } from "@/app/fonts";
 
 const Specification = ({
   car,
   detailed = false,
+  compact = false,
 }: {
-  car: MasinaRecord;
+  car: Masina;
   detailed?: boolean;
+  compact?: boolean;
 }) => {
   const fieldMap: [Specs, string | undefined][] = [
     ["an", car.an?.toString()],
@@ -31,6 +34,7 @@ const Specification = ({
       className={cn(
         "grid grid-cols-2 gap-1 py-4 sm:py-5",
         detailed && "gap-5 py-10 sm:py-10",
+        compact && `${oswald.className} gap-2 py-3 sm:py-3`,
       )}
     >
       {displayedFields.map(([label, value]) => (
