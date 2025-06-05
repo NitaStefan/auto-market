@@ -1,10 +1,9 @@
 import { Masina, MasinaRecord } from "@/types/app-types";
-import { Button } from "../../ui/button";
-import ImagePreviews from "../../ImagePreviews";
 import DetailsTextarea from "./DetailsTextarea";
 import AddCar from "./car-management/AddCar";
 import ModifyPost from "./car-management/ModifyPost";
 import { ArrowLeft } from "lucide-react";
+import ImageCarousel from "@/components/car/ImageCarousel";
 
 const FinishCarPost = ({
   car,
@@ -26,7 +25,11 @@ const FinishCarPost = ({
         <ArrowLeft size={16} /> <span className="pl-1">la specificații</span>
       </button>
 
-      <ImagePreviews imageFiles={imageFiles} imageUrls={car?.car_images} />
+      <ImageCarousel
+        carImages={car.car_images ?? []}
+        alt={`${car.marca} ${car.model}`}
+        imageFiles={imageFiles}
+      />
 
       <p className="bg-blue-100 px-2 text-blue-700">
         {car.facebook_posts?.id ? "Postat pe fb" : "Nepostat pe fb"}

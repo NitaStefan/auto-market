@@ -1,6 +1,7 @@
 import { CAR_IMAGES_BUCKET_URL } from "@/utils/constants";
 import { MasinaRecord } from "@/types/app-types";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useImagePreviews } from "@/lib/hooks/usePreviews";
 
 const ImagePreviews = ({
   imageFiles,
@@ -9,14 +10,16 @@ const ImagePreviews = ({
   imageFiles: File[];
   imageUrls?: MasinaRecord["car_images"];
 }) => {
-  const [previews, setPreviews] = useState<string[]>([]);
+  const previews = useImagePreviews(imageFiles);
 
-  useEffect(() => {
-    const urls = imageFiles.map((file) => URL.createObjectURL(file));
-    setPreviews(urls);
+  // const [previews, setPreviews] = useState<string[]>([]);
 
-    return () => urls.forEach((url) => URL.revokeObjectURL(url));
-  }, [imageFiles]);
+  // useEffect(() => {
+  //   const urls = imageFiles.map((file) => URL.createObjectURL(file));
+  //   setPreviews(urls);
+
+  //   return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  // }, [imageFiles]);
 
   return (
     <div className="my-1 grid grid-cols-3 gap-x-2">

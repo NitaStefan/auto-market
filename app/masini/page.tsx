@@ -13,7 +13,7 @@ const Page = async () => {
       {/* <FacebookOauth /> */}
 
       <CarDialog />
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
         {cars.map((car) => (
           <Car car={car} key={car.id} />
         ))}

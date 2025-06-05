@@ -26,7 +26,7 @@ export default function RootLayout({
         <header className="fixed top-0 right-0 left-0 z-50 mx-auto w-full max-w-7xl">
           <Navbar />
         </header>
-        <main className="mx-auto max-w-7xl px-5 pt-25 sm:px-12">
+        <main className="mx-auto max-w-7xl px-5 pt-25 sm:px-8 md:px-12">
           {/* !!! THIS MAKES THE ROUTE DYNAMIC */}
           {/* <Suspense fallback={<div className="text-gray-500">Loading...</div>}>
             <FbAssociationChecker />

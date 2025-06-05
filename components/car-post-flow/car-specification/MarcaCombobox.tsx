@@ -7,6 +7,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -23,6 +24,9 @@ const MarcaCombobox = ({ marca }: { marca?: string }) => {
 
   return (
     <>
+      <Label htmlFor="marca">
+        Marca <span className="text-red-300">*</span>
+      </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

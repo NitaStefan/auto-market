@@ -36,7 +36,7 @@ const CarSpecification = ({
     const formData = new FormData(e.currentTarget);
     const carData = {
       tip: formData.get("tip") as Masina["tip"],
-      marca: (formData.get("marca") as string).trim(),
+      marca: formData.get("marca") as string,
       model: (formData.get("model") as string).trim(),
       an: Number(formData.get("an")) || undefined,
       motorizare: (formData.get("motorizare") as string).trim() || undefined,
@@ -119,9 +119,6 @@ const CarSpecification = ({
         </div>
       )}
 
-      <Label htmlFor="marca">
-        Marca <span className="text-red-300">*</span>
-      </Label>
       <MarcaCombobox marca={initCar?.marca} />
 
       <Label htmlFor="model">

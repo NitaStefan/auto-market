@@ -14,14 +14,23 @@ import {
 } from "@/components/ui/dialog";
 import CarPostFlow from "./car-post-flow/CarPostFlow";
 import { MasinaRecord } from "@/types/app-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogContext } from "@/lib/hooks/useDialog";
 import { CirclePlus, Pen } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
   const [open, setOpen] = useState(false);
   const closeDialog = () => setOpen(false);
+
+  useEffect(() => {
+    if (open)
+      document.body.style.overflow = "hidden"; // Disable background scroll
+    else document.body.style.overflow = "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   const addNewCar = !dbCar;
 

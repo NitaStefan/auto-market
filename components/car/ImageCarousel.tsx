@@ -14,19 +14,23 @@ import { useEffect, useState } from "react";
 import { oswald } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 import { Image as ImageIcon } from "lucide-react";
+import { useImagePreviews } from "@/lib/hooks/usePreviews";
 
 const ImageCarousel = ({
   carImages,
   alt,
   forDetailedView = false,
+  imageFiles = [],
 }: {
   carImages: { path: string }[];
   alt: string;
   forDetailedView?: boolean;
+  imageFiles?: File[];
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const previews = useImagePreviews(imageFiles);
 
   useEffect(() => {
     if (!api) {
@@ -41,19 +45,24 @@ const ImageCarousel = ({
     });
   }, [api]);
 
+  const carImagesToUse =
+    previews.length > 0
+      ? previews
+      : carImages.map((image) => CAR_IMAGES_BUCKET_URL + image.path);
+
   return (
     <Carousel className="group" setApi={setApi}>
       <CarouselContent className="ml-0">
-        {carImages.map((image) => (
+        {carImagesToUse.map((image) => (
           <CarouselItem
-            key={image.path}
+            key={image}
             className={cn(
               "relative h-60 w-full pl-0",
               forDetailedView && "h-[55vw] lg:h-100",
             )}
           >
             <Image
-              src={CAR_IMAGES_BUCKET_URL + image.path}
+              src={image}
               fill
               alt={alt}
               className={cn(

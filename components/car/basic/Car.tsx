@@ -23,8 +23,10 @@ const Car = ({ car }: { car: MasinaRecord }) => {
         {/* Title */}
         <div className="relative flex items-center gap-2 text-xl">
           <Brand brand={car.marca} />
-          <span className="font-light">{getCarBrandLabel(car.marca)}</span>{" "}
-          {car.model}
+          <span className="truncate font-light whitespace-nowrap">
+            {getCarBrandLabel(car.marca)}
+          </span>{" "}
+          <span className="whitespace-nowrap">{car.model}</span>
           {/* Show if posted on fb */}
           <Image
             src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
