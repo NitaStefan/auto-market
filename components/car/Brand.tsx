@@ -15,14 +15,14 @@ const Brand = ({
   return (
     <Image
       src={`/logos/cars/${brand}.svg`}
-      width={large ? 26 : 20}
-      height={large ? 26 : 20}
+      width={large ? 32 : 25}
+      height={large ? 32 : 25}
       alt={brand}
       onError={(e) => {
         e.currentTarget.onerror = null;
         e.currentTarget.src = "/logos/cars/default.svg";
       }}
-      className="translate-y-px"
+      className="-mr-1 translate-y-px"
     />
   );
 };

@@ -7,6 +7,10 @@ import ImageCarousel from "@/components/car/ImageCarousel";
 import Specification from "@/components/car/Specification";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Brand from "@/components/car/Brand";
+import { archivo, oswald } from "@/app/fonts";
+import { CAR_BRANDS, CarBrandKey } from "@/utils/constants";
+import CarTitle from "@/components/car/CarTitle";
 
 const FinishCarPost = ({
   car,
@@ -47,6 +51,18 @@ const FinishCarPost = ({
         imageFiles={imageFiles}
         roundedAll
       />
+
+      {/* CAR TITLE */}
+      <div className="pt-1.5">
+        <CarTitle
+          marca={car.marca}
+          model={car.model}
+          pret={car.pret}
+          tip={car.tip}
+          negociabil={car.negociabil}
+          noGapY
+        />
+      </div>
 
       <Specification car={car} detailed compact />
 
