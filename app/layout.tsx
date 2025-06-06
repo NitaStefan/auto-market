@@ -42,10 +42,7 @@ export default function RootLayout({
             },
           }}
         />
-        <footer
-          id="page-footer"
-          className="bg-secondary-800 relative z-20 h-50"
-        ></footer>
+        <footer className="bg-secondary-800 relative z-20 h-50"></footer>
       </body>
     </html>
   );

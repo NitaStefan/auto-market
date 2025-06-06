@@ -19,7 +19,7 @@ const ContactButtons = ({
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const footer = document.getElementById("page-footer");
+    const footer = document.querySelector("footer");
     if (!footer) return;
 
     const observer = new IntersectionObserver(
@@ -28,7 +28,7 @@ const ContactButtons = ({
       },
       {
         root: null,
-        threshold: 0.1, // You can increase to hide sooner (e.g., 0.3)
+        threshold: 0,
       },
     );
 
