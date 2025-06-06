@@ -9,7 +9,7 @@ import { ChevronLeft, Phone } from "lucide-react";
 import Specification from "./Specification";
 import Link from "next/link";
 import { generateWhatsAppLink } from "@/utils/format-utils";
-import { getCarBrandLabel } from "@/utils/utils";
+import { CAR_BRANDS, CarBrandKey } from "@/utils/constants";
 
 const CarDetailed = ({ car }: { car: MasinaRecord }) => {
   return (
@@ -26,7 +26,7 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
               className={`flex items-center gap-2 text-xl md:text-2xl ${oswald.className}`}
             >
               <Brand brand={car.marca} large />
-              <span>{getCarBrandLabel(car.marca)}</span>
+              <span>{CAR_BRANDS[car.marca as CarBrandKey]}</span>
               <span className="font-medium">{car.model}</span>
             </div>
             <div
@@ -56,7 +56,7 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
             >
               <a
                 href={generateWhatsAppLink(
-                  `${getCarBrandLabel(car.marca)} ${car.model}${car.an ? ` (anul ${car.an})` : ""}`,
+                  `${CAR_BRANDS[car.marca as CarBrandKey]} ${car.model}${car.an ? ` (anul ${car.an})` : ""}`,
                   car.tip,
                   car.id,
                 )}

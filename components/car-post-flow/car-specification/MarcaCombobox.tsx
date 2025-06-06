@@ -14,13 +14,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { CAR_BRANDS } from "@/utils/constants";
+import { CAR_BRANDS, CarBrandKey } from "@/utils/constants";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import React from "react";
 
 const MarcaCombobox = ({ marca }: { marca?: string }) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(marca || "");
+  const [value, setValue] = React.useState<CarBrandKey | "">(
+    (marca as CarBrandKey) || "",
+  );
+
+  const brandEntries = Object.entries(CAR_BRANDS) as [CarBrandKey, string][];
 
   return (
     <>
@@ -35,9 +39,7 @@ const MarcaCombobox = ({ marca }: { marca?: string }) => {
             aria-expanded={open}
             className="w-full justify-between font-normal"
           >
-            {value
-              ? CAR_BRANDS.find((brand) => brand.value === value)?.label
-              : "Selectează marca"}
+            {value ? CAR_BRANDS[value] : "Selectează marca"}
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -47,22 +49,22 @@ const MarcaCombobox = ({ marca }: { marca?: string }) => {
             <CommandList>
               <CommandEmpty>Marca nu a fost găsită.</CommandEmpty>
               <CommandGroup>
-                {CAR_BRANDS.map((brand) => (
+                {brandEntries.map(([brandValue, brandLabel]) => (
                   <CommandItem
-                    key={brand.value}
-                    value={brand.value}
+                    key={brandValue}
+                    value={brandValue}
                     onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
+                      setValue(currentValue as CarBrandKey);
                       setOpen(false);
                     }}
                   >
                     <CheckIcon
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === brand.value ? "opacity-100" : "opacity-0",
+                        value === brandValue ? "opacity-100" : "opacity-0",
                       )}
                     />
-                    {brand.label}
+                    {brandLabel}
                   </CommandItem>
                 ))}
               </CommandGroup>

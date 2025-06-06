@@ -59,7 +59,7 @@ const CarFilters = () => {
         <Input
           type="number"
           id="de-la"
-          className="mb-0 grow pl-9 sm:w-30"
+          className="mb-0 grow pl-9 sm:w-30 md:grow-0"
           placeholder="oricât"
         />
         <span className="absolute left-12.5 border-r-2 pr-2 leading-none text-gray-600 md:bottom-2 md:left-2">
@@ -73,7 +73,7 @@ const CarFilters = () => {
         <Input
           id="pana-la"
           type="number"
-          className="mb-0 grow pl-9 sm:w-30"
+          className="mb-0 grow pl-9 sm:w-30 md:grow-0"
           placeholder="oricât"
         />
         <span className="absolute left-15.5 border-r-2 pr-2 leading-none text-gray-600 md:bottom-2 md:left-2">

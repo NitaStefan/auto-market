@@ -2,13 +2,13 @@ import { MasinaRecord } from "@/types/app-types";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { getCarBrandLabel } from "@/utils/utils";
 import { archivo, oswald } from "@/app/fonts";
 import ImageCarousel from "./ImageCarousel";
 import Brand from "./Brand";
 import Engagement from "./Engagement";
 import Specification from "./Specification";
 import { Button } from "../ui/button";
+import { CAR_BRANDS, CarBrandKey } from "@/utils/constants";
 
 const Car = ({ car }: { car: MasinaRecord }) => {
   const isOnFb = car.facebook_posts?.id ? true : false;
@@ -24,7 +24,7 @@ const Car = ({ car }: { car: MasinaRecord }) => {
         <div className="relative flex items-center gap-2 text-xl">
           <Brand brand={car.marca} />
           <span className="truncate font-light whitespace-nowrap">
-            {getCarBrandLabel(car.marca)}
+            {CAR_BRANDS[car.marca as CarBrandKey]}
           </span>{" "}
           <span className="whitespace-nowrap">{car.model}</span>
           {/* Show if posted on fb */}
