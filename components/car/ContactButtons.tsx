@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { generateWhatsAppLink } from "@/utils/format-utils";
 import { CAR_BRANDS, CarBrandKey } from "@/utils/constants";
@@ -14,6 +16,29 @@ const ContactButtons = ({
   car: MasinaRecord;
   fixed?: boolean;
 }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const footer = document.getElementById("page-footer");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(!entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0.1, // You can increase to hide sooner (e.g., 0.3)
+      },
+    );
+
+    observer.observe(footer);
+
+    return () => observer.disconnect();
+  }, []);
+
+  if (!isVisible && !fixed) return null;
+
   return (
     <div
       className={cn(
