@@ -188,14 +188,35 @@ export const getFacebookPostId = async (
   }
 };
 
-export const getCars = async () => {
+export const getCars = async (filters: {
+  [key: string]: string | undefined;
+}) => {
   const supabase = await createClientNoAuth();
 
-  const { data: cars } = (await supabase.from("cars").select(`
+  // const { data: cars } = (await supabase.from("cars").select(`
+  //   *,
+  //   car_images (path),
+  //   facebook_posts (id)
+  // `)) as { data: MasinaRecord[] };
+
+  let query = supabase.from("cars").select(`
     *,
     car_images (path),
     facebook_posts (id)
-  `)) as { data: MasinaRecord[] };
+  `);
+
+  if (filters?.tip) {
+    query = query.eq("tip", filters.tip);
+
+    if (filters.tip === "vanzare") {
+      if (filters.pret_min) query = query.gte("pret", Number(filters.pret_min));
+      if (filters.pret_max) query = query.lte("pret", Number(filters.pret_max));
+    }
+  }
+
+  if (filters?.marca) query = query.eq("marca", filters.marca);
+
+  const { data: cars } = (await query) as { data: MasinaRecord[] };
 
   return cars;
 };
@@ -216,6 +237,14 @@ export const getCarById = async (id: number) => {
     .single()) as { data: MasinaRecord | null };
 
   return car;
+};
+
+export const getCarBrands = async () => {
+  const supabase = await createClientNoAuth();
+
+  const { data } = await supabase.rpc("get_distinct_marci");
+
+  return data;
 };
 
 // REVALIDATE
