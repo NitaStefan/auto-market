@@ -94,15 +94,28 @@ export const deleteFacebookPost = async (
 
 //ENGAGEMENT
 
-export const postComments = async (postId: string) => {
-  const cookieStore = await cookies();
-
-  const pageAccessToken = cookieStore.get("page_access_token");
-  if (!pageAccessToken) throw Error("Page access token not found");
+export const getPostComments = async (postId: string) => {
+  const pageAccessToken = await getPageAccessToken();
 
   const res = await fetch(
     `https://graph.facebook.com/${postId}/comments?access_token=${pageAccessToken}`,
   );
+
+  const data = await res.json();
+
+  return data.data;
+};
+
+export const getNunmberOfReactions = async (postId: string) => {
+  const pageAccessToken = await getPageAccessToken();
+
+  const res = await fetch(
+    `https://graph.facebook.com/${postId}/reactions?summary=true&access_token=${pageAccessToken}`,
+  );
+
+  const data = await res.json();
+
+  return data.summary.total_count;
 };
 
 //AUTHORIZATION

@@ -37,7 +37,7 @@ const Car = ({ car }: { car: MasinaRecord }) => {
               alt="facebook"
               className={cn("ml-auto", !isOnFb && "opacity-50")}
             />
-            {isOnFb && <Engagement />}
+            {isOnFb && <Engagement postId={car.facebook_posts?.id} />}
           </ForAdmin>
         </div>
         {/* vanzare / dezmembrari */}
