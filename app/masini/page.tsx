@@ -5,6 +5,7 @@ import FacebookOauth from "@/components/facebook/FacebookOauth";
 import CarFilters from "@/components/car/CarFilters";
 import CarDialog from "@/components/CarDialog";
 import ForAdmin from "@/components/ForAdmin";
+import { Suspense } from "react";
 
 const Page = async ({
   searchParams,
@@ -24,9 +25,11 @@ const Page = async ({
     <>
       {/* <FacebookOauth /> */}
       <CarFilters brands={differentBrands} />
-      <ForAdmin>
-        <CarDialog />
-      </ForAdmin>
+      <Suspense>
+        <ForAdmin>
+          <CarDialog />
+        </ForAdmin>
+      </Suspense>
 
       {cars?.length ? (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">

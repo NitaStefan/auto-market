@@ -1,7 +1,7 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import React from "react";
 
 const Brand = ({
   brand,
@@ -10,18 +10,25 @@ const Brand = ({
   brand: string;
   large?: boolean;
 }) => {
-  // todo: show nothing if brand not found
+  const [isValid, setIsValid] = useState(false);
+
+  const path = `/logos/cars/${brand}.svg`;
+
+  useEffect(() => {
+    const img = new window.Image();
+    img.src = path;
+    img.onload = () => setIsValid(true);
+    img.onerror = () => setIsValid(false);
+  }, []);
+
+  if (!isValid) return null;
 
   return (
     <Image
-      src={`/logos/cars/${brand}.svg`}
+      src={path}
       width={large ? 32 : 25}
       height={large ? 32 : 25}
       alt={brand}
-      onError={(e) => {
-        e.currentTarget.onerror = null;
-        e.currentTarget.src = "/logos/cars/default.svg";
-      }}
       className="-mr-1 translate-y-px"
     />
   );

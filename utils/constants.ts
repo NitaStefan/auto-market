@@ -83,8 +83,8 @@ export const CAR_BRANDS = {
   seat: "Seat",
   skoda: "Skoda",
   smart: "Smart",
-  subaru: "Subaru",
-  suzuki: "Suzuki",
+  subaru: "Subaru", // **
+  suzuki: "Suzuki", // **
   tesla: "Tesla",
   toyota: "Toyota",
   volkswagen: "Volkswagen",

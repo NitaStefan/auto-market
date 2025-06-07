@@ -14,8 +14,6 @@ const Engagement = async ({ postId }: { postId?: string }) => {
     getNunmberOfReactions(postId),
   ]);
 
-  console.log(commentsData);
-
   return (
     <Popover>
       <PopoverTrigger className="cursor-pointer">
@@ -50,9 +48,7 @@ const Engagement = async ({ postId }: { postId?: string }) => {
           {commentsData.map((comment: any) => (
             <div key={comment.id}>
               <p>{comment.from.name}</p>
-              <p className="text-sm text-gray-300">
-                {comment.message} mai ioane da-ti-as la geoale
-              </p>
+              <p className="text-sm text-gray-300">{comment.message}</p>
             </div>
           ))}
         </PopoverContent>

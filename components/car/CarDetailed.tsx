@@ -1,5 +1,5 @@
 import { MasinaRecord } from "@/types/app-types";
-import React from "react";
+import React, { Suspense } from "react";
 import ImageCarousel from "./ImageCarousel";
 import { archivo, oswald } from "@/app/fonts";
 import { ChevronLeft } from "lucide-react";
@@ -18,9 +18,11 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
   return (
     <>
       <div className="translate-y-12">
-        <ForAdmin>
-          <CarDialog dbCar={car} />
-        </ForAdmin>
+        <Suspense>
+          <ForAdmin>
+            <CarDialog dbCar={car} />
+          </ForAdmin>
+        </Suspense>
       </div>
       <div className="relative mt-10 mb-20 flex flex-col rounded-md bg-white shadow-md lg:flex-row">
         <div className="w-full shrink-0 lg:w-150">
@@ -29,26 +31,27 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
             alt={`${car.marca} ${car.model}`}
             forDetailedView
           />
-          {/* TODO: add whether post is posted or not */}
           <div className="relative flex flex-col gap-8 px-4 pt-10 md:px-10 lg:px-6">
-            <ForAdmin>
-              <div
-                className={cn(
-                  "absolute top-0 flex gap-1 rounded-b-lg border-2 border-t-0 px-1.5 text-sm",
-                  !isOnFb && "opacity-70",
-                )}
-              >
-                <Image
-                  src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
-                  width={16}
-                  height={16}
-                  alt="facebook"
-                />
-                <p className="rounded-lg italic">
-                  {isOnFb ? "postat" : "nepostat"}
-                </p>
-              </div>
-            </ForAdmin>
+            <Suspense>
+              <ForAdmin>
+                <div
+                  className={cn(
+                    "absolute top-0 flex gap-1 rounded-b-lg border-2 border-t-0 px-1.5 text-sm",
+                    !isOnFb && "opacity-70",
+                  )}
+                >
+                  <Image
+                    src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
+                    width={16}
+                    height={16}
+                    alt="facebook"
+                  />
+                  <p className="rounded-lg italic">
+                    {isOnFb ? "postat" : "nepostat"}
+                  </p>
+                </div>
+              </ForAdmin>
+            </Suspense>
 
             <CarTitle
               marca={car.marca}

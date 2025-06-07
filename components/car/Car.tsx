@@ -10,6 +10,7 @@ import Specification from "./Specification";
 import { Button } from "../ui/button";
 import { CAR_BRANDS, CarBrandKey } from "@/utils/constants";
 import ForAdmin from "../ForAdmin";
+import { Suspense } from "react";
 
 const Car = ({ car }: { car: MasinaRecord }) => {
   const isOnFb = car.facebook_posts?.id ? true : false;
@@ -29,16 +30,18 @@ const Car = ({ car }: { car: MasinaRecord }) => {
           </span>{" "}
           <span className="whitespace-nowrap">{car.model}</span>
           {/* Show if posted on fb */}
-          <ForAdmin>
-            <Image
-              src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
-              width={22}
-              height={22}
-              alt="facebook"
-              className={cn("ml-auto", !isOnFb && "opacity-50")}
-            />
-            {isOnFb && <Engagement postId={car.facebook_posts?.id} />}
-          </ForAdmin>
+          <Suspense>
+            <ForAdmin>
+              <Image
+                src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
+                width={22}
+                height={22}
+                alt="facebook"
+                className={cn("ml-auto", !isOnFb && "opacity-50")}
+              />
+              {isOnFb && <Engagement postId={car.facebook_posts?.id} />}
+            </ForAdmin>
+          </Suspense>
         </div>
         {/* vanzare / dezmembrari */}
         <div className="text-primary pt-1 text-lg">
