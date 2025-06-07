@@ -17,8 +17,14 @@ const ContactButtons = ({
   fixed?: boolean;
 }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => setIsSmallScreen(window.innerWidth < 1024);
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
     const footer = document.querySelector("footer");
     if (!footer) return;
 
@@ -34,16 +40,19 @@ const ContactButtons = ({
 
     observer.observe(footer);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  if (!isVisible && !fixed) return null;
+  if (isSmallScreen && !isVisible && !fixed) return null;
 
   return (
     <div
       className={cn(
         "bg-secondary-800 fixed bottom-0 left-1/2 z-10 flex w-[min(640px,100vw)] -translate-x-1/2 items-center gap-4 p-2 px-4 sm:rounded-t-md lg:static lg:w-full lg:translate-x-0 lg:bg-transparent lg:p-0 lg:pb-10",
-        fixed && "absolute bottom-0 z-5",
+        fixed && "absolute bottom-0 z-5 lg:hidden",
       )}
     >
       <Button

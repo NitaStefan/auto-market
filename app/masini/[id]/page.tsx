@@ -1,6 +1,5 @@
 import CarDetailed from "@/components/car/CarDetailed";
 import CarNotFound from "@/components/car/CarNotFound";
-import CarDialog from "@/components/CarDialog";
 import { getCarById } from "@/lib/actions/app/actions";
 import React from "react";
 
@@ -11,12 +10,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (!car) return <CarNotFound />;
 
-  return (
-    <>
-      <CarDialog dbCar={car} />
-      <CarDetailed car={car} />
-    </>
-  );
+  return <CarDetailed car={car} />;
 };
 
 export default Page;

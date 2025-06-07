@@ -22,6 +22,7 @@ import {
   SimpleResult,
 } from "@/types/server-responses";
 import { versionOf } from "@/utils/format-utils";
+import { cache } from "react";
 
 export const addCar = async (
   car: Omit<Masina, "facebook_posts">,
@@ -251,3 +252,14 @@ export const getCarBrands = async () => {
 export async function revalidateCarsPath() {
   revalidatePath("/masini");
 }
+
+// GET USER
+
+export const getUser = cache(async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return user;
+});

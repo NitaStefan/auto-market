@@ -12,11 +12,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import CarPostFlow from "./car-post-flow/CarPostFlow";
 import { MasinaRecord } from "@/types/app-types";
 import { useEffect, useState } from "react";
 import { DialogContext } from "@/lib/hooks/useDialog";
 import { CirclePlus, Pen } from "lucide-react";
+import CarPostFlow from "./car-post-flow/CarPostFlow";
 
 const CarDialog = ({ dbCar }: { dbCar?: MasinaRecord }) => {
   const [open, setOpen] = useState(false);

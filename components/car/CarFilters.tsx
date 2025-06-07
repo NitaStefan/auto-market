@@ -46,7 +46,7 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
   };
 
   return (
-    <div className="mb-6 grid grid-cols-2 gap-4 md:flex md:gap-4">
+    <div className="mb-8 grid grid-cols-2 gap-4 md:flex md:gap-4">
       <div className="hidden flex-col items-center pt-2 md:flex">
         <Filter />
         <span className="-mt-0.5 text-sm">Filtre</span>

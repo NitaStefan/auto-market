@@ -37,6 +37,7 @@ export const formatFbMessage = (car: Masina) => {
       ? `✔️ ${car.cai_putere} CP (${convertCpToKw(car.cai_putere)} kW)`
       : null,
     car.euro_poluant ? `✔️ Normă Euro: ${formatLabel(car.euro_poluant)}` : null,
+    "\n✆ 0744 227 641\n",
     car.detalii ? `\n${car.detalii}` : null,
   ];
 

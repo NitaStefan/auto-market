@@ -1,9 +1,10 @@
-import CarDialog from "@/components/CarDialog";
 import { getCarBrands, getCars } from "@/lib/actions/app/actions";
 import { unstable_cache } from "next/cache";
 import Car from "@/components/car/Car";
 import FacebookOauth from "@/components/facebook/FacebookOauth";
 import CarFilters from "@/components/car/CarFilters";
+import CarDialog from "@/components/CarDialog";
+import ForAdmin from "@/components/ForAdmin";
 
 const Page = async ({
   searchParams,
@@ -23,7 +24,10 @@ const Page = async ({
     <>
       {/* <FacebookOauth /> */}
       <CarFilters brands={differentBrands} />
-      <CarDialog />
+      <ForAdmin>
+        <CarDialog />
+      </ForAdmin>
+
       {cars?.length ? (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
           {cars.map((car) => (
