@@ -19,9 +19,14 @@ const Navbar = () => {
 
   return (
     <nav className="bg-background flex h-17 items-center justify-between rounded-b-sm px-6 shadow-sm">
-      <div className="rounded-full border-3 p-1.5">
-        <Image src="/logos/app.svg" alt="website logo" width={42} height={42} />
+      <div className={`flex items-center text-2xl ${oswald.className}`}>
+        <Image src="/logos/app.svg" alt="website logo" width={63} height={63} />
+        <div>
+          <span>Auto</span>
+          <span className="text-primary font-medium">Dac</span>
+        </div>
       </div>
+
       <div className={`hidden items-center gap-6 sm:flex ${oswald.className}`}>
         <NavLink to="/masini" isActive={pathname === "/masini"} />
         <NavLink to="/tractari" isActive={pathname === "/tractari"} />
