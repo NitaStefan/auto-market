@@ -13,6 +13,7 @@ import {
 import { Input } from "../ui/input";
 import { CAR_BRANDS, CarBrandKey } from "@/utils/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Brand from "./Brand";
 
 const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
   const pathname = usePathname();
@@ -58,7 +59,7 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
         <Select value={tip} onValueChange={setTip}>
           <SelectTrigger
             size="sm"
-            className="w-full bg-white sm:w-full md:w-42 lg:w-48"
+            className="w-full bg-white px-2 sm:w-full md:w-42 lg:w-48"
           >
             <SelectValue defaultValue="toate" />
           </SelectTrigger>
@@ -77,15 +78,22 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
         >
           <SelectTrigger
             size="sm"
-            className="w-full bg-white sm:w-full md:w-42 lg:w-48"
+            className="w-full bg-white px-2 sm:w-full md:w-42 lg:w-48"
           >
             <SelectValue defaultValue="toate" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="toate">Toate</SelectItem>
+          <SelectContent className="flex items-end">
+            <SelectItem className="pl-6.5 font-medium" value="toate">
+              Toate
+            </SelectItem>
             {brands.map((brand) => (
-              <SelectItem key={brand.marca} value={brand.marca}>
-                {CAR_BRANDS[brand.marca]}
+              <SelectItem
+                className="pl-0.5"
+                key={brand.marca}
+                value={brand.marca}
+              >
+                <Brand brand={brand.marca} />
+                <span className="-ml-0.5">{CAR_BRANDS[brand.marca]}</span>
               </SelectItem>
             ))}
           </SelectContent>

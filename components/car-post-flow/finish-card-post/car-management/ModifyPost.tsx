@@ -23,6 +23,7 @@ import { getModifyCarButtonLabel } from "@/utils/utils";
 import { LoaderCircle } from "lucide-react";
 import { formatFbMessage, versionOf } from "@/utils/format-utils";
 import ActionDivider from "./ActionDivider";
+import { useRouter } from "next/navigation";
 
 const ModifyPost = ({
   car,
@@ -32,6 +33,7 @@ const ModifyPost = ({
   imageFiles: File[];
 }) => {
   const { closeDialog } = useDialog();
+  const { push } = useRouter();
   const [loadingState, setLoadingState] = useState<ModifyLoadingState>("idle");
 
   const [actions, setActions] = useState({
@@ -204,7 +206,6 @@ const ModifyPost = ({
 
       await Promise.all(promises);
 
-      await revalidateCarsPath();
       toast.success("Anunțul a fost șters cu succes");
     } catch (error) {
       toast.error(
@@ -214,6 +215,7 @@ const ModifyPost = ({
       );
     } finally {
       closeDialog();
+      push("/masini");
     }
   };
 
