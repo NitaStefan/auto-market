@@ -17,14 +17,18 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
 
   return (
     <>
-      <div className="translate-y-12">
-        <Suspense>
-          <ForAdmin>
-            <CarDialog dbCar={car} />
-          </ForAdmin>
-        </Suspense>
-      </div>
-      <div className="relative mt-10 mb-20 flex flex-col rounded-md bg-white shadow-md lg:flex-row">
+      <Link
+        href="/masini"
+        className="text-txt-secondary-600 flex items-center pb-3 hover:text-black"
+      >
+        <ChevronLeft /> Toate mașinile
+      </Link>
+      <Suspense>
+        <ForAdmin>
+          <CarDialog dbCar={car} />
+        </ForAdmin>
+      </Suspense>
+      <div className="relative mb-20 flex flex-col rounded-md bg-white shadow-md lg:flex-row">
         <div className="w-full shrink-0 lg:w-150">
           <ImageCarousel
             carImages={car.car_images}
@@ -76,12 +80,6 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
         {/* GO BACK */}
       </div>
       <ContactButtons fixed car={car} />
-      <Link
-        href="/masini"
-        className="text-txt-secondary-600 absolute top-8 flex items-center hover:text-black"
-      >
-        <ChevronLeft /> Toate mașinile
-      </Link>
     </>
   );
 };

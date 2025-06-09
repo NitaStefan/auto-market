@@ -1,4 +1,4 @@
-import FacebookOauth from "@/components/facebook/FacebookOauth";
+import FacebookOauth from "@/components/facebook/FacebookOauthAlert";
 import { redirect } from "next/navigation";
 
 export default async function HomePage() {

@@ -14,9 +14,8 @@ import { NGROK_BASE_URL } from "@/utils/constants";
 const getPageAccessToken = async () => {
   const cookieStore = await cookies();
   const pageAccessToken = cookieStore.get("page_access_token");
-  if (!pageAccessToken) throw Error("Page access token not found");
 
-  return pageAccessToken.value;
+  return pageAccessToken?.value;
 };
 
 export const makeFacebookPost = async (
@@ -27,6 +26,7 @@ export const makeFacebookPost = async (
 ): Promise<MakeFacebookPostResult> => {
   try {
     const pageAccessToken = await getPageAccessToken();
+    if (!pageAccessToken) throw Error("Page access token not found");
 
     const imageUploadPromises = Array.from(
       { length: numberOfImages },
@@ -52,6 +52,7 @@ export const updateFacebookPost = async (
 ): Promise<SimpleResult> => {
   try {
     const pageAccessToken = await getPageAccessToken();
+    if (!pageAccessToken) throw Error("Page access token not found");
 
     const res = await fetch(`https://graph.facebook.com/v22.0/${postId}`, {
       method: "POST",
@@ -78,6 +79,7 @@ export const deleteFacebookPost = async (
 ): Promise<SimpleResult> => {
   try {
     const pageAccessToken = await getPageAccessToken();
+    if (!pageAccessToken) throw Error("Page access token not found");
 
     const deleteMediaPromises = mediaIds.map((mediaId) =>
       deleteMedia(mediaId, pageAccessToken),
@@ -115,14 +117,17 @@ export const getNunmberOfReactions = async (postId: string) => {
 
   const data = await res.json();
 
-  return data.summary.total_count;
+  return data.summary?.total_count;
 };
 
 //AUTHORIZATION
 
 // set a page_access_token secure cookie lasting 55 days
-export const getFacebookPageAccessToken = async (code: string) => {
+export const setFacebookPageAccessToken = async (
+  code: string,
+): Promise<SimpleResult> => {
   const cookieStore = await cookies();
+
   try {
     const client_id = process.env.FACEBOOK_APP_ID;
     const client_secret = process.env.FACEBOOK_APP_SECRET;
@@ -148,28 +153,35 @@ export const getFacebookPageAccessToken = async (code: string) => {
     const { access_token: userAccessToken } = await longLivedUATRes.json();
 
     // Get page access token
-    const getPageAccessToken = async (days: number) => {
-      const PATRes = await fetch(
-        `https://graph.facebook.com/v22.0/me/accounts?access_token=${userAccessToken}`,
-      );
+    const PATRes = await fetch(
+      `https://graph.facebook.com/v22.0/me/accounts?access_token=${userAccessToken}`,
+    );
 
-      if (!PATRes.ok) throw new Error("Failed to get page access token");
+    if (!PATRes.ok) throw new Error("Failed to get page access token");
 
-      const PATResJson = await PATRes.json();
+    const PATResJson = await PATRes.json();
 
-      const page = PATResJson.data.find(
-        (p: any) => p.id === process.env.FB_PAGE_ID,
-      );
-      const pageAccessToken = page.access_token;
+    const page = PATResJson.data.find(
+      (p: any) => p.id === process.env.FB_PAGE_ID,
+    );
+    const pageAccessToken = page.access_token;
 
-      cookieStore.set("page_access_token", pageAccessToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 60 * 60 * 24 * days,
-      });
-    };
+    // set the expiration date of the PAT to be the expiration of the data access
+    const debugRes = await fetch(
+      `https://graph.facebook.com/debug_token?input_token=${pageAccessToken}&access_token=${client_id}|${client_secret}`,
+    );
+    const debugJson = await debugRes.json();
+    const { data_access_expires_at } = debugJson.data;
 
-    await getPageAccessToken(55);
+    let maxAge = 60 * 60 * 24 * 55; // 55 days default
+    const now = Math.floor(Date.now() / 1000);
+    if (data_access_expires_at) maxAge = data_access_expires_at - now;
+
+    cookieStore.set("page_access_token", pageAccessToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge,
+    });
 
     return { success: true };
   } catch (error) {

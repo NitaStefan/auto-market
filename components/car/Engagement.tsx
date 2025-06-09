@@ -14,6 +14,8 @@ const Engagement = async ({ postId }: { postId?: string }) => {
     getNunmberOfReactions(postId),
   ]);
 
+  if (!commentsData || noOfReactions === undefined) return null;
+
   return (
     <Popover>
       <PopoverTrigger className="cursor-pointer">

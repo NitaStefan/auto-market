@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <nav className="bg-background flex h-17 items-center justify-between rounded-b-sm px-6 shadow-sm">
       <div className={`flex items-center text-2xl ${oswald.className}`}>
-        <Image src="/logos/app.svg" alt="website logo" width={63} height={63} />
+        <Image src="/logos/app.svg" alt="website logo" width={60} height={60} />
         <div>
           <span>Auto</span>
           <span className="text-primary font-medium">Dac</span>

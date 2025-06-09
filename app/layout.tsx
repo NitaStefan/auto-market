@@ -4,6 +4,9 @@ import "./globals.css";
 import FbAssociationChecker from "@/components/facebook/FbAssociationChecker";
 import { Suspense } from "react";
 import Navbar from "@/components/navbar/Navbar";
+import Link from "next/link";
+import { MapPin, Phone } from "lucide-react";
+import ForAdmin from "@/components/ForAdmin";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -26,13 +29,8 @@ export default function RootLayout({
         <header className="sticky top-0 right-0 left-0 z-50 mx-auto w-full max-w-7xl">
           <Navbar />
         </header>
-        <main className="relative mx-auto min-h-[calc(100vh-16.75rem)] max-w-7xl overflow-x-hidden px-5 py-8 sm:px-8 md:px-12">
-          {/* !!! THIS MAKES THE ROUTE DYNAMIC */}
-          {/* <Suspense fallback={<div className="text-gray-500">Loading...</div>}>
-            <FbAssociationChecker />
-          </Suspense> */}
+        <main className="relative mx-auto min-h-[calc(100vh-4.25rem-156.8px)] max-w-7xl overflow-x-hidden px-5 py-8 sm:px-8 md:px-12">
           {children}
-          {/* <div className="absolute right-0 bottom-0 z-8 h-13 w-screen overflow-hidden bg-[#F5F5F5]"></div> */}
         </main>
         <Toaster
           toastOptions={{
@@ -42,7 +40,30 @@ export default function RootLayout({
             },
           }}
         />
-        <footer className="bg-secondary-800 relative z-20 h-50"></footer>
+        <footer className="bg-secondary-800 relative z-20 grid grid-cols-1 gap-y-4 border-t border-gray-500 pt-5 pb-18 text-sm text-gray-300 md:grid-cols-3">
+          <div className="flex flex-col px-6">
+            <p className="text-base text-white">Navigare rapidă</p>
+            <Link href="/masini">Mașini second-hand/ dezmembrări</Link>
+            <Link href="/tractari">Tractări auto</Link>
+          </div>
+          <div className="flex flex-col px-6">
+            <p className="text-base text-white">Urmărește-mă și pe Facebook</p>
+            <p>fb page link</p>
+          </div>
+          <div className="flex flex-col px-6">
+            <p className="text-base text-white">Informații de contact</p>
+            <a href="tel:0744227641" className="flex items-center gap-1.5">
+              <Phone size={14} /> 0744 227 641
+            </a>
+            <p className="flex items-center gap-1.5">
+              <MapPin size={14} /> Roma, jud. Botoșani
+            </p>
+          </div>
+          <div className="absolute bottom-13 mx-6 h-px w-[calc(100%-3rem)] rounded-full bg-gray-500"></div>
+          <p className="absolute bottom-4 w-full text-center">
+            © {new Date().getFullYear()} AutoDac. Toate drepturile rezervate.
+          </p>
+        </footer>
       </body>
     </html>
   );
