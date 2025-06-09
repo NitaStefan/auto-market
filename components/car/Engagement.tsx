@@ -45,7 +45,7 @@ const Engagement = async ({ postId }: { postId?: string }) => {
         <PopoverContent
           side="left"
           sideOffset={40}
-          className="bg-secondary-800 flex flex-col gap-4 border-2 p-2.5 text-white"
+          className="bg-secondary-800 flex max-h-80 flex-col gap-4 overflow-y-auto border-2 p-2.5 text-white"
         >
           {commentsData.map((comment: any) => (
             <div key={comment.id}>

@@ -40,8 +40,8 @@ const LabeledCheckbox = ({
         <Image
           className="mr-1 self-center rounded-lg"
           src={`/logos/${icon}.svg`}
-          width={22}
-          height={22}
+          width={icon === "facebook" ? 22 : 30}
+          height={icon === "facebook" ? 22 : 30}
           alt={`${icon} logo`}
         />
         <div className="w-full">

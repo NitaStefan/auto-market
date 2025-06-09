@@ -5,7 +5,7 @@ import FbAssociationChecker from "@/components/facebook/FbAssociationChecker";
 import { Suspense } from "react";
 import Navbar from "@/components/navbar/Navbar";
 import Link from "next/link";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, Phone, UserCog } from "lucide-react";
 import ForAdmin from "@/components/ForAdmin";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -40,17 +40,17 @@ export default function RootLayout({
             },
           }}
         />
-        <footer className="bg-secondary-800 relative z-20 grid grid-cols-1 gap-y-4 border-t border-gray-500 pt-5 pb-18 text-sm text-gray-300 md:grid-cols-3">
-          <div className="flex flex-col px-6">
+        <footer className="bg-secondary-800 relative z-20 mx-auto grid max-w-7xl grid-cols-1 gap-y-4 border-t border-gray-500 pt-5 pb-18 text-sm text-gray-300 md:grid-cols-3">
+          <div className="flex flex-col px-4">
             <p className="text-base text-white">Navigare rapidă</p>
             <Link href="/masini">Mașini second-hand/ dezmembrări</Link>
             <Link href="/tractari">Tractări auto</Link>
           </div>
-          <div className="flex flex-col px-6">
+          <div className="flex flex-col px-4">
             <p className="text-base text-white">Urmărește-mă și pe Facebook</p>
             <p>fb page link</p>
           </div>
-          <div className="flex flex-col px-6">
+          <div className="flex flex-col px-4">
             <p className="text-base text-white">Informații de contact</p>
             <a href="tel:0744227641" className="flex items-center gap-1.5">
               <Phone size={14} /> 0744 227 641
@@ -63,6 +63,19 @@ export default function RootLayout({
           <p className="absolute bottom-4 w-full text-center">
             © {new Date().getFullYear()} AutoDac. Toate drepturile rezervate.
           </p>
+          {/* ADMIN */}
+          <Suspense>
+            <ForAdmin not>
+              <Link
+                href="/sign-in"
+                className="absolute right-8 bottom-18 flex flex-col items-center text-xs text-gray-400 hover:underline"
+              >
+                <UserCog size={20} />
+                <span className="-mt-0.5">Intră ca </span>
+                <span className="-mt-1">admin</span>
+              </Link>
+            </ForAdmin>
+          </Suspense>
         </footer>
       </body>
     </html>

@@ -1,24 +1,24 @@
-import SignOutButton from "@/components/supabase/sign-out-button"
-import { createClient } from "@/utils/supabase/server"
-import { redirect } from "next/navigation"
+import SignOutButton from "@/components/supabase/sign-out-button";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function ProtectedPage() {
-  const supabase = await createClient()
+  const supabase = await createClient();
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
-  // if (!user) return redirect("/sign-in")
+  if (!user) return redirect("/sign-in");
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
-      <div className="flex flex-col gap-2 items-start">
-        <h2 className="font-bold text-2xl mb-4">Your user details</h2>
+    <div className="flex w-full flex-1 flex-col gap-12">
+      <div className="flex flex-col items-start gap-2">
+        <h2 className="mb-4 text-2xl font-bold">Your user details</h2>
         <SignOutButton />
-        <pre className="text-xs font-mono p-3 rounded border overflow-auto">
+        <pre className="overflow-auto rounded border p-3 font-mono text-xs">
           {JSON.stringify(user, null, 2)}
         </pre>
       </div>
     </div>
-  )
+  );
 }
