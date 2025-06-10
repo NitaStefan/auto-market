@@ -12,12 +12,12 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
 
       <div className="mt-8 flex flex-col gap-2 [&>input]:mb-3">
         <Label htmlFor="email">Email</Label>
-        <Input name="email" placeholder="you@example.com" required />
+        <Input name="email" placeholder="nume@examplu.com" required />
         <Label htmlFor="password">Parolă</Label>
         <Input
           type="password"
           name="password"
-          placeholder="Your password"
+          placeholder="Parola ta"
           required
         />
         <SubmitButton pendingText="Signing In..." formAction={signInAction}>

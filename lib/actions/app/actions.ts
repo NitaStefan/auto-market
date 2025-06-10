@@ -257,6 +257,7 @@ export async function revalidateCarsPath() {
 
 export const getUser = cache(async () => {
   const supabase = await createClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();

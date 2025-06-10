@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { archivo } from "./fonts";
 import "./globals.css";
-import FbAssociationChecker from "@/components/facebook/FbAssociationChecker";
 import { Suspense } from "react";
 import Navbar from "@/components/navbar/Navbar";
 import Link from "next/link";
@@ -14,8 +13,9 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Auto Market",
-  description: "Anunturi auto cu masini second-hand si dezmembrari",
+  title: "AutoDac",
+  description:
+    "Anunțuri auto cu mașini second-hand si pentru dezmembrări. Serviciu de tractări.",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
         <header className="sticky top-0 right-0 left-0 z-50 mx-auto w-full max-w-7xl">
           <Navbar />
         </header>
-        <main className="relative mx-auto min-h-[calc(100vh-4.25rem-156.8px)] max-w-7xl overflow-x-hidden px-5 py-8 sm:px-8 md:px-12">
+        <main className="relative mx-auto min-h-[calc(100vh-4.25rem)] max-w-7xl overflow-x-hidden px-5 py-8 sm:px-8 md:px-12">
           {children}
         </main>
         <Toaster

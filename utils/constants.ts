@@ -32,7 +32,6 @@ export const CAR_IMAGES_BUCKET_URL =
 //for facebook oauth
 export const SCOPES =
   "pages_manage_posts,pages_read_engagement,pages_show_list,pages_read_user_content";
-export const NGROK_BASE_URL = "https://de21-188-24-83-35.ngrok-free.app/";
 
 //CARS
 export const CAR_BRANDS = {
