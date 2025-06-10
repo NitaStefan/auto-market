@@ -187,17 +187,3 @@ export const setFacebookPageAccessToken = async (
     return handleServerError("asocierea contului de Facebook", error);
   }
 };
-
-export const setDummyPageAccessToken = async () => {
-  const cookieStore = await cookies();
-
-  cookieStore.set(
-    "page_access_token",
-    process.env.FB_PAGE_ACCESS_TOKEN as string,
-    {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60 * 60 * 24 * 55,
-    },
-  );
-};

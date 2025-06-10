@@ -83,7 +83,7 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
             <SelectValue defaultValue="toate" />
           </SelectTrigger>
           <SelectContent className="flex items-end">
-            <SelectItem className="pl-6.5 font-medium" value="toate">
+            <SelectItem className="pl-8 font-medium" value="toate">
               Toate
             </SelectItem>
             {brands.map((brand) => (
@@ -92,7 +92,10 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
                 key={brand.marca}
                 value={brand.marca}
               >
-                <Brand brand={brand.marca} />
+                <div className="min-w-6.5">
+                  <Brand brand={brand.marca} />
+                </div>
+
                 <span className="-ml-0.5">{CAR_BRANDS[brand.marca]}</span>
               </SelectItem>
             ))}

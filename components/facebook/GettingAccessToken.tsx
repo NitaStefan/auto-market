@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  setFacebookPageAccessToken,
-  setDummyPageAccessToken,
-} from "@/lib/actions/facebook/actions";
+import { setFacebookPageAccessToken } from "@/lib/actions/facebook/actions";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -14,7 +11,7 @@ const GettingAccessToken = ({
   code?: string;
   oauthUrl: string;
 }) => {
-  const [status, setStatus] = useState("pending");
+  const [status, setStatus] = useState("success");
 
   useEffect(() => {
     const getToken = async () => {
@@ -29,8 +26,6 @@ const GettingAccessToken = ({
         return;
       }
 
-      // await setDummyPageAccessToken();
-
       setStatus("success");
     };
 
@@ -43,7 +38,7 @@ const GettingAccessToken = ({
         className={cn(
           "rounded-xl border-2 border-gray-300 p-4 text-xl font-medium text-gray-500",
           status === "error" && "border-red-600 text-red-600",
-          status === "success" && "border-primary text-primary",
+          status === "success" && "border-green-500 text-black",
         )}
       >
         {status === "pending" && "Se încarcă..."}
@@ -61,8 +56,14 @@ const GettingAccessToken = ({
           </>
         )}
 
-        {status === "success" &&
-          "Succes! Acum poți interacționa cu pagina ta de Facebook"}
+        {status === "success" && (
+          <>
+            <span className="mr-2 rounded-md border border-green-500 bg-green-100/80 px-3 py-2 text-green-500">
+              Succes!
+            </span>
+            <span>Acum poți interacționa cu pagina ta de Facebook</span>
+          </>
+        )}
       </div>
     </>
   );
