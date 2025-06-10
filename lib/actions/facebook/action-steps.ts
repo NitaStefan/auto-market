@@ -31,6 +31,16 @@ export const postMessage = async (
   return data.id as string;
 };
 
+export const getPostLink = async (postId: string, pageAccessToken: string) => {
+  const res = await fetch(
+    `https://graph.facebook.com/${postId}?fields=permalink_url&access_token=${pageAccessToken}`,
+  );
+
+  const data = await res.json();
+
+  return data.permalink_url as string;
+};
+
 export const uploadMediaImage = async (
   carId: number,
   index: number,

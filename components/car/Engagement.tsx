@@ -34,7 +34,11 @@ const Engagement = async ({ postId }: { postId?: string }) => {
           <span className="absolute -top-1 -right-2.5 text-base text-black">
             {noOfReactions}
           </span>
-          <MessageCircle size={20} className="absolute top-5 right-0" />
+          <MessageCircle
+            strokeWidth={1.75}
+            size={20}
+            className="absolute top-5 right-0"
+          />
           <span className="absolute top-4.5 -right-2 text-base text-black">
             {commentsData.length}
           </span>

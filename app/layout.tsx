@@ -43,8 +43,12 @@ export default function RootLayout({
         <footer className="bg-secondary-800 relative z-20 mx-auto grid max-w-7xl grid-cols-1 gap-y-4 border-t border-gray-500 pt-5 pb-18 text-sm text-gray-300 md:grid-cols-3">
           <div className="flex flex-col px-4">
             <p className="text-base text-white">Navigare rapidă</p>
-            <Link href="/masini">Mașini second-hand/ dezmembrări</Link>
-            <Link href="/tractari">Tractări auto</Link>
+            <Link href="/masini" className="hover:text-white">
+              Mașini second-hand/ dezmembrări
+            </Link>
+            <Link href="/tractari" className="hover:text-white">
+              Tractări auto
+            </Link>
           </div>
           <div className="flex flex-col px-4">
             <p className="text-base text-white">Urmărește-mă și pe Facebook</p>
@@ -52,7 +56,10 @@ export default function RootLayout({
           </div>
           <div className="flex flex-col px-4">
             <p className="text-base text-white">Informații de contact</p>
-            <a href="tel:0744227641" className="flex items-center gap-1.5">
+            <a
+              href="tel:0744227641"
+              className="flex max-w-50 items-center gap-1.5 hover:text-white"
+            >
               <Phone size={14} /> 0744 227 641
             </a>
             <p className="flex items-center gap-1.5">
@@ -68,7 +75,7 @@ export default function RootLayout({
             <ForAdmin not>
               <Link
                 href="/sign-in"
-                className="absolute right-8 bottom-18 flex flex-col items-center text-xs text-gray-400 hover:underline"
+                className="absolute right-8 bottom-18 flex flex-col items-center text-xs text-gray-400 hover:text-white hover:underline"
               >
                 <UserCog size={20} />
                 <span className="-mt-0.5">Intră ca </span>

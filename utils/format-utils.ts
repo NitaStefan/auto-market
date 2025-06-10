@@ -65,7 +65,7 @@ export function generateWhatsAppLink(
   tip: "vanzare" | "dezmembrari",
   carId: number,
 ): string {
-  const baseUrl = process.env.BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const linkMasina = `${baseUrl}/masini/${carId}`;
 

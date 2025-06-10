@@ -3,6 +3,7 @@
 import {
   deleteMedia,
   deletePost,
+  getPostLink,
   postMessage,
   uploadMediaImage,
 } from "./action-steps";
@@ -35,9 +36,12 @@ export const makeFacebookPost = async (
 
     const postId = await postMessage(message, mediaIds, pageAccessToken);
 
+    const postLink = await getPostLink(postId, pageAccessToken);
+
     return {
       success: true,
       postId,
+      postLink,
       mediaIds,
     };
   } catch (error) {
@@ -133,7 +137,7 @@ export const setFacebookPageAccessToken = async (
 
     // Exchange code for user access token
     const exchangeCodeForUATRes = await fetch(
-      `https://graph.facebook.com/oauth/access_token?client_id=${client_id}&redirect_uri=${process.env.BASE_URL}/facebook-auth&client_secret=${client_secret}&code=${code}`,
+      `https://graph.facebook.com/oauth/access_token?client_id=${client_id}&redirect_uri=${process.env.NEXT_PUBLIC_BASE_URL}/facebook-auth&client_secret=${client_secret}&code=${code}`,
     );
 
     if (!exchangeCodeForUATRes.ok)

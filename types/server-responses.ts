@@ -1,24 +1,24 @@
 type ServiceError = {
-  success: false
-  message: string
-}
+  success: false;
+  message: string;
+};
 
-export type AddCarResult = { success: true; carId: number } | ServiceError
+export type AddCarResult = { success: true; carId: number } | ServiceError;
 
-export type SimpleResult = { success: true } | ServiceError
+export type SimpleResult = { success: true } | ServiceError;
 
 export type GetAndDeleteFacebookPostDataResult =
   | {
-      success: true
-      postId: string
-      mediaIds: string[]
+      success: true;
+      postId: string;
+      mediaIds: string[];
     }
-  | ServiceError
+  | ServiceError;
 
 export type GetFacebookPostIdResult =
   | { success: true; postId: string }
-  | ServiceError
+  | ServiceError;
 
 export type MakeFacebookPostResult =
-  | { success: true; postId: string; mediaIds: string[] }
-  | ServiceError
+  | { success: true; postId: string; postLink?: string; mediaIds: string[] }
+  | ServiceError;

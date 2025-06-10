@@ -11,7 +11,7 @@ const Page = async ({
   //Also check if is admin
   const { code } = await searchParams;
 
-  const oauthUrl = `https://www.facebook.com/v22.0/dialog/oauth?client_id=${process.env.FACEBOOK_APP_ID}&redirect_uri=${process.env.BASE_URL}/facebook-auth&scope=${SCOPES}&response_type=code`;
+  const oauthUrl = `https://www.facebook.com/v22.0/dialog/oauth?client_id=${process.env.FACEBOOK_APP_ID}&redirect_uri=${process.env.NEXT_PUBLIC_BASE_URL}/facebook-auth&scope=${SCOPES}&response_type=code`;
 
   return (
     <ForAdmin>

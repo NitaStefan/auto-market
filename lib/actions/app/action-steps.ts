@@ -128,10 +128,12 @@ export const insertFbPostRecord = async (
   supabase: SupabaseClient<any, "public", any>,
   carId: number,
   postId: string,
+  postLink?: string,
 ) => {
+  // todo: left off here
   const { data: fbPostRecord, error } = await supabase
     .from("facebook_posts")
-    .insert({ id: postId, car_id: carId })
+    .insert({ id: postId, car_id: carId, link: postLink })
     .select()
     .single();
 

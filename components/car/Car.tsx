@@ -37,7 +37,7 @@ const Car = ({ car }: { car: MasinaRecord }) => {
                 width={22}
                 height={22}
                 alt="facebook"
-                className={cn("ml-auto", !isOnFb && "opacity-50")}
+                className={cn("-mr-2 ml-auto", !isOnFb && "opacity-50")}
               />
               {isOnFb && <Engagement postId={car.facebook_posts?.id} />}
             </ForAdmin>

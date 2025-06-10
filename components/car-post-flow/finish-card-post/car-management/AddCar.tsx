@@ -44,6 +44,7 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
           addCarRes.carId,
           fbPostRes.postId,
           fbPostRes.mediaIds,
+          fbPostRes.postLink,
         );
 
         if (!fbDataRes.success) throw new Error(fbDataRes.message);

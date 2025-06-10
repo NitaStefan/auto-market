@@ -100,11 +100,17 @@ export const addFacebookPostData = async (
   carId: number,
   postId: string,
   mediaIds: string[],
+  postLink?: string,
 ): Promise<SimpleResult> => {
   try {
     const supabase = await createClient();
 
-    const fbPostRecordId = await insertFbPostRecord(supabase, carId, postId);
+    const fbPostRecordId = await insertFbPostRecord(
+      supabase,
+      carId,
+      postId,
+      postLink,
+    );
 
     await Promise.all(
       mediaIds.map((mediaId) =>
