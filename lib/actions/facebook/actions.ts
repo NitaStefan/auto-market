@@ -9,7 +9,6 @@ import {
 import { handleServerError } from "@/utils/utils";
 import { MakeFacebookPostResult, SimpleResult } from "@/types/server-responses";
 import { cookies } from "next/headers";
-import { NGROK_BASE_URL } from "@/utils/constants";
 
 const getPageAccessToken = async () => {
   const cookieStore = await cookies();
@@ -134,7 +133,7 @@ export const setFacebookPageAccessToken = async (
 
     // Exchange code for user access token
     const exchangeCodeForUATRes = await fetch(
-      `https://graph.facebook.com/oauth/access_token?client_id=${client_id}&redirect_uri=${NGROK_BASE_URL}facebook-auth&client_secret=${client_secret}&code=${code}`,
+      `https://graph.facebook.com/oauth/access_token?client_id=${client_id}&redirect_uri=${process.env.BASE_URL}/facebook-auth&client_secret=${client_secret}&code=${code}`,
     );
 
     if (!exchangeCodeForUATRes.ok)

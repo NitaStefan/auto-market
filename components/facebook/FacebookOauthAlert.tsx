@@ -1,9 +1,9 @@
-import { NGROK_BASE_URL, SCOPES } from "@/utils/constants";
+import { SCOPES } from "@/utils/constants";
 import { AlertCircle } from "lucide-react";
 import Image from "next/image";
 
 const FacebookOauthAlert = () => {
-  const oauthUrl = `https://www.facebook.com/v22.0/dialog/oauth?client_id=${process.env.FACEBOOK_APP_ID}&redirect_uri=${NGROK_BASE_URL}facebook-auth&scope=${SCOPES}&response_type=code`;
+  const oauthUrl = `https://www.facebook.com/v22.0/dialog/oauth?client_id=${process.env.FACEBOOK_APP_ID}&redirect_uri=${process.env.BASE_URL}facebook-auth&scope=${SCOPES}&response_type=code`;
 
   return (
     <div className="mb-4 flex flex-wrap items-center gap-5 rounded-lg border-2 border-amber-600 bg-amber-100/40 p-2 px-3 font-medium text-amber-600">
