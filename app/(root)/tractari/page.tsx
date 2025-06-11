@@ -1,5 +1,6 @@
 import { oswald } from "@/app/fonts";
-import { Image, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 const Page = () => {
@@ -9,10 +10,10 @@ const Page = () => {
         <span className="whitespace-nowrap">Servicii Profesionale</span>{" "}
         <span className="whitespace-nowrap">de Tractări Auto</span>
       </h1>
-      <div className="flex justify-between gap-10 pt-10">
+      <div className="flex items-end justify-between gap-10 pt-10">
         <div>
           <p className="max-w-120 font-medium">
-            Servicii de tractare rapidă, fiabile și accesibile pentru toate
+            Servicii de tractare rapide, fiabile și accesibile pentru toate
             tipurile de vehicule. Suntem la doar un apel telefonic distanță
             atunci când aveți nevoie de asistență.
           </p>
@@ -30,9 +31,11 @@ const Page = () => {
         </div>
 
         <Image
-          strokeWidth={0.25}
-          className="hidden shrink-0 rounded-lg border md:block"
-          size={300}
+          className="self hidden shrink-0 rounded-lg border shadow-md md:block"
+          src="/images/car-towing.png"
+          width={330}
+          height={229.7}
+          alt="tractare"
         />
       </div>
     </div>
