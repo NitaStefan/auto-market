@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { Label } from "../ui/label";
-import { Filter } from "lucide-react";
+import { Filter, LoaderCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -20,22 +20,22 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
+  const [isPending, startTransition] = useTransition();
+
   const [tip, setTip] = useState(searchParams.get("tip") || "toate");
 
   const updateSearchParam = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams.toString());
 
-    if (value === "toate" || value === "") params.delete(key);
-    else params.set(key, value);
+      if (value === "toate" || value === "") params.delete(key);
+      else params.set(key, value);
 
-    replace(`${pathname}?${params.toString()}`);
+      replace(`${pathname}?${params.toString()}`);
+    });
   };
 
-  useEffect(() => {
-    updateSearchParam("tip", tip);
-  }, [tip]);
-
-  //debounce
+  //debounce for price
   let debounceTimer: NodeJS.Timeout;
 
   const debouncedUpdate = (key: string, value: string) => {
@@ -47,7 +47,7 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
   };
 
   return (
-    <div className="mb-8 grid grid-cols-2 gap-4 md:flex md:gap-4">
+    <div className="relative mb-8 grid grid-cols-2 gap-4 md:flex md:gap-4">
       <div className="hidden flex-col items-center pt-2 md:flex">
         <Filter />
         <span className="-mt-0.5 text-sm">Filtre</span>
@@ -56,7 +56,13 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
         <Label className="font-light whitespace-nowrap">
           De vânzare / Dezmembrări
         </Label>
-        <Select value={tip} onValueChange={setTip}>
+        <Select
+          value={tip}
+          onValueChange={(value) => {
+            setTip(value);
+            updateSearchParam("tip", value);
+          }}
+        >
           <SelectTrigger
             size="sm"
             className="w-full bg-white px-2 sm:w-full md:w-42 lg:w-48"
@@ -137,6 +143,11 @@ const CarFilters = ({ brands }: { brands: { marca: CarBrandKey }[] }) => {
             </span>
           </div>
         </>
+      )}
+      {isPending && (
+        <div className="text-txt-secondary-600 absolute -bottom-6 flex items-center gap-1 text-sm">
+          <LoaderCircle className="animate-spin" size={14} /> se caută...
+        </div>
       )}
     </div>
   );

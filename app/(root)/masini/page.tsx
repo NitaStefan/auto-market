@@ -1,7 +1,6 @@
 import { getCarBrands, getCars } from "@/lib/actions/app/actions";
 import { unstable_cache } from "next/cache";
 import Car from "@/components/car/Car";
-import FacebookOauth from "@/components/facebook/FacebookOauthAlert";
 import CarFilters from "@/components/car/CarFilters";
 import CarDialog from "@/components/CarDialog";
 import ForAdmin from "@/components/ForAdmin";
@@ -23,7 +22,6 @@ const Page = async ({
 
   return (
     <>
-      {/* <FacebookOauth /> */}
       <CarFilters brands={differentBrands} />
       <Suspense>
         <ForAdmin>
