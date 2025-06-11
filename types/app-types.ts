@@ -17,7 +17,7 @@ export type Masina = {
   detalii?: string;
   // outside table
   car_images?: { path: string }[];
-  facebook_posts: { id?: string };
+  facebook_posts: { id?: string; link?: string };
 };
 
 export type MasinaRecord = Masina & {

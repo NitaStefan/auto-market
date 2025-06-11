@@ -90,6 +90,7 @@ const ModifyPost = ({
       const newV = imageFiles.length > 0 ? 1 : 0;
       const imagesLength = imageFiles.length || car.car_images.length;
 
+      // POST ON FB IF NOT THERE
       if (actions.addFbPost) {
         setLoadingState("posting-fb");
 
@@ -105,6 +106,7 @@ const ModifyPost = ({
           car.id,
           fbPostRes.postId,
           fbPostRes.mediaIds,
+          fbPostRes.postLink,
         );
         if (!fbDataRes.success) throw new Error(fbDataRes.message);
       }
@@ -148,6 +150,7 @@ const ModifyPost = ({
             car.id,
             addFbPostRes.postId,
             addFbPostRes.mediaIds,
+            addFbPostRes.postLink,
           );
           if (!postDataRes.success) throw new Error(postDataRes.message);
         };
@@ -215,7 +218,9 @@ const ModifyPost = ({
       );
     } finally {
       closeDialog();
-      push("/masini");
+
+      if (actions.deleteRecord) push("/masini");
+      else await revalidateCarsPath();
     }
   };
 

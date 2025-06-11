@@ -71,6 +71,21 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
         {/* SECOND PART */}
         <div className={`grow px-6 md:px-14 lg:px-6 ${oswald.className}`}>
           <Specification car={car} detailed />
+          {car.facebook_posts?.link && (
+            <a
+              href={car.facebook_posts.link}
+              target="_blank"
+              className={`-mt-5 mb-10 flex items-center gap-1 text-sm font-medium text-blue-700 underline ${archivo.className}`}
+            >
+              <Image
+                src={`/logos/facebook.svg`}
+                width={14}
+                height={14}
+                alt="facebook"
+              />
+              Vezi postarea pe Facebook
+            </a>
+          )}
           {car.detalii && (
             <div className={`pb-10 whitespace-pre-line ${archivo.className}`}>
               {car.detalii}

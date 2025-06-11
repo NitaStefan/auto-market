@@ -71,8 +71,8 @@ export function generateWhatsAppLink(
 
   const fullMessage =
     tip === "vanzare"
-      ? `Bună ziua!\nSunt interesat(ă) de mașina ${masina} pe care ați publicat-o.\nEste încă disponibilă? Ați putea să-mi oferiți mai multe detalii?\n\nLinkul anunțului: ${linkMasina}`
-      : `Bună ziua!\nAm văzut că dezmembrați o mașină ${masina}. M-ar interesa câteva piese (ex: far dreapta, bară față).\n\nLinkul anunțului: ${linkMasina}`;
+      ? `${linkMasina}\n\nBună ziua!\nSunt interesat(ă) de mașina ${masina} pe care ați publicat-o.\nEste încă disponibilă? Ați putea să-mi oferiți mai multe detalii?`
+      : `${linkMasina}\n\nBună ziua!\nAm văzut că dezmembrați o mașină ${masina}. M-ar interesa câteva piese (ex: far dreapta, bară față).`;
 
   const encodedMessage = encodeURIComponent(fullMessage);
 

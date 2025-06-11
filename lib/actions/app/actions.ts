@@ -237,7 +237,7 @@ export const getCarById = async (id: number) => {
       `
       *,
       car_images (path),
-      facebook_posts (id)
+      facebook_posts (id, link)
     `,
     )
     .eq("id", id)
