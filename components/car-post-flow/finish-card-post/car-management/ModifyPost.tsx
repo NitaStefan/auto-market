@@ -24,6 +24,7 @@ import { LoaderCircle } from "lucide-react";
 import { formatFbMessage, versionOf } from "@/utils/format-utils";
 import ActionDivider from "./ActionDivider";
 import { useRouter } from "next/navigation";
+import { uploadCarImages } from "@/lib/actions/app/client";
 
 const ModifyPost = ({
   car,
@@ -82,8 +83,16 @@ const ModifyPost = ({
   const handleUpdate = async () => {
     try {
       if (actions.updateRecord) {
+        const noOfImages = imageFiles.length;
+
         setLoadingState("updating-record");
-        const updateCarRes = await updateCar(car, imageFiles);
+        if (noOfImages !== 0)
+          await uploadCarImages(
+            imageFiles,
+            car.id,
+            versionOf(car.car_images[0].path) + 1,
+          );
+        const updateCarRes = await updateCar(car, noOfImages);
         if (!updateCarRes.success) throw new Error(updateCarRes.message);
       }
 
@@ -219,8 +228,8 @@ const ModifyPost = ({
     } finally {
       closeDialog();
 
+      await revalidateCarsPath();
       if (actions.deleteRecord) push("/masini");
-      else await revalidateCarsPath();
     }
   };
 

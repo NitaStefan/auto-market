@@ -19,7 +19,7 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
     <>
       <Link
         href="/masini"
-        className="text-txt-secondary-600 flex items-center pb-3 hover:text-black"
+        className="text-txt-secondary-600 flex w-fit items-center pb-3 hover:text-black"
       >
         <ChevronLeft /> Toate mașinile
       </Link>
@@ -92,7 +92,6 @@ const CarDetailed = ({ car }: { car: MasinaRecord }) => {
             </div>
           )}
         </div>
-        {/* GO BACK */}
       </div>
       <ContactButtons fixed car={car} />
     </>

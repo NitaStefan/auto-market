@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import LabeledCheckbox from "./LabeledCheckbox";
 import { formatFbMessage } from "@/utils/format-utils";
+import { uploadCarImages } from "@/lib/actions/app/client";
 
 const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
   const { closeDialog } = useDialog();
@@ -23,10 +24,15 @@ const AddCar = ({ car, imageFiles }: { car: Masina; imageFiles: File[] }) => {
 
   const handleSubmit = async () => {
     try {
+      //TODO: move image storage action here, in the client
       setLoadingState("adding-car");
       const { facebook_posts, ...carRows } = car;
-      const addCarRes = await addCar(carRows, imageFiles);
+
+      const addCarRes = await addCar(carRows, imageFiles.length);
       if (!addCarRes.success) throw new Error(addCarRes.message);
+
+      // upload images on the client avoid large payload to the server
+      await uploadCarImages(imageFiles, addCarRes.carId);
 
       if (isPostCarChecked) {
         setLoadingState("posting-fb");

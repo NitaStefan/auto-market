@@ -36,30 +36,6 @@ export const updateCarRecord = async (
   }
 };
 
-export const uploadCarImages = async (
-  supabase: SupabaseClient<any, "public", any>,
-  images: File[],
-  carId: number,
-  version = 0,
-) => {
-  const uploadedPaths = await Promise.all(
-    images.map(async (file, index) => {
-      const { data, error } = await supabase.storage
-        .from("car-images")
-        .upload(imagePathFormat(carId, index, version), file);
-
-      if (error) {
-        console.error(`Error uploading file ${file.name}:`, error);
-        throw error;
-      }
-
-      return data.path;
-    }),
-  );
-
-  return uploadedPaths;
-};
-
 export const insertCarImagesPaths = async (
   supabase: SupabaseClient<any, "public", any>,
   numberOfImages: number,

@@ -6,7 +6,6 @@ import { revalidatePath } from "next/cache";
 import {
   insertCarRecord,
   insertCarImagesPaths,
-  uploadCarImages,
   updateCarRecord,
   deleteCarImagesPaths,
   removeCarImages,
@@ -26,17 +25,14 @@ import { cache } from "react";
 
 export const addCar = async (
   car: Omit<Masina, "facebook_posts">,
-  images: File[],
+  noOfimages: number,
 ): Promise<AddCarResult> => {
   try {
     const supabase = await createClient();
 
     const carId = await insertCarRecord(supabase, car);
 
-    await Promise.all([
-      uploadCarImages(supabase, images, carId),
-      insertCarImagesPaths(supabase, images.length, carId),
-    ]);
+    await insertCarImagesPaths(supabase, noOfimages, carId);
 
     return {
       success: true,
@@ -49,24 +45,23 @@ export const addCar = async (
 
 export const updateCar = async (
   car: MasinaRecord,
-  images: File[],
+  noOfImages: number,
 ): Promise<SimpleResult> => {
   try {
     const supabase = await createClient();
 
     const { car_images, facebook_posts, ...carRows } = car;
 
-    if (images.length !== 0) {
+    if (noOfImages !== 0) {
       const version = versionOf(car_images[0].path) + 1;
 
       const replaceImagePaths = async () => {
         await deleteCarImagesPaths(supabase, car.id);
-        await insertCarImagesPaths(supabase, images.length, car.id, version);
+        await insertCarImagesPaths(supabase, noOfImages, car.id, version);
       };
 
       await Promise.all([
         removeCarImages(supabase, car_images),
-        uploadCarImages(supabase, images, car.id, version),
         replaceImagePaths(),
         updateCarRecord(supabase, carRows),
       ]);
@@ -199,12 +194,6 @@ export const getCars = async (filters: {
   [key: string]: string | undefined;
 }) => {
   const supabase = await createClientNoAuth();
-
-  // const { data: cars } = (await supabase.from("cars").select(`
-  //   *,
-  //   car_images (path),
-  //   facebook_posts (id)
-  // `)) as { data: MasinaRecord[] };
 
   let query = supabase.from("cars").select(`
     *,
