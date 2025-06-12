@@ -1,104 +1,79 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# AutoDac 🚗
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+**AutoDac** is a full-stack web application built with **Next.js** and **Supabase**, created for a client in the second-hand auto industry. It enables the admin to manage car posts (for sale or dismantling), sync them with their Facebook Page using Facebook's Graph API, and interact with users via WhatsApp, Facebook, or direct calls.
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+---
 
-## Features
+## 🌟 Features
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+### 🔧 Admin Panel
 
-## Demo
+- **Create, modify, delete car posts** (for sale or dismantling).
+- **Repost** functionality for Facebook when images are changed (as Facebook API does not support image editing in existing posts).
+- **Facebook Sync** via Graph API:
+  - Publish posts on the connected Facebook Page.
+  - Modify or delete Facebook posts.
+  - Track **reactions count** and **comments** from Facebook users in real-time inside the admin dashboard.
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+### 📣 Car Post Public View
 
-## Deploy to Vercel
+- Car post details visible to all users.
+- Visitors can:
+  - 📞 **Call** the admin directly.
+  - 💬 **Send a WhatsApp message** using a predefined template.
+  - 🔗 **Redirect to the Facebook post** for additional visibility and interaction.
 
-Vercel deployment will guide you through creating a Supabase account and project.
+### 🔍 Advanced Filtering
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+- Filter posts by:
+  - **Car type**: For Sale / For Dismantling.
+  - **Car brand**.
+  - **Price range** (only for cars that are for sale).
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+### 🚛 Car Towing Section
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+- Static section describing the towing service.
+- Includes a call-to-action phone number button for immediate contact.
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+---
 
-## Clone and run locally
+## 🛠️ Tech Stack
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+- **Frontend**: [Next.js](https://nextjs.org/) (React-based framework)
+- **Backend-as-a-Service**: [Supabase](https://supabase.io/)
+- **Authentication & Database**: Supabase
+- **Social Integration**: [Facebook Graph API](https://developers.facebook.com/docs/graph-api)
+- **Messaging**: WhatsApp Predefined Links
+- **Deployment**: Vercel (or your preferred platform)
 
-2. Create a Next.js app using the Supabase Starter template npx command
+---
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+## 🔐 Admin Capabilities Overview
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+| Action                             | Application | Facebook                  |
+| ---------------------------------- | ----------- | ------------------------- |
+| Post                               | ✅          | ✅                        |
+| Modify                             | ✅          | ✅ (unless images change) |
+| Delete                             | ✅          | ✅                        |
+| Repost (new FB post)               | ✅          | ✅                        |
+| View Facebook reactions & comments | ✅          | ✅                        |
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+---
 
-3. Use `cd` to change into the app's directory
+## 📲 User Interactions
 
-   ```bash
-   cd with-supabase-app
-   ```
+- **Call the owner**: Tap-to-call on mobile.
+- **Message on WhatsApp**: Opens chat with a predefined message.
+- **View on Facebook**: Redirects to the synced Facebook post.
 
-4. Rename `.env.example` to `.env.local` and update the following:
+---
 
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
+## 📌 Project Goal
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+To provide an easy-to-manage interface for the admin to promote second-hand car listings across both a personal platform and social media, while enabling seamless communication with potential buyers or dismantlers.
 
-5. You can now run the Next.js local development server:
+---
 
-   ```bash
-   npm run dev
-   ```
+## 💼 Client Info
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
-
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
-
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
-
-## Feedback and issues
-
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+This app was custom-built for a client managing second-hand cars, with a strong focus on social integration and efficient post management. The application is designed to streamline operations, maximize reach, and simplify customer communication.
