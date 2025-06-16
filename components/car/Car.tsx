@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { archivo, oswald } from "@/app/fonts";
+
 import ImageCarousel from "./ImageCarousel";
 import Brand from "./Brand";
 import Engagement from "./Engagement";
