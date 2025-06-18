@@ -25,10 +25,7 @@ const NavLink = ({
       {to === "/masini" ? (
         <>
           <Car size={20} />
-          <span>
-            Mașini second-hand <span className="text-txt-secondary-300">/</span>{" "}
-            dezmembrări
-          </span>
+          <span>Mașini second-hand</span>
         </>
       ) : (
         <>
