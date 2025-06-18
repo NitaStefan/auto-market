@@ -17,9 +17,6 @@ export const postMessage = async (
       body: JSON.stringify({
         message,
         attached_media: mediaIds.map((mediaId) => ({ media_fbid: mediaId })),
-        privacy: {
-          value: "EVERYONE",
-        },
       }),
     },
   );
