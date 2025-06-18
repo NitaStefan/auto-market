@@ -183,6 +183,7 @@ export const setFacebookPageAccessToken = async (
     cookieStore.set("page_access_token", pageAccessToken, {
       httpOnly: true,
       secure: true,
+      sameSite: "none",
       maxAge,
     });
 
