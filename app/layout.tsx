@@ -44,7 +44,7 @@ export default function RootLayout({
           <div className="flex flex-col px-4">
             <p className="text-base text-white">Navigare rapidă</p>
             <Link href="/masini" className="hover:text-white">
-              Mașini second-hand/ dezmembrări
+              Mașini second-hand
             </Link>
             <Link href="/tractari" className="hover:text-white">
               Tractări auto
@@ -52,7 +52,13 @@ export default function RootLayout({
           </div>
           <div className="flex flex-col px-4">
             <p className="text-base text-white">Urmărește-mă și pe Facebook</p>
-            <p>fb page link</p>
+            <a
+              className="underline"
+              href="https://www.facebook.com/costyautodac"
+              target="_blank"
+            >
+              https://www.facebook.com/costyautodac
+            </a>
           </div>
           <div className="flex flex-col px-4">
             <p className="text-base text-white">Informații de contact</p>
