@@ -5,9 +5,14 @@ import {
 import { Heart, MessageCircle, Smile, ThumbsUp } from "lucide-react";
 import React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { getUser } from "@/lib/actions/app/actions";
 
 const Engagement = async ({ postId }: { postId?: string }) => {
   if (!postId) return null;
+
+  const user = await getUser();
+
+  if (!user) return null;
 
   const [commentsData, noOfReactions] = await Promise.all([
     getPostComments(postId),
