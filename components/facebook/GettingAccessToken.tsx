@@ -2,6 +2,7 @@
 
 import { setFacebookPageAccessToken } from "@/lib/actions/facebook/actions";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const GettingAccessToken = ({
@@ -11,7 +12,8 @@ const GettingAccessToken = ({
   code?: string;
   oauthUrl: string;
 }) => {
-  const [status, setStatus] = useState("success");
+  const [status, setStatus] = useState("pending");
+  const { push } = useRouter();
 
   useEffect(() => {
     const getToken = async () => {
@@ -31,6 +33,10 @@ const GettingAccessToken = ({
 
     getToken();
   }, []);
+
+  useEffect(() => {
+    if (status === "success") push("/masini");
+  }, [status]);
 
   return (
     <>

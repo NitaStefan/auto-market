@@ -25,6 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={archivo.className}>
+      <head>
+        {process.env.FACEBOOK_APP_ID && (
+          <meta property="fb:app_id" content={process.env.FACEBOOK_APP_ID} />
+        )}
+      </head>
       <body className="text-foreground bg-[#F5F5F5]">
         <header className="sticky top-0 right-0 left-0 z-50 mx-auto w-full max-w-7xl">
           <Navbar />
