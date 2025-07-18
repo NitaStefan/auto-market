@@ -30,13 +30,16 @@ const Car = ({ car }: { car: MasinaRecord }) => {
             {CAR_BRANDS[car.marca as CarBrandKey]}
           </span>{" "}
           <span className="whitespace-nowrap">{car.model}</span>
-          <Image
+          <ForAdmin>
+            <Image
             src={`/logos/facebook${isOnFb ? "" : "-black"}.svg`}
             width={22}
             height={22}
             alt="facebook"
             className={cn("-mr-2 ml-auto", !isOnFb && "opacity-50")}
           />
+          </ForAdmin>
+          
           <Suspense>
             {isOnFb && <Engagement postId={car.facebook_posts?.id} />}
           </Suspense>
